@@ -1,0 +1,11 @@
+{
+  "version": 2,
+  "dgSpecHash": "AFwBq1CyS8I=",
+  "success": true,
+  "projectFilePath": "C:\\Projetos\\GastroLink\\APIGastroLink\\APIGastroLink.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\jp120\\.nuget\\packages\\microsoft.aspnetcore.openapi\\9.0.10\\microsoft.aspnetcore.openapi.9.0.10.nupkg.sha512",
+    "C:\\Users\\jp120\\.nuget\\packages\\microsoft.openapi\\1.6.17\\microsoft.openapi.1.6.17.nupkg.sha512"
+  ],
+  "logs": []
+}
