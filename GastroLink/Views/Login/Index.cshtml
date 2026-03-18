@@ -1,0 +1,25 @@
+﻿@model Login
+
+@{
+    ViewData["Title"] = "Login";
+    Layout = "_LayoutLogin";
+}
+
+<div class="container vh-100 d-flex justify-content-center align-items-center">
+    <div class="card shadow p-4" style="width: 350px;">
+        <h3 class="text-center mb-4">Login</h3>
+        <form asp-action="Autenticar" asp-controller="Login" method="post">
+            <div class="mb-3">
+                <label for="loginInput" class="form-label">Login</label>
+                <input type="text" class="form-control" id="loginInput" asp-for="@Model.LoginStr" placeholder="Digite seu login">
+            </div>
+            <div class="mb-3">
+                <label for="senhaInput" class="form-label">Senha</label>
+                <input type="password" class="form-control" id="senhaInput" asp-for="@Model.Senha" placeholder="Digite sua senha">
+            </div>
+            <div class="d-grid">
+                <button type="submit" class="btn btn-primary">Entrar</button>
+            </div>
+        </form>
+    </div>
+</div>

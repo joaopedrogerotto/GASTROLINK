@@ -1,3 +1,8 @@
+using APIGastroLink.DAO;
+using APIGastroLink.DAO.Interfaces;
+using APIGastroLink.Facade;
+using APIGastroLink.Facade.Interface;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
@@ -5,6 +10,11 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllers();
 // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
 builder.Services.AddOpenApi();
+
+builder.Services.AddScoped<IDAODatabase, DAOSQLServer>();
+builder.Services.AddScoped<IDAOLogin, DAOLogin>();
+
+builder.Services.AddScoped<IFacadeLogin, FacadeLogin>();
 
 var app = builder.Build();
 
