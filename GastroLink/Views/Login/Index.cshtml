@@ -11,15 +11,25 @@
         <form asp-action="Autenticar" asp-controller="Login" method="post">
             <div class="mb-3">
                 <label for="loginInput" class="form-label">Login</label>
-                <input type="text" class="form-control" id="loginInput" asp-for="@Model.LoginStr" placeholder="Digite seu login">
+                <input type="text" class="form-control" id="loginInput" asp-for="@Model.LoginStr" placeholder="Digite seu login" required>
             </div>
             <div class="mb-3">
                 <label for="senhaInput" class="form-label">Senha</label>
-                <input type="password" class="form-control" id="senhaInput" asp-for="@Model.Senha" placeholder="Digite sua senha">
+                <input type="password" class="form-control" id="senhaInput" asp-for="@Model.Senha" placeholder="Digite sua senha" required>
             </div>
+            @{
+                if (TempData["FalhaLogin"] != null) {
+                    <p class="text-danger text-center mt-3">
+                        @TempData["FalhaLogin"]
+                    </p>
+
+                }
+            }
             <div class="d-grid">
                 <button type="submit" class="btn btn-primary">Entrar</button>
             </div>
         </form>
+
+        
     </div>
 </div>
