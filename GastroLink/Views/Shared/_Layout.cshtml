@@ -1,4 +1,8 @@
-﻿<!DOCTYPE html>
+﻿@{
+     var tipo = Context.Session.GetInt32("IdTipoUsuario");
+}
+
+<!DOCTYPE html>
 <html lang="pt-br">
 <head>
     <meta charset="utf-8" />
@@ -21,23 +25,30 @@
                 </button>
                 <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
                     <ul class="navbar-nav flex-grow-1">
-                        <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle" href="#" id="mesasDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                Mesas
-                            </a>
+                        @{
+                            if (tipo == 1) {
+                                <li class="nav-item dropdown">
+                                    <a class="nav-link dropdown-toggle" href="#" id="mesasDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                        Mesas
+                                    </a>
 
-                            <ul class="dropdown-menu" aria-labelledby="mesasDropdown">
-                                <li>
-                                    <a class="dropdown-item" asp-action="Cadastrar" asp-controller="Mesa">Cadastro</a>
+
+                                    <ul class="dropdown-menu" aria-labelledby="mesasDropdown">
+                                        <li>
+                                            <a class="dropdown-item" asp-action="Cadastrar" asp-controller="Mesa">Cadastro</a>
+                                        </li>
+                                        <li>
+                                            <a class="dropdown-item" asp-action="TodasMesas" asp-controller="Mesa">Todas</a>
+                                        </li>
+                                        <li>
+                                            <a class="dropdown-item" asp-action="Mapeamento" asp-controller="Mesa">Mapear</a>
+                                        </li>
+                                    </ul>
                                 </li>
-                                <li>
-                                    <a class="dropdown-item" href="">Todas</a>
-                                </li>
-                                <li>
-                                    <a class="dropdown-item" href="">Mapear</a>
-                                </li>
-                            </ul>
-                        </li>
+                            }
+
+
+                        }
                     </ul>
                 </div>
             </div>

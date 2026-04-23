@@ -45,6 +45,9 @@ namespace APIGastroLink.DAO {
                                     mesa.Numero = reader.GetString(reader.GetOrdinal("MSA_NUMERO"));
                                     mesa.Status.Id = reader.GetInt32(reader.GetOrdinal("STM_ID"));
                                     mesa.Status.Status = reader.GetString(reader.GetOrdinal("STM_STATUS"));
+                                    mesa.PosicaoX = reader.GetInt32(reader.IsDBNull(reader.GetOrdinal("MSA_POSICAO_X")) ? 0 : reader.GetOrdinal("MSA_POSICAO_X"));
+                                    mesa.PosicaoY = reader.GetInt32(reader.IsDBNull(reader.GetOrdinal("MSA_POSICAO_Y")) ? 0 : reader.GetOrdinal("MSA_POSICAO_Y"));
+
 
                                     listMesa.Add(mesa);
                                 }
@@ -60,6 +63,36 @@ namespace APIGastroLink.DAO {
 
         public void Update(Mesa Mesa) {
             throw new NotImplementedException();
+        }
+
+        public void UpdateLayout(List<Mesa> listMesa) {
+            using (SqlConnection conn = _database.OpenConnection()) {
+                using (SqlCommand cmd = new SqlCommand("PR_U_LAYOUT_MESA", conn)) {
+                    cmd.CommandType = CommandType.StoredProcedure;
+
+                    var table = ConvertForDataTable(listMesa);
+
+                    var param = cmd.Parameters.AddWithValue("@Mesas", table);
+                    param.SqlDbType = SqlDbType.Structured;
+                    param.TypeName = "MESA_POSICAO_TYPE";
+
+                    cmd.ExecuteNonQuery();
+                }
+            }
+        }
+
+        private DataTable ConvertForDataTable (List<Mesa> listMesa) {
+            var table = new DataTable();
+
+            table.Columns.Add("Id", typeof(int));
+            table.Columns.Add("PosX", typeof(int));
+            table.Columns.Add("PosY", typeof(int));
+
+            foreach (var mesa in listMesa) {
+                table.Rows.Add(mesa.Id, mesa.PosicaoX, mesa.PosicaoY);
+            }
+
+            return table;
         }
     }
 }

@@ -6,5 +6,6 @@ namespace APIGastroLink.DAO.Interfaces {
         public void Update(Mesa Mesa);
         public void Delete(Mesa Mesa);
         public List<Mesa> SelectAll();
+        public void UpdateLayout(List<Mesa> listMesa);
     }
 }

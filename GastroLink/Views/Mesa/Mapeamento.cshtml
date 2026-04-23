@@ -1,0 +1,23 @@
+﻿@model IEnumerable<Mesa>;
+
+@{
+    Layout = "_Layout";
+    ViewData["Title"] = "Mapeamento Mesas";
+}
+<link rel="stylesheet" href="~/css/mapeamento-mesa.css" media="all" />
+
+<div class="mapa" id="mapa">
+    @{
+        foreach(var mesa in Model){
+            <div class="mesa" style="left:@(mesa.PosicaoX)px; top:@(mesa.PosicaoY)px;" data-id="@mesa.Id">
+                Mesa @mesa.Numero
+            </div>
+        }
+    }
+</div>
+
+<button class="btn btn-success" onclick="salvarLayout()">
+    Salvar Layout
+</button>
+
+<script src="~/js/mapeamento.js"></script>

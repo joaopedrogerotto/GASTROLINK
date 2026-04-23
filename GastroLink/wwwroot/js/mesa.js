@@ -39,3 +39,4 @@ async function carregarMesas() {
 document.addEventListener("DOMContentLoaded", () => {
     carregarMesas();
 });
+

@@ -1,0 +1,6 @@
+CREATE TYPE MESA_POSICAO_TYPE AS TABLE
+(
+    Id INT,
+    PosX INT,
+    PosY INT
+);

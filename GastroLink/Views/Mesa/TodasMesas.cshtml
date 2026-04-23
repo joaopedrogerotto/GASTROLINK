@@ -1,0 +1,27 @@
+﻿@model IEnumerable<Mesa>;
+
+@{
+    Layout = "_Layout";
+    ViewData["Title"] = "Mapeamento Mesas";
+}
+
+<link rel="stylesheet" href="~/css/mapeamento-mesa.css" media="all" />
+
+<div class="mapa" id="mapa">
+    @{
+        foreach (var mesa in Model) {
+            var statusClass = mesa.Status.Status switch {
+                "LIVRE" => "mesa-livre",
+                "OCUPADO" => "mesa-ocupado",
+                "PEDIDO EM PREPARO" => "mesa-preparo",
+                "AGUARDANDO PAGAMENTO" => "mesa-pagamento",
+                _ => "mesa-default"
+            };
+
+            <div class="mesa @statusClass" style="left:@(mesa.PosicaoX)px; top:@(mesa.PosicaoY)px;"
+                 data-id="@mesa.Id">
+                Mesa @mesa.Numero
+            </div>
+        }
+    }
+</div>

@@ -10,6 +10,7 @@ namespace APIGastroLink.Facade {
             _daoMesa = daoMesa;
         }
 
+        public void AtualizarLayoutMesas(List<Mesa> listMesa) => _daoMesa.UpdateLayout(listMesa);
         public void CadastrarMesa(string Numero) => _daoMesa.Insert(Numero);
 
         public List<Mesa> SelecionarTodasMesas() => _daoMesa.SelectAll();

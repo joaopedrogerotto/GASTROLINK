@@ -1,3 +1,4 @@
+using GastroLink.Client;
 using GastroLink.Facade;
 using GastroLink.Facade.Interface;
 using GastroLink.Service;
@@ -5,6 +6,8 @@ using GastroLink.Settings;
 using Microsoft.Extensions.Options;
 
 var builder = WebApplication.CreateBuilder(args);
+
+
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
@@ -18,8 +21,21 @@ builder.Services.AddHttpClient<LoginClient>((name, client) => {
     client.BaseAddress = new Uri(settings.BaseUrl);
 });
 
+builder.Services.AddHttpClient<MesaClient>((name, client) => {
+    var settings = name
+        .GetRequiredService<IOptions<ApiGastroLinkSettings>>()
+        .Value;
+
+    client.BaseAddress = new Uri(settings.BaseUrl);
+});
+
+builder.Services.AddDistributedMemoryCache();
+builder.Services.AddSession();
 
 builder.Services.AddScoped<IFacadeLogin, FacadeLogin>();
+builder.Services.AddScoped<IFacadeMesa, FacadeMesa>();
+
+
 
 var app = builder.Build();
 
@@ -33,6 +49,8 @@ if (!app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 app.UseRouting();
+
+app.UseSession();
 
 app.UseAuthorization();
 

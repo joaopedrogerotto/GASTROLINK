@@ -30,8 +30,12 @@ build_metadata.AdditionalFiles.CssScope =
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcTWVzYVxDYWRhc3RyYXIuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Projetos/GastroLink/GastroLink/Views/Pedido/Index.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUGVkaWRvXEluZGV4LmNzaHRtbA==
+[C:/Projetos/GastroLink/GastroLink/Views/Mesa/Mapeamento.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcTWVzYVxNYXBlYW1lbnRvLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Projetos/GastroLink/GastroLink/Views/Mesa/TodasMesas.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcTWVzYVxUb2Rhc01lc2FzLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
 [C:/Projetos/GastroLink/GastroLink/Views/Shared/_ValidationScriptsPartial.cshtml]

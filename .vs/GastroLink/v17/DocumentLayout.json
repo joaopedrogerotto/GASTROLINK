@@ -3,16 +3,28 @@
   "WorkspaceRootPath": "C:\\Projetos\\GastroLink\\",
   "Documents": [
     {
+      "AbsoluteMoniker": "D:0:0:{B586AAA7-53F9-475B-8DB2-6A5A426B768E}|GastroLink\\GastroLink.csproj|c:\\projetos\\gastrolink\\gastrolink\\controllers\\pedidocontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{B586AAA7-53F9-475B-8DB2-6A5A426B768E}|GastroLink\\GastroLink.csproj|solutionrelative:gastrolink\\controllers\\pedidocontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{B586AAA7-53F9-475B-8DB2-6A5A426B768E}|GastroLink\\GastroLink.csproj|c:\\projetos\\gastrolink\\gastrolink\\controllers\\mesacontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{B586AAA7-53F9-475B-8DB2-6A5A426B768E}|GastroLink\\GastroLink.csproj|solutionrelative:gastrolink\\controllers\\mesacontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{B586AAA7-53F9-475B-8DB2-6A5A426B768E}|GastroLink\\GastroLink.csproj|c:\\projetos\\gastrolink\\gastrolink\\controllers\\logincontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{B586AAA7-53F9-475B-8DB2-6A5A426B768E}|GastroLink\\GastroLink.csproj|solutionrelative:gastrolink\\controllers\\logincontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{B586AAA7-53F9-475B-8DB2-6A5A426B768E}|GastroLink\\GastroLink.csproj|c:\\projetos\\gastrolink\\gastrolink\\client\\mesaclient.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{B586AAA7-53F9-475B-8DB2-6A5A426B768E}|GastroLink\\GastroLink.csproj|solutionrelative:gastrolink\\client\\mesaclient.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{B586AAA7-53F9-475B-8DB2-6A5A426B768E}|GastroLink\\GastroLink.csproj|c:\\projetos\\gastrolink\\gastrolink\\client\\loginclient.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{B586AAA7-53F9-475B-8DB2-6A5A426B768E}|GastroLink\\GastroLink.csproj|solutionrelative:gastrolink\\client\\loginclient.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{B586AAA7-53F9-475B-8DB2-6A5A426B768E}|GastroLink\\GastroLink.csproj|c:\\projetos\\gastrolink\\gastrolink\\views\\login\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
       "RelativeMoniker": "D:0:0:{B586AAA7-53F9-475B-8DB2-6A5A426B768E}|GastroLink\\GastroLink.csproj|solutionrelative:gastrolink\\views\\login\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{B586AAA7-53F9-475B-8DB2-6A5A426B768E}|GastroLink\\GastroLink.csproj|c:\\projetos\\gastrolink\\gastrolink\\controllers\\logincontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{B586AAA7-53F9-475B-8DB2-6A5A426B768E}|GastroLink\\GastroLink.csproj|solutionrelative:gastrolink\\controllers\\logincontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{B586AAA7-53F9-475B-8DB2-6A5A426B768E}|GastroLink\\GastroLink.csproj|c:\\projetos\\gastrolink\\gastrolink\\facade\\facadelogin.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
@@ -26,7 +38,7 @@
       "DocumentGroups": [
         {
           "DockedWidth": 170,
-          "SelectedChildIndex": 3,
+          "SelectedChildIndex": 2,
           "Children": [
             {
               "$type": "Bookmark",
@@ -38,7 +50,43 @@
             },
             {
               "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "PedidoController.cs",
+              "DocumentMoniker": "C:\\Projetos\\GastroLink\\GastroLink\\Controllers\\PedidoController.cs",
+              "RelativeDocumentMoniker": "GastroLink\\Controllers\\PedidoController.cs",
+              "ToolTip": "C:\\Projetos\\GastroLink\\GastroLink\\Controllers\\PedidoController.cs",
+              "RelativeToolTip": "GastroLink\\Controllers\\PedidoController.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-04-07T10:57:51.051Z"
+            },
+            {
+              "$type": "Document",
               "DocumentIndex": 1,
+              "Title": "MesaController.cs",
+              "DocumentMoniker": "C:\\Projetos\\GastroLink\\GastroLink\\Controllers\\MesaController.cs",
+              "RelativeDocumentMoniker": "GastroLink\\Controllers\\MesaController.cs",
+              "ToolTip": "C:\\Projetos\\GastroLink\\GastroLink\\Controllers\\MesaController.cs",
+              "RelativeToolTip": "GastroLink\\Controllers\\MesaController.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-04-07T10:57:50.978Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "MesaClient.cs",
+              "DocumentMoniker": "C:\\Projetos\\GastroLink\\GastroLink\\Client\\MesaClient.cs",
+              "RelativeDocumentMoniker": "GastroLink\\Client\\MesaClient.cs",
+              "ToolTip": "C:\\Projetos\\GastroLink\\GastroLink\\Client\\MesaClient.cs",
+              "RelativeToolTip": "GastroLink\\Client\\MesaClient.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-04-07T10:57:50.772Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
               "Title": "Index.cshtml",
               "DocumentMoniker": "C:\\Projetos\\GastroLink\\GastroLink\\Views\\Login\\Index.cshtml",
               "RelativeDocumentMoniker": "GastroLink\\Views\\Login\\Index.cshtml",
@@ -46,12 +94,11 @@
               "RelativeToolTip": "GastroLink\\Views\\Login\\Index.cshtml",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAA0AAACKAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2026-03-21T18:08:20.347Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-03-21T18:08:20.347Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 0,
+              "DocumentIndex": 4,
               "Title": "LoginClient.cs",
               "DocumentMoniker": "C:\\Projetos\\GastroLink\\GastroLink\\Client\\LoginClient.cs",
               "RelativeDocumentMoniker": "GastroLink\\Client\\LoginClient.cs",
@@ -59,8 +106,7 @@
               "RelativeToolTip": "GastroLink\\Client\\LoginClient.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAABUAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-03-21T18:06:23.02Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-03-21T18:06:23.02Z"
             },
             {
               "$type": "Document",
@@ -72,12 +118,11 @@
               "RelativeToolTip": "GastroLink\\Controllers\\LoginController.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAABwAAAAIAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-03-21T18:05:51.182Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-03-21T18:05:51.182Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 3,
+              "DocumentIndex": 6,
               "Title": "FacadeLogin.cs",
               "DocumentMoniker": "C:\\Projetos\\GastroLink\\GastroLink\\Facade\\FacadeLogin.cs",
               "RelativeDocumentMoniker": "GastroLink\\Facade\\FacadeLogin.cs",
@@ -85,8 +130,7 @@
               "RelativeToolTip": "GastroLink\\Facade\\FacadeLogin.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAwAAAAIAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-03-21T18:05:24.837Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-03-21T18:05:24.837Z"
             }
           ]
         }

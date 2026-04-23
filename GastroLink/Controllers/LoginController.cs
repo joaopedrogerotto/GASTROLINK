@@ -25,7 +25,10 @@ namespace GastroLink.Controllers {
                 return View("Index");
             }
 
-            return RedirectToAction("Index","Pedido");
+            HttpContext.Session.SetString("NomeUsuario", usuario.Nome);
+            HttpContext.Session.SetInt32("IdTipoUsuario", usuario.Tipo.Id);
+
+            return RedirectToAction("TodasMesas","Mesa");
         }
     }
 }
