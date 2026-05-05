@@ -14,9 +14,13 @@ builder.Services.AddOpenApi();
 builder.Services.AddScoped<IDAODatabase, DAOSQLServer>();
 builder.Services.AddScoped<IDAOLogin, DAOLogin>();
 builder.Services.AddScoped<IDAOMesa, DAOMesa>();
+builder.Services.AddScoped<IDAOTipoUsuario, DAOTipoUsuario>();
+builder.Services.AddScoped<IDAOUsuario, DAOUsuario>();
 
 builder.Services.AddScoped<IFacadeLogin, FacadeLogin>();
 builder.Services.AddScoped<IFacadeMesa, FacadeMesa>();
+builder.Services.AddScoped<IFacadeTipoUsuario, FacadeTipoUsuario>();
+builder.Services.AddScoped<IFacadeUsuario, FacadeUsuario>();
 
 builder.Services.AddCors(options => {
     options.AddPolicy("PermitirMVC", policy => {

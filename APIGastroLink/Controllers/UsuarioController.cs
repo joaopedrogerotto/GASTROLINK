@@ -1,0 +1,26 @@
+﻿using APIGastroLink.DTO;
+using APIGastroLink.Facade.Interface;
+using APIGastroLink.Models;
+using Microsoft.AspNetCore.Mvc;
+
+namespace APIGastroLink.Controllers {
+    [ApiController]
+    [Route("api-gastrolink/[controller]")]
+    public class UsuarioController : ControllerBase {
+        private readonly IFacadeUsuario _facadeUsuario;
+
+        public UsuarioController(IFacadeUsuario facadeUsuario) {
+            _facadeUsuario = facadeUsuario;
+        }
+
+        [HttpPost]
+        public IActionResult SalvarUsuario(UsuarioCreateDTO Usuario) {
+            try {
+                _facadeUsuario.InserirUsuario(Usuario);
+                return Ok();
+            } catch (Exception ex) {
+                return BadRequest(ex.Message);
+            }
+        }
+    }
+}

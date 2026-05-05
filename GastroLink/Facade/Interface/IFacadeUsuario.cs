@@ -1,0 +1,7 @@
+﻿using GastroLink.Models;
+
+namespace GastroLink.Facade.Interface {
+    public interface IFacadeUsuario {
+        public Task<bool> CadastrarUsuario(Usuario Usuario);
+    }
+}

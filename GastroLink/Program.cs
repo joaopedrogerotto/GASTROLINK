@@ -1,6 +1,8 @@
+using AutoMapper;
 using GastroLink.Client;
 using GastroLink.Facade;
 using GastroLink.Facade.Interface;
+using GastroLink.Mappings;
 using GastroLink.Service;
 using GastroLink.Settings;
 using Microsoft.Extensions.Options;
@@ -29,12 +31,28 @@ builder.Services.AddHttpClient<MesaClient>((name, client) => {
     client.BaseAddress = new Uri(settings.BaseUrl);
 });
 
+builder.Services.AddHttpClient<TipoUsuarioClient>((name, client) => {
+    var settings = name
+        .GetRequiredService<IOptions<ApiGastroLinkSettings>>()
+        .Value;
+    client.BaseAddress = new Uri(settings.BaseUrl);
+});
+
+builder.Services.AddHttpClient<UsuarioClient>((name, client) => {
+    var settings = name
+        .GetRequiredService<IOptions<ApiGastroLinkSettings>>()
+        .Value;
+    client.BaseAddress = new Uri(settings.BaseUrl);
+});
+
+
 builder.Services.AddDistributedMemoryCache();
 builder.Services.AddSession();
 
 builder.Services.AddScoped<IFacadeLogin, FacadeLogin>();
 builder.Services.AddScoped<IFacadeMesa, FacadeMesa>();
-
+builder.Services.AddScoped<IFacadeTipoUsuario, FacadeTipoUsuario>();
+builder.Services.AddScoped<IFacadeUsuario, FacadeUsuario>();
 
 
 var app = builder.Build();

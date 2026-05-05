@@ -1,0 +1,47 @@
+﻿@model CadastroUsuarioViewModel
+
+@{
+    ViewData["Title"] = "Cadastro de Usuario";
+
+    if(TempData["Falhacadastro"] != null){
+        <div class="alert alert-danger" role="alert">
+          @TempData["Falhacadastro"]
+        </div>
+    }
+
+    if(TempData["SucessoCadastro"] != null){
+        <div class="alert alert-success" role="alert">
+          @TempData["SucessoCadastro"]
+        </div>
+    }
+}
+
+<form asp-action="SalvarUsuario" asp-controller="Usuario" method="post">
+    <div class="form-group">
+        <label for="usu_nome">Nome Completo:</label>
+        <input type="text" class="form-control" id="usu_nome" asp-for="@Model.Usuario.Nome" required>
+    </div>
+    <div class="form-group">
+        <label for="usu_login">Login:</label>
+        <input type="text" class="form-control" id="usu_login" asp-for="@Model.Usuario.Login" require>
+    </div>
+    <div class="form-group">
+        <label for="senha">Tipo de Usuario:</label>
+        <select class="form-select" asp-for="@Model.Usuario.Tipo.Id">
+            @foreach(var tipo in Model.TiposUsuario){
+                <option value="@tipo.Id">@tipo.Tipo</option>
+            }
+        </select>
+    </div>
+    <div class="form-group">
+        <label for="senha">Senha:</label>
+        <input type="password" class="form-control" id="senha" asp-for="@Model.Usuario.Password" required>
+    </div>
+    <div class="form-group">
+        <label for="confirmSenha">Confirmar Senha:</label>
+        <input type="password" class="form-control" id="confirmSenha" required>
+    </div>
+    <button type="submit" class="btn btn-primary">Criar</button>
+</form>
+
+<script src="~/js/confirmarSenha.js"></script>
