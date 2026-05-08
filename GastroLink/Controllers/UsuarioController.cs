@@ -20,6 +20,11 @@ namespace GastroLink.Controllers {
             return View(cadastroUsuarioViewModel);
         }
 
+        public async Task<IActionResult> TodosUsuarios() {
+            var usuarios = await _facadeUsuario.ObterTodosUsuarios();
+            return View(usuarios);
+        }
+
         [HttpPost]
         public async Task<IActionResult> SalvarUsuario(Usuario Usuario) {
             if (await _facadeUsuario.CadastrarUsuario(Usuario)) {

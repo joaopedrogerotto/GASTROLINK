@@ -16,5 +16,9 @@ namespace GastroLink.Facade {
 
             return await _usuarioClient.CadastrarUsuario(usuarioCreateDTO);
         }
+
+        public async Task<List<Usuario>> ObterTodosUsuarios() {
+            return await _usuarioClient.ObterTodosUsuarios();
+        }
     }
 }

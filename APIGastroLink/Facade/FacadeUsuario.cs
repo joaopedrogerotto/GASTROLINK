@@ -16,5 +16,9 @@ namespace APIGastroLink.Facade {
             var Usuario = UsuarioMapper.ToEntidade(UsuarioCreateDTO);
             _daoUsuario.Insert(Usuario);
         }
+
+        public List<Usuario> ObterTodosUsuarios() {
+            return _daoUsuario.SelectAll();
+        }
     }
 }

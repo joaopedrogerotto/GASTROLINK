@@ -22,5 +22,15 @@ namespace APIGastroLink.Controllers {
                 return BadRequest(ex.Message);
             }
         }
+
+        [HttpGet]
+        public IActionResult ListarUsuarios() {
+            try {
+                var usuarios = _facadeUsuario.ObterTodosUsuarios();
+                return Ok(usuarios);
+            } catch (Exception ex) {
+                return BadRequest(ex.Message);
+            }
+        }
     }
 }

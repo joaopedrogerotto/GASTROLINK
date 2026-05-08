@@ -1,0 +1,30 @@
+﻿@model IEnumerable<Usuario>
+
+@{
+    ViewData["Title"] = "Todos de Usuario";
+}
+
+
+<table class="table">
+    <thead>
+        <tr>
+            <th scope="col">#</th>
+            <th scope="col">Nome</th>
+            <th scope="col">Login</th>
+            <th scope="col">Status</th>
+            <th scope="col">Tipo de Usuario</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var usuario in Model) {
+            <tr>
+
+                <th scope="row">@usuario.Id</th>
+                <td>@usuario.Nome</td>
+                <td>@usuario.Login</td>
+                <td>@(usuario.Status ? "Ativo" : "Inativo")</td>
+                <td>@usuario.Tipo.Tipo</td>
+            </tr>
+        }
+    </tbody>
+</table>

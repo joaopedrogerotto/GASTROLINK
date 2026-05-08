@@ -12,9 +12,18 @@ namespace GastroLink.Client {
         public async Task<bool> CadastrarUsuario(UsuarioCreateDTO UsuarioCreateDTO) {
             var response = await _HttpClient.PostAsJsonAsync("Usuario", UsuarioCreateDTO);
             if (response.IsSuccessStatusCode) {
-                return true;    
+                return true;
             }
             return false;
+        }
+
+        public async Task<List<Usuario>> ObterTodosUsuarios() {
+            var response = await _HttpClient.GetAsync("Usuario");
+            if (response.IsSuccessStatusCode) {
+                var usuarios = await response.Content.ReadFromJsonAsync<List<Usuario>>();
+                return usuarios ?? new List<Usuario>();
+            }
+            return new List<Usuario>();
         }
     }
 }
