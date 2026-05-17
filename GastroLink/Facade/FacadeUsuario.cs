@@ -20,5 +20,7 @@ namespace GastroLink.Facade {
         public async Task<List<Usuario>> ObterTodosUsuarios() {
             return await _usuarioClient.ObterTodosUsuarios();
         }
+
+        public async Task<Usuario> ObterUsuarioId(int idUsuario) => await _usuarioClient.ObterUsuarioPeloId(idUsuario);
     }
 }

@@ -1,0 +1,29 @@
+﻿.links-acoes {
+    font-size: 20px;
+}
+
+.links-acoes a {
+    text-decoration: none;
+    color: black;
+    margin-right: 10px;
+    display: inline-block;
+    transition: transform .3s, color .3s;
+}
+
+.links-acoes #editar-usuario:hover {
+    transform: scale(1.2);
+    cursor: pointer;
+    color: yellow;
+}
+
+.links-acoes #info-usuario:hover {
+    transform: scale(1.2);
+    cursor: pointer;
+    color: blue;
+}
+
+.links-acoes #excluir-usuario:hover {
+    transform: scale(1.2);
+    cursor: pointer;
+    color: red;
+}

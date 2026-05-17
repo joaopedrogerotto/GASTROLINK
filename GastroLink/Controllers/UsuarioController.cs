@@ -35,5 +35,11 @@ namespace GastroLink.Controllers {
             TempData["FalhaCadastro"] = "Falha ao cadastrar usuario.";
             return RedirectToAction("CadastroUsuario");
         }
+
+        [HttpGet]
+        public async Task<IActionResult> VisualizarUsuario(int idUsuario) {
+            var usuario = await _facadeUsuario.ObterUsuarioId(idUsuario);
+            return PartialView("_VisualizarUsuario",usuario);
+        }
     }
 }

@@ -56,5 +56,34 @@ namespace APIGastroLink.DAO {
                 throw new Exception( sqlEx.Message); 
             }
         }
+
+        public Usuario SelectById(int usuarioId) {
+            try {
+                using (SqlConnection conn = _database.OpenConnection()) {
+                    using (SqlCommand cmd = new SqlCommand("PR_S_USUARIO_POR_ID", conn)) {
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        cmd.Parameters.AddWithValue("@ID_USUARIO", usuarioId);
+                        using (SqlDataReader reader = cmd.ExecuteReader()) {
+                            if (reader.Read()) {
+                                return new Usuario {
+                                    Id = reader.GetInt32(reader.GetOrdinal("USU_ID")),
+                                    Nome = reader.GetString(reader.GetOrdinal("USU_NOME")),
+                                    Login = reader.GetString(reader.GetOrdinal("USU_LOGIN")),
+                                    Status = reader.GetBoolean(reader.GetOrdinal("USU_STATUS")),
+                                    Tipo = new TipoUsuario {
+                                        Id = reader.GetInt32(reader.GetOrdinal("TPU_ID")),
+                                        Tipo = reader.GetString(reader.GetOrdinal("TPU_TIPO"))
+                                    }
+                                };
+                            } else {
+                                return null;
+                            }
+                        }
+                    }
+                }
+            } catch (Exception sqlEx) {
+                throw new Exception(sqlEx.Message);
+            }
+        }
     }
 }

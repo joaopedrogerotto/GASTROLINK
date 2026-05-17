@@ -32,5 +32,15 @@ namespace APIGastroLink.Controllers {
                 return BadRequest(ex.Message);
             }
         }
+
+        [HttpGet("{idUsuario}")]
+        public IActionResult ObterUsuarioPeloId(int idUsuario) {
+            try {
+                var usuario = _facadeUsuario.ObterUsuarioPeloId(idUsuario);
+                return Ok(usuario);
+            } catch (Exception ex) {
+                return BadRequest(ex.Message);
+            }
+        }
     }
 }

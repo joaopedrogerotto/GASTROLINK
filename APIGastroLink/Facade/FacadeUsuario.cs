@@ -17,8 +17,8 @@ namespace APIGastroLink.Facade {
             _daoUsuario.Insert(Usuario);
         }
 
-        public List<Usuario> ObterTodosUsuarios() {
-            return _daoUsuario.SelectAll();
-        }
+        public List<Usuario> ObterTodosUsuarios() => _daoUsuario.SelectAll();
+      
+        public Usuario ObterUsuarioPeloId(int usuarioId) => _daoUsuario.SelectById(usuarioId);
     }
 }

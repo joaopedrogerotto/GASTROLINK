@@ -25,5 +25,14 @@ namespace GastroLink.Client {
             }
             return new List<Usuario>();
         }
+
+        public async Task<Usuario> ObterUsuarioPeloId(int idUsuario) {
+            var response = await _HttpClient.GetAsync($"Usuario/{idUsuario}");
+            if (response.IsSuccessStatusCode) {
+                var usuario = await response.Content.ReadFromJsonAsync<Usuario>();
+                return usuario ?? new Usuario();
+            }
+            return new Usuario();
+        }
     }
 }
