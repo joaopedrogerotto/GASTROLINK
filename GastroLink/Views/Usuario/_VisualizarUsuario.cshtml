@@ -8,6 +8,7 @@
         color: #6c757d;
     }
 </style>
+<script src="~/js/usuario.js"></script>
 
 <div class="modal fade" id="visualizarUsuarioModal" tabindex="-1" role="dialog" aria-labelledby="visualizarUsuarioModal" aria-hidden="true">
     <div class="modal-dialog" role="document">
@@ -18,6 +19,9 @@
             </div>
             <div class="modal-body">
                 <form>
+                    <input type="hidden" value="@Model.Id" id="usu_id"/>
+                    <input type="hidden" value="@Model.Tipo.Id" id="usu_tipo_usu_id"/>
+
                     <div class="form-group">
                         <label for="usu_nome">Nome Completo:</label>
                         <input type="text" class="form-control" id="usu_nome" asp-for="@Model.Nome" readonly>
@@ -28,17 +32,17 @@
                     </div>
                     <div class="form-group">
                         <label for="senha">Tipo de Usuario:</label>
-                        <input type="text" class="form-control" id="usu_login" asp-for="@Model.Tipo.Tipo" readonly>
+                        <input type="text" class="form-control" id="usu_tipo_usuario" asp-for="@Model.Tipo.Tipo" readonly>
                     </div>
                     <div class="form-group">
                         <label for="senha">Status:</label>
-                        <input type="text" class="form-control" id="usu_login" asp-for="@Model.Status" value="@(Model.Status ? "ATIVO":"INATIVO")" readonly>
+                        <input type="text" class="form-control" id="usu_status" asp-for="@Model.Status" value="@(Model.Status ? "ATIVO":"INATIVO")" readonly>
                     </div>
                 </form>
 
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Fechar</button>
+                <button type="button" class="btn btn-primary" data-bs-dismiss="modal" id="btnAcaoModal">Fechar</button>
             </div>
         </div>
     </div>

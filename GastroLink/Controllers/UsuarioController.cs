@@ -25,6 +25,11 @@ namespace GastroLink.Controllers {
             return View(usuarios);
         }
 
+        public async Task<IActionResult> TabelaUsuario() {
+            var usuarios = await _facadeUsuario.ObterTodosUsuarios();
+            return PartialView("_TabelaUsuario", usuarios);
+        }
+
         [HttpPost]
         public async Task<IActionResult> SalvarUsuario(Usuario Usuario) {
             if (await _facadeUsuario.CadastrarUsuario(Usuario)) {

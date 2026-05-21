@@ -85,5 +85,22 @@ namespace APIGastroLink.DAO {
                 throw new Exception(sqlEx.Message);
             }
         }
+
+        public void Update(Usuario Usuario) {
+            try {
+                using (SqlConnection conn = _database.OpenConnection()) {
+                    using (SqlCommand cmd = new SqlCommand("PR_U_USUARIO", conn)) {
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        cmd.Parameters.AddWithValue("@ID_USUARIO", Usuario.Id);
+                        cmd.Parameters.AddWithValue("@NOME", Usuario.Nome);
+                        cmd.Parameters.AddWithValue("@LOGIN", Usuario.Login);
+                        cmd.Parameters.AddWithValue("@ID_TIPO_USUARIO", Usuario.Tipo.Id);
+                        cmd.ExecuteNonQuery();
+                    }
+                }
+            } catch (Exception sqlEx) {
+                throw new Exception(sqlEx.Message);
+            }
+        }
     }
 }

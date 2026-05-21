@@ -12,6 +12,11 @@ namespace APIGastroLink.Facade {
             _daoUsuario = daoUsuario;
         }
 
+        public void AtualizarUsuario(UsuarioUpdateDTO UsuarioUpdateDTO) {
+            var usuario = UsuarioMapper.ToEntidade(UsuarioUpdateDTO);
+            _daoUsuario.Update(usuario);
+        }
+
         public void InserirUsuario(UsuarioCreateDTO UsuarioCreateDTO) {
             var Usuario = UsuarioMapper.ToEntidade(UsuarioCreateDTO);
             _daoUsuario.Insert(Usuario);

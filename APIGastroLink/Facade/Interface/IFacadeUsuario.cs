@@ -6,5 +6,6 @@ namespace APIGastroLink.Facade.Interface {
         public void InserirUsuario(UsuarioCreateDTO Usuario);
         public List<Usuario> ObterTodosUsuarios();
         public Usuario ObterUsuarioPeloId(int usuarioId);
+        public void AtualizarUsuario(UsuarioUpdateDTO UsuarioUpdateDTO);
     }
 }

@@ -5,5 +5,6 @@ namespace APIGastroLink.DAO.Interfaces {
         public void Insert(Usuario Usuario);
         public List<Usuario> SelectAll();
         public Usuario SelectById(int idUsuario);
+        public void Update(Usuario Usuario);
     }
 }

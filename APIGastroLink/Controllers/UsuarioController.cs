@@ -42,5 +42,16 @@ namespace APIGastroLink.Controllers {
                 return BadRequest(ex.Message);
             }
         }
+
+        [HttpPut]
+        public IActionResult AtualizarUsuario(UsuarioUpdateDTO UsuarioUpdateDTO) {
+            try {
+                _facadeUsuario.AtualizarUsuario(UsuarioUpdateDTO);
+                return Ok();
+
+            } catch (Exception ex) {
+                return BadRequest(ex.Message);
+            }
+        }
     }
 }
