@@ -17,6 +17,10 @@ namespace APIGastroLink.Facade {
             _daoUsuario.Update(usuario);
         }
 
+        public void ExcluirUsuario(UsuarioDeleteDTO UsuarioDeleteDTO) {
+            _daoUsuario.Delete(UsuarioMapper.ToEntidade(UsuarioDeleteDTO));
+        }
+
         public void InserirUsuario(UsuarioCreateDTO UsuarioCreateDTO) {
             var Usuario = UsuarioMapper.ToEntidade(UsuarioCreateDTO);
             _daoUsuario.Insert(Usuario);

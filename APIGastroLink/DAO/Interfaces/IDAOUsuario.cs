@@ -6,5 +6,6 @@ namespace APIGastroLink.DAO.Interfaces {
         public List<Usuario> SelectAll();
         public Usuario SelectById(int idUsuario);
         public void Update(Usuario Usuario);
+        public void Delete(Usuario Usuario);
     }
 }

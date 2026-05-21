@@ -12,7 +12,9 @@
         contentType: 'application/json',
         data: JSON.stringify(usuario),
         success: function (response) {
-            $("#modalSucessoAtualizacaoUsuario").modal('show');
+            $("#textSucessoUsuario").text("Usuário atualizado com sucesso.");
+            $("#tituloSucessoUsuario").text("Atualização Usuário");
+            $("#modalSucessoUsuario").modal('show');
             recarregarTabelaUsuarios();
             $("#visualizarUsuarioModal").modal('hide');
         },

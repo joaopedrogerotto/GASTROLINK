@@ -53,5 +53,15 @@ namespace APIGastroLink.Controllers {
                 return BadRequest(ex.Message);
             }
         }
+
+        [HttpDelete]
+        public IActionResult ExcluirUsuario(UsuarioDeleteDTO usuarioDeleteDTO) {
+            try {
+                _facadeUsuario.ExcluirUsuario(usuarioDeleteDTO);
+                return Ok();
+            } catch (Exception ex) {
+                return BadRequest(ex.Message);
+            }
+        }
     }
 }

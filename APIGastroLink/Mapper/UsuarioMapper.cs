@@ -28,5 +28,15 @@ namespace APIGastroLink.Mapper {
                 Tipo = new TipoUsuario { Id = entidade.TipoUsuarioId },
             };
         }
+
+        public static Usuario ToEntidade(UsuarioDeleteDTO entidade) {
+            if (entidade == null) {
+                return null;
+            }
+            return new Usuario {
+                Id = entidade.Id,
+                Status = entidade.Status
+            };
+        }
     }
 }
