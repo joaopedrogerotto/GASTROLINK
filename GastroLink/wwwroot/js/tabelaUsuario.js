@@ -25,10 +25,18 @@
                 inputs.addClass("input-readonly");
 
                 const btnExcluir = $("#btnAcaoModal");
-                btnExcluir.text("Inativar").removeAttr("data-bs-dismiss");
-                btnExcluir.off("click").on("click", function () {
-                    excluirUsuario(idUsuario);
-                });
+
+                if (acao === 'ativo') {
+                    btnExcluir.text("Inativar").removeAttr("data-bs-dismiss");
+                    btnExcluir.off("click").on("click", function () {
+                        alterarStatusUsuario(idUsuario, false);
+                    });
+                } else {
+                    btnExcluir.text("Ativar").removeAttr("data-bs-dismiss");
+                    btnExcluir.off("click").on("click", function () {
+                        alterarStatusUsuario(idUsuario, true);
+                    });
+                }
             }
 
             $("#visualizarUsuarioModal").modal('show');
@@ -45,20 +53,20 @@ function recarregarTabelaUsuarios() {
     $("#tabelaTodosUsuarios").load("/Usuario/TabelaUsuario");
 }
 
-function excluirUsuario(idUsuario) {
+function alterarStatusUsuario(idUsuario,status) {
     const usuario = {
         Id: parseInt(idUsuario),
-        Status: false
+        Status: status
     };
 
     $.ajax({
-        url: 'https://localhost:7209/api-gastrolink/Usuario',
-        method: 'DELETE',
+        url: 'https://localhost:7209/api-gastrolink/Usuario/alterar-status',
+        method: 'PUT',
         contentType: 'application/json',
         data: JSON.stringify(usuario),
         success: function (response) {
-            $("#textSucessoUsuario").text("Usuário inativado com sucesso.");
-            $("#tituloSucessoUsuario").text("Inativação Usuário");
+            $("#textSucessoUsuario").text("Usuário atualizado com sucesso.");
+            $("#tituloSucessoUsuario").text("Atualização Usuário");
             $("#modalSucessoUsuario").modal('show');
             recarregarTabelaUsuarios();
         }, error: function (xhr, status, error) {

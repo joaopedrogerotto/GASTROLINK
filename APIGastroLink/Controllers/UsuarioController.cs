@@ -54,10 +54,10 @@ namespace APIGastroLink.Controllers {
             }
         }
 
-        [HttpDelete]
-        public IActionResult ExcluirUsuario(UsuarioDeleteDTO usuarioDeleteDTO) {
+        [HttpPut("alterar-status")]
+        public IActionResult AlterarStatusUsuario(UsuarioStatusUpdateDTO usuarioStatusUpdateDTO) {
             try {
-                _facadeUsuario.ExcluirUsuario(usuarioDeleteDTO);
+                _facadeUsuario.AlterarStatusUsuario(usuarioStatusUpdateDTO);
                 return Ok();
             } catch (Exception ex) {
                 return BadRequest(ex.Message);

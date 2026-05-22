@@ -23,7 +23,12 @@
                 <td class="links-acoes">
                     <a id="editar-usuario" onclick="visualizarUsuario(@usuario.Id,'editar')"><i class="bi bi-pencil-fill"></i></a>
                     <a id="info-usuario" onclick="visualizarUsuario(@usuario.Id,'info')"><i class="bi bi-info-circle-fill"></i></a>
-                    <a id="excluir-usuario" onclick="visualizarUsuario(@usuario.Id,'alterarStatus')"><i class="bi bi-trash-fill"></i></a>
+
+                    @if (usuario.Status) {
+                        <a id="ativar-usuario" onclick="visualizarUsuario(@usuario.Id,'ativo')"><i class="bi bi-lock-fill"></i></a>
+                    }else{
+                        <a id="inativar-usuario" onclick="visualizarUsuario(@usuario.Id,'inativo')"><i class="bi bi-unlock-fill"></i></a>
+                    }
                 </td>
             </tr>
         }

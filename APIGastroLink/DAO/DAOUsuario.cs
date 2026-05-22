@@ -11,7 +11,7 @@ namespace APIGastroLink.DAO {
             _database = database;
         }
 
-        public void Delete(Usuario Usuario) {
+        public void UpdateStatus(Usuario Usuario) {
             try {
                 using (SqlConnection conn = _database.OpenConnection()) {
                     using (SqlCommand cmd = new SqlCommand("PR_U_STATUS_USUARIO", conn)) {

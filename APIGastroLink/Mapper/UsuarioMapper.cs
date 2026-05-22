@@ -29,7 +29,7 @@ namespace APIGastroLink.Mapper {
             };
         }
 
-        public static Usuario ToEntidade(UsuarioDeleteDTO entidade) {
+        public static Usuario ToEntidade(UsuarioStatusUpdateDTO entidade) {
             if (entidade == null) {
                 return null;
             }
