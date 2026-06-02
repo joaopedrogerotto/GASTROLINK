@@ -2,6 +2,7 @@ using APIGastroLink.DAO;
 using APIGastroLink.DAO.Interfaces;
 using APIGastroLink.Facade;
 using APIGastroLink.Facade.Interface;
+using APIGastroLink.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -21,6 +22,8 @@ builder.Services.AddScoped<IFacadeLogin, FacadeLogin>();
 builder.Services.AddScoped<IFacadeMesa, FacadeMesa>();
 builder.Services.AddScoped<IFacadeTipoUsuario, FacadeTipoUsuario>();
 builder.Services.AddScoped<IFacadeUsuario, FacadeUsuario>();
+
+builder.Services.AddScoped<PasswordService>();
 
 builder.Services.AddCors(options => {
     options.AddPolicy("PermitirMVC", policy => {

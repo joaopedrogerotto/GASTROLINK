@@ -18,7 +18,6 @@ namespace APIGastroLink.DAO {
                     using (SqlCommand cmd = new SqlCommand("PR_S_VALIDAR_LOGIN", conn)) {
                         cmd.CommandType = CommandType.StoredProcedure;
                         cmd.Parameters.AddWithValue("@LOGIN", Login.LoginStr);
-                        cmd.Parameters.AddWithValue("@SENHA", Login.Senha);
 
                         using (SqlDataReader reader = cmd.ExecuteReader()) {
                             if (reader.HasRows) {
@@ -29,6 +28,7 @@ namespace APIGastroLink.DAO {
                                     Usuario.Nome = reader.GetString(reader.GetOrdinal("USU_NOME"));
                                     Usuario.Login = reader.GetString(reader.GetOrdinal("USU_LOGIN"));
                                     Usuario.Status = reader.GetBoolean(reader.GetOrdinal("USU_STATUS"));
+                                    Usuario.Password = reader.GetString(reader.GetOrdinal("USU_SENHA"));
                                     Usuario.Tipo.Id = reader.GetInt32(reader.GetOrdinal("USU_TPU_ID"));
                                     Usuario.Tipo.Tipo = reader.GetString(reader.GetOrdinal("TPU_TIPO"));
                                 }

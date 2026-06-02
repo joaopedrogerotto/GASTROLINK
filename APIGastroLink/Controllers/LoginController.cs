@@ -23,7 +23,7 @@ namespace APIGastroLink.Controllers {
             var usuario = _facade.ValidarLogin(Login);
 
             if(usuario == null) {
-                return BadRequest("Usuario ou senha inválido");
+                return BadRequest("Login e/ou Senha inválido");
             }
 
             return Ok(usuario);
