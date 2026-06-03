@@ -1,6 +1,16 @@
-"use strict";
-async function criarMesa() {
-    const numeroMesa = $("#numeroMesaInput").val();
+﻿interface StatusMesa {
+    status: string;
+}
+
+interface Mesa {
+    numero: number;
+    status: StatusMesa;
+}
+
+
+async function criarMesa(): Promise<void> {
+    const numeroMesa = $("#numeroMesaInput").val() as string;
+
     const response = await fetch('https://localhost:7209/api-gastrolink/Mesa', {
         method: 'POST',
         headers: {
@@ -10,16 +20,20 @@ async function criarMesa() {
             NumeroMesa: numeroMesa
         })
     });
+
     if (response.ok) {
         carregarMesas();
         $("#numeroMesaInput").val("");
     }
 }
-async function carregarMesas() {
+
+async function carregarMesas(): Promise<void> {
     const response = await fetch('https://localhost:7209/api-gastrolink/Mesa');
-    const mesas = await response.json();
-    const tbody = document.querySelector("#tabelaMesas tbody");
+    const mesas: Mesa[] = await response.json();
+
+    const tbody = document.querySelector("#tabelaMesas tbody") as HTMLTableSectionElement;
     tbody.innerHTML = "";
+
     mesas.forEach(mesa => {
         const linha = `
             <tr>
@@ -27,10 +41,12 @@ async function carregarMesas() {
                 <td>${mesa.status.status}</td>
             </tr>
         `;
+
         tbody.innerHTML += linha;
     });
 }
+
 document.addEventListener("DOMContentLoaded", () => {
     carregarMesas();
 });
-//# sourceMappingURL=mesa.js.map
+

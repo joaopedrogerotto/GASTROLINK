@@ -7,7 +7,20 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Content Include="TypeScript\confirmarSenha.ts" />
+    <Content Include="TypeScript\mapeamento.ts" />
+    <Content Include="TypeScript\mesa.ts" />
+    <Content Include="TypeScript\site.ts" />
+    <Content Include="TypeScript\tabelaUsuario.ts" />
+    <Content Include="TypeScript\usuario.ts" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="AutoMapper" Version="16.1.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="wwwroot\js\" />
   </ItemGroup>
 
 </Project>

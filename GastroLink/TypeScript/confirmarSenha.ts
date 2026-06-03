@@ -1,16 +1,16 @@
-"use strict";
-const confirmarSenhaInput = document.getElementById('confirmSenha');
-const senhaInput = document.getElementById('senha');
+﻿const confirmarSenhaInput = document.getElementById('confirmSenha') as HTMLInputElement;
+const senhaInput = document.getElementById('senha') as HTMLInputElement;
+
+
 if (confirmarSenhaInput instanceof HTMLInputElement && senhaInput instanceof HTMLInputElement) {
-    function validarSenha() {
+    function validarSenha(): void {
         if (confirmarSenhaInput.value !== senhaInput.value) {
             confirmarSenhaInput.setCustomValidity('Senhas não coincidem.');
-        }
-        else {
+        } else {
             confirmarSenhaInput.setCustomValidity('');
         }
     }
+
     senhaInput.addEventListener('input', validarSenha);
     confirmarSenhaInput.addEventListener('input', validarSenha);
 }
-//# sourceMappingURL=confirmarSenha.js.map
