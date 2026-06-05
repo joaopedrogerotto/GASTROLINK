@@ -17,11 +17,13 @@ builder.Services.AddScoped<IDAOLogin, DAOLogin>();
 builder.Services.AddScoped<IDAOMesa, DAOMesa>();
 builder.Services.AddScoped<IDAOTipoUsuario, DAOTipoUsuario>();
 builder.Services.AddScoped<IDAOUsuario, DAOUsuario>();
+builder.Services.AddScoped<IDAOCategoriaPrato, DAOCategoriaPrato>();
 
 builder.Services.AddScoped<IFacadeLogin, FacadeLogin>();
 builder.Services.AddScoped<IFacadeMesa, FacadeMesa>();
 builder.Services.AddScoped<IFacadeTipoUsuario, FacadeTipoUsuario>();
 builder.Services.AddScoped<IFacadeUsuario, FacadeUsuario>();
+builder.Services.AddScoped<IFacadeCategoriaPrato, FacadeCategoriaPrato>();
 
 builder.Services.AddScoped<PasswordService>();
 

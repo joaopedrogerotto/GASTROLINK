@@ -1,2 +1,0 @@
-C:\Projetos\GastroLink\GastroLink\wwwroot\js\tabelaUsuariot.js
-C:\Projetos\GastroLink\GastroLink\wwwroot\js\tabelaUsuariot.js.map

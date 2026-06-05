@@ -1,0 +1,31 @@
+﻿@{
+    Layout = "_Layout";
+
+    ViewData["Title"] = "Cadastrar Categoria de Prato";
+}
+
+<script src="~/js/categoriaPrato.js"></script>
+
+<div class="form-group">
+    <label for="categoriaPratoInput">Categoria</label>
+    <input type="text" class="form-control" id="categoriaPratoInput" placeholder="Ex: Entrada, Prato Principal, Sobremesa">
+</div>
+<button type="submit" class="btn btn-primary" onclick="criarCategoriaPrato()">Cadastrar categoria</button>
+
+
+<div class="modal fade" id="modalCategoriaPrato" tabindex="-1" role="dialog" aria-labelledby="modalCategoriaPrato" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="modalCategoriaPrato">Cadastro Categoria Prato</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <p id="statusCadastroCategoria"></p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Fechar</button>
+            </div>
+        </div>
+    </div>
+</div>

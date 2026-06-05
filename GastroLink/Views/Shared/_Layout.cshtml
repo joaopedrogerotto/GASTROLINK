@@ -63,6 +63,50 @@
                                             </li>
                                         </ul>
                                     </li>
+
+                                    <li class="nav-item dropdown">
+                                        <a class="nav-link dropdown-toggle" href="#" id="mesasDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                            Pratos
+                                        </a>
+
+
+                                        <ul class="dropdown-menu" aria-labelledby="mesasDropdown">
+                                             <li class="dropdown-submenu">
+                                               <a class="dropdown-item dropdown-toggle" href="#">
+                                                    Categoria
+                                                </a>
+                                                <ul class="dropdown-menu">
+                                                    <li>
+                                                        <a class="dropdown-item" asp-action="Cadastrar" asp-controller="CategoriaPrato">Cadastrar</a>
+                                                    </li>
+
+                                                    <li>
+                                                        <a class="dropdown-item" asp-action="Todas" asp-controller="CategoriaPrato">
+                                                            Todas
+                                                        </a>
+                                                    </li>
+                                                </ul>
+                                            </li>
+                                             <li class="dropdown-submenu">
+                                               <a class="dropdown-item dropdown-toggle" href="#">
+                                                    Prato
+                                                </a>
+                                                <ul class="dropdown-menu">
+                                                    <li>
+                                                        <a class="dropdown-item">
+                                                            Cadastrar
+                                                        </a>
+                                                    </li>
+
+                                                    <li>
+                                                        <a class="dropdown-item">
+                                                            Todos
+                                                        </a>
+                                                    </li>
+                                                </ul>
+                                            </li>
+                                        </ul>
+                                    </li>
                                 }
                             }
                         }
