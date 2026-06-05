@@ -1,4 +1,5 @@
 ﻿using APIGastroLink.DAO.Interfaces;
+using APIGastroLink.Exceptions;
 using APIGastroLink.Models;
 using Microsoft.Data.SqlClient;
 using System.Data;
@@ -20,7 +21,9 @@ namespace APIGastroLink.DAO {
                         cmd.ExecuteNonQuery();
                     }
                 }
-            } catch (Exception ex) {
+            } catch (SqlException ex) when (ex.Number == 2627 || ex.Number == 2601) {
+                throw new EntityAlreadyExistsException("Categoria já cadastrada");
+            } catch (SqlException ex) {
                 throw new Exception("Erro ao inserir categoria de prato: " + ex.Message);
             }
         }

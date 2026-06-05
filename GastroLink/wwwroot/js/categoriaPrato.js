@@ -10,14 +10,25 @@ async function criarCategoriaPrato() {
         },
         body: JSON.stringify(categoriaPrato)
     });
+    const header = $("#headerModalCadastroCategoria");
     if (response.ok) {
+        header.removeClass("bg-danger text-white");
+        header.addClass("bg-success text-white");
         $("#statusCadastroCategoria").text("Categoria de prato criada com sucesso.");
         bootstrap.Modal.getOrCreateInstance(modalCadastroCategoria).show();
         $("#categoriaPratoInput").val("");
     }
     else {
-        $("#statusCadastroCategoria").text("Erro ao criar categoria de prato: " + response.statusText);
-        bootstrap.Modal.getOrCreateInstance(modalCadastroCategoria).hide();
+        header.removeClass("bg-success text-white");
+        header.addClass("bg-danger text-white");
+        if (response.status === 500) {
+            $("#statusCadastroCategoria").text("Erro interno do servidor.");
+        }
+        else {
+            const erro = await response.json();
+            $("#statusCadastroCategoria").text(erro.message ?? erro.Message ?? "Erro desconhecido.");
+        }
+        bootstrap.Modal.getOrCreateInstance(modalCadastroCategoria).show();
         $("#categoriaPratoInput").val("");
     }
 }

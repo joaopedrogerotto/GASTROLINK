@@ -1,4 +1,5 @@
-﻿using APIGastroLink.Facade.Interface;
+﻿using APIGastroLink.Exceptions;
+using APIGastroLink.Facade.Interface;
 using APIGastroLink.Models;
 using Microsoft.AspNetCore.Mvc;
 
@@ -17,8 +18,10 @@ namespace APIGastroLink.Controllers {
             try {
                 _facade.CadastrarCategoriaPrato(categoriaPrato);
                 return Ok();
+            } catch (EntityAlreadyExistsException ex) {
+                return Conflict(new {message = ex.Message});
             } catch (Exception ex) {
-                return BadRequest(ex.Message);
+                return StatusCode(500, new {Message = "Erro interno: " + ex.Message});
             }
         }
     }
