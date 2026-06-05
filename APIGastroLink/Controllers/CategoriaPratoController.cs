@@ -24,5 +24,15 @@ namespace APIGastroLink.Controllers {
                 return StatusCode(500, new {Message = "Erro interno: " + ex.Message});
             }
         }
+
+        [HttpGet]
+        public IActionResult GetTodasCategorias() {
+            try {
+                var categorias = _facade.SelecionarTodasCategorias();
+                return Ok(categorias);
+            } catch (Exception ex) {
+                return StatusCode(500, new { Message = "Erro interno: " + ex.Message });
+            }
+        }
     }
 }

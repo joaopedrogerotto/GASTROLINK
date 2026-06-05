@@ -1,7 +1,7 @@
 "use strict";
 async function criarCategoriaPrato() {
     const categoriaInput = $("#categoriaPratoInput").val();
-    const categoriaPrato = { Categoria: categoriaInput };
+    const categoriaPrato = { id: 0, categoria: categoriaInput };
     const modalCadastroCategoria = document.getElementById("modalCategoriaPrato");
     const response = await fetch('https://localhost:7209/api-gastrolink/CategoriaPrato', {
         method: 'POST',
@@ -32,4 +32,21 @@ async function criarCategoriaPrato() {
         $("#categoriaPratoInput").val("");
     }
 }
+async function carregarCategoriasPrato() {
+    const response = await fetch('https://localhost:7209/api-gastrolink/CategoriaPrato');
+    const categorias = await response.json();
+    const tbody = document.querySelector("#tabelaCategoriasPrato tbody");
+    tbody.innerHTML = "";
+    categorias.forEach((categoria) => {
+        const linha = `
+            <tr>
+                <td>${categoria.categoria}</td>
+            </tr>
+            `;
+        tbody.innerHTML += linha;
+    });
+}
+document.addEventListener("DOMContentLoaded", () => {
+    carregarCategoriasPrato();
+});
 //# sourceMappingURL=categoriaPrato.js.map

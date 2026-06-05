@@ -27,5 +27,27 @@ namespace APIGastroLink.DAO {
                 throw new Exception("Erro ao inserir categoria de prato: " + ex.Message);
             }
         }
+
+        public List<CategoriaPrato> SelectAll() {
+            var categorias = new List<CategoriaPrato>();
+            try {
+                using (SqlConnection conn = _database.OpenConnection()) {
+                    using (SqlCommand cmd = new SqlCommand("PR_S_CATEGORIAS_PRATO", conn)) {
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        using (SqlDataReader reader = cmd.ExecuteReader()) {
+                            while (reader.Read()) {
+                                categorias.Add(new CategoriaPrato {
+                                    Id = reader.GetInt32(reader.GetOrdinal("CTP_ID")),
+                                    Categoria = reader.GetString(reader.GetOrdinal("CTP_CATEGORIA"))
+                                });
+                            }
+                        }
+                    }
+                }
+            } catch (SqlException ex) {
+                throw new Exception("Erro ao selecionar categorias de prato: " + ex.Message);
+            }
+            return categorias;
+        }
     }
 }

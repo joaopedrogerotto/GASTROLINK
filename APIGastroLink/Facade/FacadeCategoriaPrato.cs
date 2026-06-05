@@ -11,5 +11,7 @@ namespace APIGastroLink.Facade {
         }
 
         public void CadastrarCategoriaPrato(CategoriaPrato categoriaPrato) => _dao.Insert(categoriaPrato);
+
+        public List<CategoriaPrato> SelecionarTodasCategorias() => _dao.SelectAll();
     }
 }

@@ -1,11 +1,12 @@
 interface CategoriaPrato {
-    Categoria: string;
+    id: number;
+    categoria: string;
 }
 
 async function criarCategoriaPrato(): Promise<void> {
     const categoriaInput = $("#categoriaPratoInput").val() as string;
 
-    const categoriaPrato: CategoriaPrato = { Categoria: categoriaInput };
+    const categoriaPrato: CategoriaPrato = { id: 0, categoria: categoriaInput };
 
     const modalCadastroCategoria = document.getElementById("modalCategoriaPrato");
     const response = await fetch('https://localhost:7209/api-gastrolink/CategoriaPrato', {
@@ -38,3 +39,24 @@ async function criarCategoriaPrato(): Promise<void> {
         $("#categoriaPratoInput").val("");
     }
 }
+
+async function carregarCategoriasPrato(): Promise<void> {
+    const response = await fetch('https://localhost:7209/api-gastrolink/CategoriaPrato');
+    const categorias: CategoriaPrato[] = await response.json();
+
+    const tbody = document.querySelector("#tabelaCategoriasPrato tbody") as HTMLTableSectionElement;
+    tbody.innerHTML = "";
+
+    categorias.forEach((categoria: CategoriaPrato) => {
+        const linha = `
+            <tr>
+                <td>${categoria.categoria}</td>
+            </tr>
+            `;
+        tbody.innerHTML += linha;
+    });
+}
+
+document.addEventListener("DOMContentLoaded", () => {
+    carregarCategoriasPrato();
+});
