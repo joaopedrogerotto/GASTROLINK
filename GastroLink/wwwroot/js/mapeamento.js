@@ -63,11 +63,25 @@ function salvarLayout() {
         body: JSON.stringify(mesas)
     }).then((res) => {
         if (res.ok) {
-            alert("Layout salvo com sucesso!");
+            mostrarModal("success");
         }
         else {
-            alert("Erro ao salvar");
+            mostrarModal("error");
         }
     });
+}
+function mostrarModal(status) {
+    const header = $("#headerSalvarLayout");
+    if (status == "success") {
+        header.removeClass("bg-danger text-white");
+        header.addClass("bg-success text-white");
+        $("#statusSalvarLayout").text("Layout salvo com sucesso.");
+    }
+    else {
+        header.removeClass("bg-success text-white");
+        header.addClass("bg-danger text-white");
+        $("#statusSalvarLayout").text("Erro ao salvar layout.");
+    }
+    bootstrap.Modal.getOrCreateInstance(document.getElementById("modalSalvarLayout")).show();
 }
 //# sourceMappingURL=mapeamento.js.map
