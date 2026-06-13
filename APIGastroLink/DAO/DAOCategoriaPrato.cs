@@ -1,4 +1,5 @@
 ﻿using APIGastroLink.DAO.Interfaces;
+using APIGastroLink.DTO;
 using APIGastroLink.Exceptions;
 using APIGastroLink.Models;
 using Microsoft.Data.SqlClient;
@@ -49,5 +50,28 @@ namespace APIGastroLink.DAO {
             }
             return categorias;
         }
-    }
+
+        public List<CategoriaPratoDTO> SelectAllDTOQuantidadePratos() {
+            var categorias = new List<CategoriaPratoDTO>();
+            try {
+                using (SqlConnection conn = _database.OpenConnection()) {
+                    using (SqlCommand cmd = new SqlCommand("PR_S_QTD_PRATOS_CATEGORIA", conn)) {
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        using (SqlDataReader reader = cmd.ExecuteReader()) {
+                            while (reader.Read()) {
+                                categorias.Add(new CategoriaPratoDTO {
+                                    Id = reader.GetInt32(reader.GetOrdinal("CTP_ID")),
+                                    Categoria = reader.GetString(reader.GetOrdinal("CTP_CATEGORIA")),
+                                    TotalPratos = reader.GetInt32(reader.GetOrdinal("QTD_PRATOS"))
+                                });
+                            }
+                        }
+                    }
+                }
+            } catch (SqlException ex) {
+                throw new Exception("Erro ao selecionar categorias de prato com quantidade: " + ex.Message);
+            }
+            return categorias;
+        }
+    }   
 }

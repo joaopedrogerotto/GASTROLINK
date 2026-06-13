@@ -45,6 +45,13 @@ builder.Services.AddHttpClient<UsuarioClient>((name, client) => {
     client.BaseAddress = new Uri(settings.BaseUrl);
 });
 
+builder.Services.AddHttpClient<CategoriaPratoClient>((name, client) => {
+    var settings = name
+        .GetRequiredService<IOptions<ApiGastroLinkSettings>>()
+        .Value;
+    client.BaseAddress = new Uri(settings.BaseUrl);
+});
+
 
 builder.Services.AddDistributedMemoryCache();
 builder.Services.AddSession();
@@ -52,6 +59,7 @@ builder.Services.AddSession();
 builder.Services.AddScoped<IFacadeLogin, FacadeLogin>();
 builder.Services.AddScoped<IFacadeMesa, FacadeMesa>();
 builder.Services.AddScoped<IFacadeTipoUsuario, FacadeTipoUsuario>();
+builder.Services.AddScoped<IFacadeCategoriaPrato, FacadeCategoriaPrato>();
 builder.Services.AddScoped<IFacadeUsuario, FacadeUsuario>();
 
 

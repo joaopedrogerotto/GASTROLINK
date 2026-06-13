@@ -1,4 +1,5 @@
 ﻿using APIGastroLink.DAO.Interfaces;
+using APIGastroLink.DTO;
 using APIGastroLink.Facade.Interface;
 using APIGastroLink.Models;
 
@@ -12,6 +13,7 @@ namespace APIGastroLink.Facade {
 
         public void CadastrarCategoriaPrato(CategoriaPrato categoriaPrato) => _dao.Insert(categoriaPrato);
 
+        public List<CategoriaPratoDTO> SelecionarCategoriaQuantidadePratos() => _dao.SelectAllDTOQuantidadePratos();
         public List<CategoriaPrato> SelecionarTodasCategorias() => _dao.SelectAll();
     }
 }
