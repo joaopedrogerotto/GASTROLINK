@@ -25,7 +25,7 @@ namespace APIGastroLink.Controllers {
             }
         }
 
-        [HttpGet]
+        [HttpGet("TodasCategorias")]
         public IActionResult GetTodasCategorias() {
             try {
                 var categorias = _facade.SelecionarTodasCategorias();

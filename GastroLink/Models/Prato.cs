@@ -1,4 +1,4 @@
-﻿namespace APIGastroLink.Models {
+﻿namespace GastroLink.Models {
     public class Prato {
         public int Id { get; set; }
         public string Nome { get; set; }

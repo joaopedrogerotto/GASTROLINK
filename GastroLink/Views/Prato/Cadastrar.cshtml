@@ -1,0 +1,50 @@
+﻿@model CadastroPratoViewModel
+
+@{
+    ViewData["Title"] = "Cadastrar Prato";
+
+    if (TempData["ErroCadPrato"] != null) {
+        <div class="alert alert-danger" role="alert">
+            @TempData["ErroCadPrato"]
+        </div>
+    }
+
+    if (TempData["SucessoCadPrato"] != null) {
+        <div class="alert alert-success" role="alert">
+            @TempData["SucessoCadPrato"]
+        </div>
+    }
+}
+
+
+<form asp-action="SalvarPrato" asp-controller="Prato" method="post">
+    <div class="form-group">
+        <label for="prt_nome">Nome do Prato:</label>
+        <input type="text" class="form-control" id="prt_nome" asp-for="@Model.Prato.Nome" required>
+        <span asp-validation-for="Prato.Nome" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label for="prt_descricao">Descrição do Prato:</label>
+        <textarea class="form-control" id="prt_descricao" asp-for="@Model.Prato.Descricao" required></textarea>
+        <span asp-validation-for="@Model.Prato.Descricao" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label for="prt_categoria">Categoria:</label>
+        <select class="form-select" id="prt_categoria" asp-for="@Model.Prato.IdCategoriaPrato">
+            @foreach (var categoria in Model.ListCategorias) {
+                <option value="@categoria.Id">@categoria.Categoria</option>
+            }
+        </select>
+    </div>
+    <div class="form-group">
+        <label for="prt_tempo">Tempo médio de preparo:</label>
+        <input type="number" class="form-control" id="prt_tempo" asp-for="@Model.Prato.TempoMedioPreparo" required>
+        <span asp-validation-for="@Model.Prato.TempoMedioPreparo" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label for="prt_preco">Preço:</label>
+        <input type="number" class="form-control" id="prt_preco" asp-for="@Model.Prato.Preco" step="0.01" onblur="if(this.value) this.value = parseFloat(this.value).toFixed(2)" required>
+        <span asp-validation-for="@Model.Prato.Preco" class="text-danger"></span>
+    </div>
+    <button type="submit" class="btn btn-primary">Criar</button>
+</form>

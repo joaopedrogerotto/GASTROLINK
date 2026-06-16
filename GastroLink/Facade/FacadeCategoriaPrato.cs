@@ -1,6 +1,7 @@
 ﻿using GastroLink.Client;
 using GastroLink.DTO;
 using GastroLink.Facade.Interface;
+using GastroLink.Models;
 
 namespace GastroLink.Facade {
     public class FacadeCategoriaPrato : IFacadeCategoriaPrato {
@@ -8,6 +9,9 @@ namespace GastroLink.Facade {
         public FacadeCategoriaPrato(CategoriaPratoClient client) {
             _client = client;
         }
+
+        public async Task<List<CategoriaPrato>> SelecionarCategorias() => await _client.SelecionarCategorias();
+
         public async Task<List<CategoriaPratoQuantidadeDTO>> SelecionarCategoriasComQuantiadadePratos() => await _client.CategoriasQuantidadePratos();
     }
 }
