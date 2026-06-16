@@ -13,5 +13,6 @@ namespace GastroLink.DTO {
         public int TempoMedioPreparo { get; set; }
         [Required(ErrorMessage = "A categoria do prato é obrigatória.")]
         public int IdCategoriaPrato { get; set; }
+        public IFormFile formFile { get; set; }
     }
 }

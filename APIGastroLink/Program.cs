@@ -3,6 +3,7 @@ using APIGastroLink.DAO.Interfaces;
 using APIGastroLink.Facade;
 using APIGastroLink.Facade.Interface;
 using APIGastroLink.Services;
+using APIGastroLink.Services.Interfaces;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -28,6 +29,7 @@ builder.Services.AddScoped<IFacadeCategoriaPrato, FacadeCategoriaPrato>();
 builder.Services.AddScoped<IFacadePrato, FacadePrato>();
 
 builder.Services.AddScoped<PasswordService>();
+builder.Services.AddScoped<IImagemService, ImagemService>();
 
 builder.Services.AddCors(options => {
     options.AddPolicy("PermitirMVC", policy => {
@@ -50,6 +52,8 @@ app.UseHttpsRedirection();
 app.UseCors("PermitirMVC");
 
 app.UseAuthorization();
+
+app.UseStaticFiles();
 
 app.MapControllers();
 

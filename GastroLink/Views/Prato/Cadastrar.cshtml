@@ -17,11 +17,15 @@
 }
 
 
-<form asp-action="SalvarPrato" asp-controller="Prato" method="post">
+<form asp-action="SalvarPrato" asp-controller="Prato" enctype="multipart/form-data" method="post">
     <div class="form-group">
         <label for="prt_nome">Nome do Prato:</label>
         <input type="text" class="form-control" id="prt_nome" asp-for="@Model.Prato.Nome" required>
         <span asp-validation-for="Prato.Nome" class="text-danger"></span>
+    </div>
+    <div class="mb-3">
+        <label for="formFile" class="form-label">Imagem do prato:</label>
+        <input class="form-control" type="file" id="formFile" asp-for="@Model.Prato.formFile">
     </div>
     <div class="form-group">
         <label for="prt_descricao">Descrição do Prato:</label>

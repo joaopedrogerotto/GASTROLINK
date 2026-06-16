@@ -1,4 +1,5 @@
 ﻿using GastroLink.DTO;
+using System.Globalization;
 
 namespace GastroLink.Client {
     public class PratoClient {
@@ -9,11 +10,26 @@ namespace GastroLink.Client {
         }
 
         public async Task<bool> CadastrarPrato(PratoCreateDTO pratoCreateDTO) {
-            var response = await _httpClient.PostAsJsonAsync("Prato", pratoCreateDTO);
-            if(response.IsSuccessStatusCode) {
-                return true;
+
+            using (var content = new MultipartFormDataContent()) {
+                content.Add(new StringContent(pratoCreateDTO.Nome), nameof(pratoCreateDTO.Nome));
+                content.Add(new StringContent(pratoCreateDTO.Descricao), nameof(pratoCreateDTO.Descricao));
+                content.Add(new StringContent(pratoCreateDTO.Preco.ToString(CultureInfo.InvariantCulture)), nameof(pratoCreateDTO.Preco));
+                content.Add(new StringContent(pratoCreateDTO.TempoMedioPreparo.ToString()), nameof(pratoCreateDTO.TempoMedioPreparo));
+                content.Add(new StringContent(pratoCreateDTO.IdCategoriaPrato.ToString()), nameof(pratoCreateDTO.IdCategoriaPrato));
+
+                if(pratoCreateDTO.formFile != null) {
+                    var streamContent = new StreamContent(pratoCreateDTO.formFile.OpenReadStream());
+
+                    streamContent.Headers.ContentType = new System.Net.Http.Headers.MediaTypeHeaderValue(pratoCreateDTO.formFile.ContentType);
+
+                    content.Add(streamContent, nameof(pratoCreateDTO.formFile), pratoCreateDTO.formFile.FileName);
+                }
+
+                var response = await _httpClient.PostAsync("Prato", content);
+                return response.IsSuccessStatusCode;
+
             }
-            return false;
         }
     }
 }

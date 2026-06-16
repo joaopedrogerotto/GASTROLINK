@@ -12,7 +12,12 @@ namespace APIGastroLink.Facade {
             _daoPrato = daoPrato;
         }
 
-        public void CadastrarPrato(PratoCreateDTO pratoCreateDTO) => _daoPrato.Insert(PratoMapper.ToEntidade(pratoCreateDTO));
+        public void CadastrarPrato(PratoCreateDTO pratoCreateDTO, string urlImagem) {
+            var prato = PratoMapper.ToEntidade(pratoCreateDTO);
 
+            prato.UrlImagem = urlImagem;
+
+            _daoPrato.Insert(prato);
+        }
     }
 }

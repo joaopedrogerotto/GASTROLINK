@@ -7,5 +7,6 @@
         public int TempoMedioPreparo { get; set; }
         public bool Disponibilidades { get; set; }
         public CategoriaPrato CategoriaPrato { get; set; }
+        public string UrlImagem { get; set; }
     }
 }

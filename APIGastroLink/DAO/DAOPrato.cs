@@ -21,6 +21,7 @@ namespace APIGastroLink.DAO {
                         cmd.Parameters.AddWithValue("@PRECO", Prato.Preco);
                         cmd.Parameters.AddWithValue("@TEMPO_MEDIO_PREPARO", Prato.TempoMedioPreparo);
                         cmd.Parameters.AddWithValue("@ID_CATEGORIA_PRATO", Prato.CategoriaPrato.Id);
+                        cmd.Parameters.AddWithValue("@URL_IMAGEM", Prato.UrlImagem);
                         cmd.ExecuteNonQuery();
                     }
                 }

@@ -7,5 +7,6 @@ namespace APIGastroLink.DTO {
         public decimal Preco { get; set; }
         public int TempoMedioPreparo { get; set; }
         public int IdCategoriaPrato { get; set; }
+        public IFormFile formFile { get; set; }
     }
 }
