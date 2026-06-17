@@ -1,4 +1,5 @@
 ﻿using GastroLink.DTO;
+using GastroLink.Models;
 using System.Globalization;
 
 namespace GastroLink.Client {
@@ -30,6 +31,14 @@ namespace GastroLink.Client {
                 return response.IsSuccessStatusCode;
 
             }
+        }
+        public async Task<List<Prato>> TodosPratos() {
+            var response = await _httpClient.GetAsync("Prato/TodosPratos");
+            if (response.IsSuccessStatusCode) {
+                var listPratos = await response.Content.ReadFromJsonAsync<List<Prato>>();
+                return listPratos ?? new List<Prato>();
+            }
+            throw new InvalidOperationException("Falha ao recuperar todos os pratos");
         }
     }
 }

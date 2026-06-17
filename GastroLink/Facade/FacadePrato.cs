@@ -1,6 +1,7 @@
 ﻿using GastroLink.Client;
 using GastroLink.DTO;
 using GastroLink.Facade.Interface;
+using GastroLink.Models;
 
 namespace GastroLink.Facade {
     public class FacadePrato : IFacadePrato {
@@ -14,6 +15,8 @@ namespace GastroLink.Facade {
             ValidarPrato(pratoCreateDTO);
             return await _pratoClient.CadastrarPrato(pratoCreateDTO);
         }
+
+        public async Task<List<Prato>> SelecionarTodosPratos() => await _pratoClient.TodosPratos();
 
         private static void ValidarPrato(PratoCreateDTO pratoCreateDTO) {
             if (string.IsNullOrEmpty(pratoCreateDTO.Nome)) {

@@ -16,7 +16,7 @@ namespace APIGastroLink.Controllers {
         }
 
         [HttpPost]
-        public async Task<IActionResult> CadastrarPrato([FromForm]PratoCreateDTO pratoCreateDTO) {
+        public async Task<IActionResult> CadastrarPrato([FromForm] PratoCreateDTO pratoCreateDTO) {
             try {
                 var urlImagem = await _imagemService.UploadImagem(pratoCreateDTO.formFile);
                 _facadePrato.CadastrarPrato(pratoCreateDTO, urlImagem);
@@ -24,6 +24,16 @@ namespace APIGastroLink.Controllers {
                 return BadRequest($"Erro ao cadastrar prato: {ex.Message}");
             }
             return Ok("Prato cadastrado com sucesso!");
+        }
+
+        [HttpGet("TodosPratos")]
+        public async Task<IActionResult> TodosPratos() {
+            try {
+                var listPratos = await _facadePrato.SelcionarTodosPratos();
+                return Ok(listPratos);
+            } catch (Exception ex) {
+                return BadRequest("Falha ao buscar todos os pratos");
+            }
         }
     }
 }
