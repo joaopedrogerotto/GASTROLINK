@@ -1,5 +1,6 @@
 ﻿using GastroLink.DTO;
 using GastroLink.Facade.Interface;
+using GastroLink.Mapper;
 using GastroLink.Models;
 using GastroLink.Settings;
 using GastroLink.ViewModel;
@@ -67,6 +68,12 @@ namespace GastroLink.Controllers {
                 prato = null;
             }
             return PartialView("_VisualizarPrato", prato);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> AtualizarDisponibilidade([FromBody] PratoStatusUpdateDTO pratoStatusUpdateDTO) {
+            await _facadePrato.AtualizarDisponibilidade(pratoStatusUpdateDTO);
+            return Ok();
         }
 
         private void DefinirCaminhoImagem(List<Prato> listPratos) {

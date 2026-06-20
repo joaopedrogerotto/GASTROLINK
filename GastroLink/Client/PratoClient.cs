@@ -1,4 +1,5 @@
 ﻿using GastroLink.DTO;
+using GastroLink.Mapper;
 using GastroLink.Models;
 using Microsoft.AspNetCore.Mvc;
 using System.Globalization;
@@ -49,6 +50,11 @@ namespace GastroLink.Client {
                 return prato;
             }
             throw new InvalidOperationException("Falha ao buscar prato");
+        }
+
+        public async Task<bool> AtualizarDisponibilidade(PratoStatusUpdateDTO pratoStatusUpdateDTO) {
+            var response = await _httpClient.PostAsJsonAsync("Prato/AtualizarDisponibilidade", pratoStatusUpdateDTO);
+            return response.IsSuccessStatusCode;
         }
     }
 }

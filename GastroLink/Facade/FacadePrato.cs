@@ -1,6 +1,7 @@
 ﻿using GastroLink.Client;
 using GastroLink.DTO;
 using GastroLink.Facade.Interface;
+using GastroLink.Mapper;
 using GastroLink.Models;
 
 namespace GastroLink.Facade {
@@ -31,5 +32,7 @@ namespace GastroLink.Facade {
         }
 
         public Task<Prato> BuscarPratoPorId(int id) => _pratoClient.BuscarPratoPorId(id);
+
+        public async Task<bool> AtualizarDisponibilidade(PratoStatusUpdateDTO pratoStatusUpdateDTO) => await _pratoClient.AtualizarDisponibilidade(pratoStatusUpdateDTO);
     }
 }
