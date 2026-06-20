@@ -55,12 +55,28 @@ namespace GastroLink.Controllers {
                 TempData["ErroCadPrato"] = ex.Message;
             }
 
-            return RedirectToAction("Cadastrar", "Prato");
+            return RedirectToAction("Cadastrar", "Prato"); 
         }
+
+        public async Task<IActionResult> VisualizarPrato(int idPrato) {
+            var prato = new Prato();
+            try {
+                prato = await _facadePrato.BuscarPratoPorId(idPrato);
+                DefinirCaminhoImagem(prato);   
+            } catch {
+                prato = null;
+            }
+            return PartialView("_VisualizarPrato", prato);
+        }
+
         private void DefinirCaminhoImagem(List<Prato> listPratos) {
             foreach (var prato in listPratos) {
                 prato.UrlImagem = $"{_apiSettings.BaseUrlImagem}{prato.UrlImagem}";
             }
+        }
+
+        private void DefinirCaminhoImagem(Prato Prato) {
+            Prato.UrlImagem = $"{_apiSettings.BaseUrlImagem}{Prato.UrlImagem}";
         }
     }
 }

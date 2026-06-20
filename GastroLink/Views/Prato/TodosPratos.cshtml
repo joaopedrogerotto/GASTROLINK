@@ -7,30 +7,39 @@
 <link rel="stylesheet" href="~/css/card-prato.css" media="all" />
 
 <div class="div-cards-prato">
-@{
-    foreach(var prato in Model){
-        <div class="card card-prato @(prato.Disponibilidades ? "" : "indisponivel")" style="width: 18rem;">
-            <img class="card-img-top prato-img" src="@prato.UrlImagem" alt="@prato.Nome">
+    @{
+        foreach (var prato in Model) {
+            <a class="card-prato-link" data-id="@prato.Id">
+            <div class="card card-prato @(prato.Disponibilidades ? "" : "indisponivel")" style="width: 18rem;">
+                <img class="card-img-top prato-img" src="@prato.UrlImagem" alt="@prato.Nome">
 
-            <div class="card-body">
-                <h5 class="card-title">
-                    @prato.Nome - @prato.CategoriaPrato.Categoria
-                </h5>
+                <div class="card-body">
+                    <h5 class="card-title">
+                        @prato.Nome - @prato.CategoriaPrato.Categoria
+                    </h5>
 
-                <p class="card-text">
-                    @prato.Descricao
-                </p>
+                    <p class="card-text">
+                        @prato.Descricao
+                    </p>
 
-                <small class="text-muted d-block mb-2">
-                    Tempo médio de preparo: @prato.TempoMedioPreparo min
-                </small>
+                    <small class="text-muted d-block mb-2">
+                        Tempo médio de preparo: @prato.TempoMedioPreparo min
+                    </small>
 
 
-                <h4 class="text-success preco">
-                    @prato.Preco.ToString("C")
-                </h4>
+                    <h4 class="text-success preco">
+                        @prato.Preco.ToString("C")
+                    </h4>
+                </div>
+                <div class="acoes-card">
+                    <i class="@(!prato.Disponibilidades ? "bi bi-check-lg" : "bi bi-ban")"></i>
+                </div>
             </div>
-        </div>
+            </a>
+        }
     }
-}
 </div>
+
+<div id="modalContainerPrato"></div>
+
+<script type="module" src="~/js/prato.js"></script>

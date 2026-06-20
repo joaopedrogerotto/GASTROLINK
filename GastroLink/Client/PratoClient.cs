@@ -1,5 +1,6 @@
 ﻿using GastroLink.DTO;
 using GastroLink.Models;
+using Microsoft.AspNetCore.Mvc;
 using System.Globalization;
 
 namespace GastroLink.Client {
@@ -39,6 +40,15 @@ namespace GastroLink.Client {
                 return listPratos ?? new List<Prato>();
             }
             throw new InvalidOperationException("Falha ao recuperar todos os pratos");
+        }
+
+        public async Task<Prato> BuscarPratoPorId(int id) {
+            var response = await _httpClient.GetAsync($"Prato/{id}");
+            if (response.IsSuccessStatusCode) {
+                var prato = await response.Content.ReadFromJsonAsync<Prato>();
+                return prato;
+            }
+            throw new InvalidOperationException("Falha ao buscar prato");
         }
     }
 }

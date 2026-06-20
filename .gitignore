@@ -4,7 +4,7 @@
 ## Get latest from `dotnet new gitignore`
 
 #Removido wwwroot das imagens salvas
-**/wwwroot/
+**/wwwroot/imagens
 
 # dotenv files
 .env

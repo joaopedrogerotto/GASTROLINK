@@ -55,6 +55,10 @@ build_metadata.AdditionalFiles.CssScope =
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUHJhdG9cVG9kb3NQcmF0b3MuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
+[C:/Projetos/GastroLink/GastroLink/Views/Prato/_VisualizarPrato.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUHJhdG9cX1Zpc3VhbGl6YXJQcmF0by5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
 [C:/Projetos/GastroLink/GastroLink/Views/Shared/_ValidationScriptsPartial.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9WYWxpZGF0aW9uU2NyaXB0c1BhcnRpYWwuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 

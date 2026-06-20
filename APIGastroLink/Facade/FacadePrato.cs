@@ -21,5 +21,7 @@ namespace APIGastroLink.Facade {
         }
 
         public async Task<List<Prato>> SelcionarTodosPratos() => await _daoPrato.SelectAll();
+
+        public async Task<Prato> SelecionarPratoPorId(int Id) => await _daoPrato.SelectById(Id);
     }
 }

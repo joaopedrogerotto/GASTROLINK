@@ -1,0 +1,87 @@
+﻿.prato-img {
+    width: 100%;
+    height: 300px;
+}
+
+.div-cards-prato {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+}
+
+.card-text {
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+
+.card-prato {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.card-body {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+}
+
+.card-text {
+    height: 72px; 
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+}
+
+.preco {
+    margin-top: auto;
+}
+
+.indisponivel {
+    opacity: 0.6;
+    filter: grayscale(100%);
+    pointer-events: none;
+}
+
+.acoes-card {
+    margin-top: auto;
+    display: flex;
+    justify-content: end;
+    padding:0px 10px 0px 10px;
+}
+
+.acoes-card a{
+    cursor:pointer;
+}
+
+.acoes-card i {
+    font-size: 1.5rem;
+    font-weight: bold;
+    -webkit-text-stroke: 0.5px;
+}
+
+.modal-descricao {
+    color: #6c757d;
+    word-break: break-word;
+    overflow-wrap: break-word;
+}
+
+.card-prato {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+.card-prato:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 .75rem 1.5rem rgba(0, 0, 0, 0.15);
+}
+
+.card-prato-link {
+    text-decoration: none;
+}

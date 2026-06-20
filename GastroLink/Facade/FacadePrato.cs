@@ -29,5 +29,7 @@ namespace GastroLink.Facade {
                 throw new ArgumentException("O tempo médio de preparo do prato deve ser maior que zero.");
             }
         }
+
+        public Task<Prato> BuscarPratoPorId(int id) => _pratoClient.BuscarPratoPorId(id);
     }
 }

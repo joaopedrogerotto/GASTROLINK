@@ -35,5 +35,21 @@ namespace APIGastroLink.Controllers {
                 return BadRequest("Falha ao buscar todos os pratos");
             }
         }
+
+        [HttpGet("{idPrato}")]
+        public async Task<IActionResult> SelecionarPratoPorId(int idPrato) {
+            if(idPrato == 0) {
+                return BadRequest("Id não pode ser zero");
+            }
+            try {
+                var prato = await _facadePrato.SelecionarPratoPorId(idPrato);
+                if (prato.Id != 0) {
+                    return Ok(prato);
+                }
+                return NotFound("Prato não encontrado");
+            }catch (Exception ex) {
+                return BadRequest("Falha ao buscar prato: " + ex.Message);
+            }
+        }
     }
 }

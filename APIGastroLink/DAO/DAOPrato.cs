@@ -62,5 +62,43 @@ namespace APIGastroLink.DAO {
                 throw new Exception("Falha ao buscar todos os pratos: " + ex.Message);
             }
         }
+
+        public async Task<Prato> SelectById(int id) {
+            var prato = new Prato();
+
+            if(id == 0) {
+                throw new ArgumentException("Id informado não pode ser 0");
+            }
+
+            try {
+                using (SqlConnection conn = _database.OpenConnection()) {
+                    using (SqlCommand cmd = new SqlCommand("PR_S_PRATO_POR_ID", conn)) {
+                        cmd.Parameters.AddWithValue("@ID_PRATO", id);
+
+                        cmd.CommandType = System.Data.CommandType.StoredProcedure;
+                        using (SqlDataReader reader = cmd.ExecuteReader()) {
+                            while (reader.Read()) {
+                                prato = new Prato() {
+                                    Id = reader.GetInt32(reader.GetOrdinal("PRT_ID")),
+                                    Nome = reader.GetString(reader.GetOrdinal("NOME")),
+                                    Descricao = reader.GetString(reader.GetOrdinal("DESCRICAO")),
+                                    Preco = reader.GetDecimal(reader.GetOrdinal("PRECO")),
+                                    Disponibilidades = reader.GetBoolean(reader.GetOrdinal("DISPONIBILIDADE")),
+                                    TempoMedioPreparo = reader.GetInt32(reader.GetOrdinal("TEMPO")),
+                                    UrlImagem = reader.GetString(reader.GetOrdinal("IMAGEM")),
+                                    CategoriaPrato = new CategoriaPrato {
+                                        Id = reader.GetInt32(reader.GetOrdinal("CTP_ID")),
+                                        Categoria = reader.GetString(reader.GetOrdinal("CATEGORIA"))
+                                    }
+                                };
+                            }
+                        }
+                    }
+                }
+                return prato;
+            }catch (Exception ex) {
+                throw new Exception("Falha ao buscar o prato: " + ex.Message);
+            }
+        }
     }
 }
