@@ -100,5 +100,21 @@ namespace APIGastroLink.DAO {
                 throw new Exception("Falha ao buscar o prato: " + ex.Message);
             }
         }
+
+        public void UpdateDisponibilidade(Prato Prato) {
+            try {
+                using (SqlConnection conn = _database.OpenConnection()) {
+                    using (SqlCommand cmd = new SqlCommand("PR_U_DISPONIBILIDADE_PRATO", conn)) {
+                        cmd.CommandType = System.Data.CommandType.StoredProcedure;
+
+                        cmd.Parameters.AddWithValue("@ID_PRATO", Prato.Id);
+                        cmd.Parameters.AddWithValue("@DISPONIBILIDADE", Prato.Disponibilidades);
+                        cmd.ExecuteNonQuery();
+                    }
+                }
+            }catch (Exception ex) {
+                throw new Exception("Falha em atualizar a disponibilidade do prato: " + ex.Message);
+            }
+        }
     }
 }

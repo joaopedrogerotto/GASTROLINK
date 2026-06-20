@@ -12,5 +12,12 @@ namespace APIGastroLink.Mapper {
                 CategoriaPrato = new CategoriaPrato { Id = pratoCreateDTO.IdCategoriaPrato }
             };
         }
+
+        public static Prato ToEntidade (PratoStatusUpdateDTO pratoStatusUpdateDTO) {
+            return new Prato {
+                Id = pratoStatusUpdateDTO.Id,
+                Disponibilidades = pratoStatusUpdateDTO.Status
+            };
+        }
     }
 }

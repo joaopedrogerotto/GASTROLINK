@@ -6,5 +6,6 @@ namespace APIGastroLink.Facade.Interface {
         public void CadastrarPrato(PratoCreateDTO pratoCreateDTO, string urlImagem);
         public Task<List<Prato>> SelcionarTodosPratos();
         public Task<Prato> SelecionarPratoPorId(int Id);
+        public void AtualizarDisponibilidade(PratoStatusUpdateDTO pratoStatusUpdateDTO);
     }
 }

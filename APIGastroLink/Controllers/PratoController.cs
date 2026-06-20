@@ -32,7 +32,7 @@ namespace APIGastroLink.Controllers {
                 var listPratos = await _facadePrato.SelcionarTodosPratos();
                 return Ok(listPratos);
             } catch (Exception ex) {
-                return BadRequest("Falha ao buscar todos os pratos");
+                return BadRequest("Falha ao buscar todos os pratos: " +  ex.Message);
             }
         }
 
@@ -49,6 +49,20 @@ namespace APIGastroLink.Controllers {
                 return NotFound("Prato não encontrado");
             }catch (Exception ex) {
                 return BadRequest("Falha ao buscar prato: " + ex.Message);
+            }
+        }
+
+        [HttpPost("AtualizarDisponibilidade")]
+        public async Task<IActionResult> AtualizarDisponibilidade(PratoStatusUpdateDTO pratoStatusUpdateDTO) {
+            if(pratoStatusUpdateDTO.Id == 0) {
+                return BadRequest("Id não pode ser zero");
+            }
+
+            try {
+                _facadePrato.AtualizarDisponibilidade(pratoStatusUpdateDTO);
+                return Ok("Disponibilidade atualizada");
+            } catch (Exception ex) {
+                return BadRequest("Falha ao atualizar disponibilidade");
             }
         }
     }
