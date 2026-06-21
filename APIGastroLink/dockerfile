@@ -1,0 +1,17 @@
+FROM mcr.microsoft.com/dotnet/sdk:9.0 as BUILD
+
+WORKDIR /app/API
+
+COPY . .
+
+RUN dotnet restore
+RUN dotnet publish -c Release -o /app/publish
+
+
+FROM mcr.microsoft.com/dotnet/aspnet:9.0
+
+COPY --from=BUILD /app/publish .
+
+EXPOSE 8080
+
+ENTRYPOINT [ "dotnet", "APIGastroLink.dll"]

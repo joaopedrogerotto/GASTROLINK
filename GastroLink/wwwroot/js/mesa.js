@@ -1,7 +1,8 @@
 "use strict";
+const API_BASE_URL = window.APP_CONFIG.apiBaseUrl;
 async function criarMesa() {
     const numeroMesa = $("#numeroMesaInput").val();
-    const response = await fetch('https://localhost:7209/api-gastrolink/Mesa', {
+    const response = await fetch(` ${API_BASE_URL}Mesa`, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
@@ -16,7 +17,7 @@ async function criarMesa() {
     }
 }
 async function carregarMesas() {
-    const response = await fetch('https://localhost:7209/api-gastrolink/Mesa');
+    const response = await fetch(`${API_BASE_URL}Mesa}`);
     const mesas = await response.json();
     const tbody = document.querySelector("#tabelaMesas tbody");
     tbody.innerHTML = "";

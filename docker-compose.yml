@@ -1,0 +1,58 @@
+services:
+  sqlserver:
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    container_name: sqlserver-gastrolink
+
+    environment:
+      ACCEPT_EULA: "Y"
+      MSSQL_SA_PASSWORD: ${MSSQL_PASSWORD}
+
+    ports:
+      - "1433:1433" 
+    volumes:
+      - sqlserver-data:/var/opt/mssql
+
+    restart: unless-stopped
+
+  api:
+    build:
+      ./APIGastroLink
+
+    container_name: api-gastrolink
+
+    ports:
+      - "8080:8080"
+
+    environment:
+      ASPNETCORE_URLS: http://+:8080
+
+      ConnectionStrings__DefaultConnection: >
+        Server=sqlserver;
+        Database=GastroLink;
+        User Id=sa;
+        Password=${MSSQL_PASSWORD};
+        TrustServerCertificate=True;
+      
+    depends_on:
+      - sqlserver
+
+  mvc:
+    build:
+      ./GastroLink
+
+    container_name: mvc-gastrolink
+
+    ports:
+      - "7200:8080"
+
+    environment:
+      ASPNETCORE_URLS: http://+:8080
+
+      ApiGastroLink__BaseUrl: http://api:8080/api-gastrolink/
+      ApiGastroLink__BaseUrlImagem: http://api:8080/
+
+    depends_on:
+      - api
+
+volumes:
+  sqlserver-data:

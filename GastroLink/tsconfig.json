@@ -9,6 +9,7 @@
     "sourceMap": true
   },
   "include": [
-    "TypeScript/**/*.ts"
+    "TypeScript/**/*.ts",
+    "TypeScript/**/*.d.ts"
   ]
 }

@@ -9,6 +9,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "APIGastroLink", "APIGastroL
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Itens de Solução", "Itens de Solução", "{BFE617FB-923D-43A1-A74B-CE81147CD132}"
 	ProjectSection(SolutionItems) = preProject
+		.env = .env
+		docker-compose.dev.yml = docker-compose.dev.yml
 		docker-compose.yml = docker-compose.yml
 	EndProjectSection
 EndProject
