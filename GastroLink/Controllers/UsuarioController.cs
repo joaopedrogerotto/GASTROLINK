@@ -56,5 +56,15 @@ namespace GastroLink.Controllers {
             }
             return BadRequest();
         }
+
+        [HttpPut]
+        public async Task<IActionResult> AtualizarUsuario([FromBody]UsuarioUpdateDTO UsuarioUpdateDTO) {
+            var response = await _facadeUsuario.AtualizarUsuario(UsuarioUpdateDTO);
+            if (response) {
+                return Ok();
+            }
+            return BadRequest();
+        }
+
     }
 }

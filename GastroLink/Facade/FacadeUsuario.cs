@@ -14,6 +14,8 @@ namespace GastroLink.Facade {
 
         public async Task<bool> AtualizarStatusUsuario(UsuarioStatusUpdateDTO UsuarioStatusUpdateDTO) => await _usuarioClient.AtualizarStatusUsuario(UsuarioStatusUpdateDTO);
 
+        public async Task<bool> AtualizarUsuario(UsuarioUpdateDTO UsuarioUpdateDTO) => await _usuarioClient.AtualizarUsuario(UsuarioUpdateDTO);
+
         public async Task<bool> CadastrarUsuario(Usuario Usuario) {
             var usuarioCreateDTO = UsuarioMapper.ToCreateDTO(Usuario);
 

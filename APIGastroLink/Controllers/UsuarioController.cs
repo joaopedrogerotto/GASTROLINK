@@ -43,7 +43,7 @@ namespace APIGastroLink.Controllers {
             }
         }
 
-        [HttpPut]
+        [HttpPut("AtualizarUsuario")]
         public IActionResult AtualizarUsuario(UsuarioUpdateDTO UsuarioUpdateDTO) {
             try {
                 _facadeUsuario.AtualizarUsuario(UsuarioUpdateDTO);

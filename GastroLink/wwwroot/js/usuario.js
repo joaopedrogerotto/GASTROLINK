@@ -11,7 +11,7 @@ export function SalvarUsuario() {
         TipoUsuarioId: parseInt(tipoUsuarioInput.value)
     };
     $.ajax({
-        url: 'https://localhost:7209/api-gastrolink/Usuario',
+        url: '/Usuario/AtualizarUsuario',
         method: 'PUT',
         contentType: 'application/json',
         data: JSON.stringify(usuario),

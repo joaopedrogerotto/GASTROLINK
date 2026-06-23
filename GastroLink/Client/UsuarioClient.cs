@@ -36,10 +36,14 @@ namespace GastroLink.Client {
             return new Usuario();
         }
 
-        [HttpPut]
-        public async Task<bool> AtualizarStatusUsuario([FromBody]UsuarioStatusUpdateDTO usuarioStatusUpdateDTO) {
+        public async Task<bool> AtualizarStatusUsuario(UsuarioStatusUpdateDTO usuarioStatusUpdateDTO) {
             var response = await _HttpClient.PutAsJsonAsync("Usuario/AlterarStatus", usuarioStatusUpdateDTO);
             return response.IsSuccessStatusCode;
         } 
+
+        public async Task<bool> AtualizarUsuario(UsuarioUpdateDTO UsuarioUpdateDTO) {
+            var response = await _HttpClient.PutAsJsonAsync("Usuario/AtualizarUsuario", UsuarioUpdateDTO);
+            return response.IsSuccessStatusCode;
+        }
     }
 }

@@ -7,5 +7,6 @@ namespace GastroLink.Facade.Interface {
         public Task<List<Usuario>> ObterTodosUsuarios();
         public Task<Usuario> ObterUsuarioId(int idUsuario);
         public Task<bool> AtualizarStatusUsuario(UsuarioStatusUpdateDTO UsuarioStatusUpdateDTO);
+        public Task<bool> AtualizarUsuario(UsuarioUpdateDTO UsuarioUpdateDTO);
     }
 }
