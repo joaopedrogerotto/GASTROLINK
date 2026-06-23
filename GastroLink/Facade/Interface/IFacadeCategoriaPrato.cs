@@ -5,5 +5,6 @@ namespace GastroLink.Facade.Interface {
     public interface IFacadeCategoriaPrato {
         public Task<List<CategoriaPratoQuantidadeDTO>> SelecionarCategoriasComQuantiadadePratos();
         public Task<List<CategoriaPrato>> SelecionarCategorias();
+        public Task<bool> SalvarCategoria(CategoriaPrato CategoriaPrato);
     }
 }

@@ -63,7 +63,7 @@ function alterarStatusUsuario(idUsuario, status) {
         Status: status
     };
     $.ajax({
-        url: 'https://localhost:7209/api-gastrolink/Usuario/alterar-status',
+        url: '/Usuario/AlterarStatus',
         method: 'PUT',
         contentType: 'application/json',
         data: JSON.stringify(usuario),

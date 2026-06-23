@@ -1,5 +1,6 @@
 ﻿using GastroLink.DTO;
 using GastroLink.Models;
+using Microsoft.AspNetCore.Mvc;
 
 namespace GastroLink.Client {
     public class UsuarioClient {
@@ -34,5 +35,11 @@ namespace GastroLink.Client {
             }
             return new Usuario();
         }
+
+        [HttpPut]
+        public async Task<bool> AtualizarStatusUsuario([FromBody]UsuarioStatusUpdateDTO usuarioStatusUpdateDTO) {
+            var response = await _HttpClient.PutAsJsonAsync("Usuario/AlterarStatus", usuarioStatusUpdateDTO);
+            return response.IsSuccessStatusCode;
+        } 
     }
 }

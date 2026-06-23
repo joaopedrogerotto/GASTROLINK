@@ -34,5 +34,9 @@ namespace GastroLink.Facade {
         public Task<Prato> BuscarPratoPorId(int id) => _pratoClient.BuscarPratoPorId(id);
 
         public async Task<bool> AtualizarDisponibilidade(PratoStatusUpdateDTO pratoStatusUpdateDTO) => await _pratoClient.AtualizarDisponibilidade(pratoStatusUpdateDTO);
+
+        public Task<bool> SalvarLayoutMesa(List<LayoutMesaDTO> listLayoutMesa) {
+            throw new NotImplementedException();
+        }
     }
 }

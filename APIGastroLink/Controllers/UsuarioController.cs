@@ -54,7 +54,7 @@ namespace APIGastroLink.Controllers {
             }
         }
 
-        [HttpPut("alterar-status")]
+        [HttpPut("AlterarStatus")]
         public IActionResult AlterarStatusUsuario(UsuarioStatusUpdateDTO usuarioStatusUpdateDTO) {
             try {
                 _facadeUsuario.AlterarStatusUsuario(usuarioStatusUpdateDTO);

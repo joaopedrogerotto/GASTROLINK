@@ -5,6 +5,12 @@ using GastroLink.Mappings;
 using GastroLink.Service;
 using GastroLink.Settings;
 using Microsoft.Extensions.Options;
+using System.Globalization;
+
+var culture = new CultureInfo("pt-BR");
+
+CultureInfo.DefaultThreadCurrentCulture = culture;
+CultureInfo.DefaultThreadCurrentUICulture = culture;
 
 var builder = WebApplication.CreateBuilder(args);
 

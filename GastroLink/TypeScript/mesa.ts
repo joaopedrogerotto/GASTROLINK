@@ -7,12 +7,10 @@ interface Mesa {
     status: StatusMesa;
 }
 
-const API_BASE_URL = window.APP_CONFIG.apiBaseUrl;
-
 async function criarMesa(): Promise<void> {
     const numeroMesa = $("#numeroMesaInput").val() as string;
 
-    const response = await fetch(` ${API_BASE_URL}Mesa`, {
+    const response = await fetch('/Mesa/SalvarMesa', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
@@ -29,7 +27,7 @@ async function criarMesa(): Promise<void> {
 }
 
 async function carregarMesas(): Promise<void> {
-    const response = await fetch(`${API_BASE_URL}Mesa}`);
+    const response = await fetch('/Mesa/TodasMesasJson');
     const mesas: Mesa[] = await response.json();
 
     const tbody = document.querySelector("#tabelaMesas tbody") as HTMLTableSectionElement;

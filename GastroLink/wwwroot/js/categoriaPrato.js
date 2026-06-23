@@ -3,7 +3,7 @@ async function criarCategoriaPrato() {
     const categoriaInput = $("#categoriaPratoInput").val();
     const categoriaPrato = { id: 0, categoria: categoriaInput };
     const modalCadastroCategoria = document.getElementById("modalCategoriaPrato");
-    const response = await fetch('https://localhost:7209/api-gastrolink/CategoriaPrato', {
+    const response = await fetch('/CategoriaPrato/CadastrarCategoria', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
@@ -24,6 +24,9 @@ async function criarCategoriaPrato() {
         if (response.status === 500) {
             $("#statusCadastroCategoria").text("Erro interno do servidor.");
         }
+        else if (response.status === 409) {
+            $("#statusCadastroCategoria").text("Categoria já cadastrada");
+        }
         else {
             const erro = await response.json();
             $("#statusCadastroCategoria").text(erro.message ?? erro.Message ?? "Erro desconhecido.");
@@ -31,9 +34,10 @@ async function criarCategoriaPrato() {
         bootstrap.Modal.getOrCreateInstance(modalCadastroCategoria).show();
         $("#categoriaPratoInput").val("");
     }
+    carregarCategoriasPrato();
 }
 async function carregarCategoriasPrato() {
-    const response = await fetch('https://localhost:7209/api-gastrolink/CategoriaPrato');
+    const response = await fetch('/CategoriaPrato/TodasCategoriasJson');
     const categorias = await response.json();
     const tbody = document.querySelector("#tabelaCategoriasPrato tbody");
     tbody.innerHTML = "";

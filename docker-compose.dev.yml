@@ -63,7 +63,7 @@ services:
       ASPNETCORE_URLS: http://+:8080
 
       ApiGastroLink__BaseUrl: http://api:8080/api-gastrolink/
-      ApiGastroLink__BaseUrlImagem: http://api:8080/
+      ApiGastroLink__BaseUrlImagem: http://localhost:8080/
 
     depends_on:
       - api

@@ -1,4 +1,5 @@
 ﻿using GastroLink.Client;
+using GastroLink.DTO;
 using GastroLink.Facade.Interface;
 using GastroLink.Mappings;
 using GastroLink.Models;
@@ -11,16 +12,16 @@ namespace GastroLink.Facade {
             _usuarioClient = usuarioClient;
         }
 
+        public async Task<bool> AtualizarStatusUsuario(UsuarioStatusUpdateDTO UsuarioStatusUpdateDTO) => await _usuarioClient.AtualizarStatusUsuario(UsuarioStatusUpdateDTO);
+
         public async Task<bool> CadastrarUsuario(Usuario Usuario) {
             var usuarioCreateDTO = UsuarioMapper.ToCreateDTO(Usuario);
 
             return await _usuarioClient.CadastrarUsuario(usuarioCreateDTO);
         }
 
-        public async Task<List<Usuario>> ObterTodosUsuarios() {
-            return await _usuarioClient.ObterTodosUsuarios();
-        }
-
+        public async Task<List<Usuario>> ObterTodosUsuarios() => await _usuarioClient.ObterTodosUsuarios();
+        
         public async Task<Usuario> ObterUsuarioId(int idUsuario) => await _usuarioClient.ObterUsuarioPeloId(idUsuario);
     }
 }

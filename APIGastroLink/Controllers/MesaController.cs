@@ -14,7 +14,7 @@ namespace APIGastroLink.Controllers {
         }
 
 
-        [HttpPost]
+        [HttpPost("SalvarMesa")]
         public IActionResult CadastrarMesa([FromBody] MesaRequestDTO Mesa) {
             try {
                 _facadeMesa.CadastrarMesa(Mesa.NumeroMesa);

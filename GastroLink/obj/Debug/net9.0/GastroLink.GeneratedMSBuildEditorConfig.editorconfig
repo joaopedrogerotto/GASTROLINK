@@ -1,93 +1,96 @@
 is_global = true
 build_property.TargetFramework = net9.0
+build_property.TargetFrameworkIdentifier = .NETCoreApp
+build_property.TargetFrameworkVersion = v9.0
 build_property.TargetPlatformMinVersion = 
 build_property.UsingMicrosoftNETSdkWeb = true
 build_property.ProjectTypeGuids = 
 build_property.InvariantGlobalization = 
 build_property.PlatformNeutralAssembly = 
 build_property.EnforceExtendedAnalyzerRules = 
+build_property.EntryPointFilePath = 
 build_property._SupportedPlatformList = Linux,macOS,Windows
 build_property.RootNamespace = GastroLink
 build_property.RootNamespace = GastroLink
-build_property.ProjectDir = /src/
+build_property.ProjectDir = C:\Projetos\GastroLink\GastroLink\
 build_property.EnableComHosting = 
 build_property.EnableGeneratedComInterfaceComImportInterop = 
 build_property.RazorLangVersion = 9.0
 build_property.SupportLocalizedComponentNames = 
 build_property.GenerateRazorMetadataSourceChecksumAttributes = 
-build_property.MSBuildProjectDirectory = /src
+build_property.MSBuildProjectDirectory = C:\Projetos\GastroLink\GastroLink
 build_property._RazorSourceGeneratorDebug = 
 build_property.EffectiveAnalysisLevelStyle = 9.0
 build_property.EnableCodeStyleSeverity = 
 
-[/src/Views/CategoriaPrato/Cadastrar.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3MvQ2F0ZWdvcmlhUHJhdG8vQ2FkYXN0cmFyLmNzaHRtbA==
+[C:/Projetos/GastroLink/GastroLink/Views/CategoriaPrato/Cadastrar.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ2F0ZWdvcmlhUHJhdG9cQ2FkYXN0cmFyLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[/src/Views/CategoriaPrato/TodasCategorias.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3MvQ2F0ZWdvcmlhUHJhdG8vVG9kYXNDYXRlZ29yaWFzLmNzaHRtbA==
+[C:/Projetos/GastroLink/GastroLink/Views/CategoriaPrato/TodasCategorias.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ2F0ZWdvcmlhUHJhdG9cVG9kYXNDYXRlZ29yaWFzLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[/src/Views/Login/Index.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3MvTG9naW4vSW5kZXguY3NodG1s
+[C:/Projetos/GastroLink/GastroLink/Views/Login/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcTG9naW5cSW5kZXguY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[/src/Views/Mesa/Cadastrar.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3MvTWVzYS9DYWRhc3RyYXIuY3NodG1s
+[C:/Projetos/GastroLink/GastroLink/Views/Mesa/Cadastrar.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcTWVzYVxDYWRhc3RyYXIuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[/src/Views/Mesa/Mapeamento.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3MvTWVzYS9NYXBlYW1lbnRvLmNzaHRtbA==
+[C:/Projetos/GastroLink/GastroLink/Views/Mesa/Mapeamento.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcTWVzYVxNYXBlYW1lbnRvLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[/src/Views/Mesa/TodasMesas.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3MvTWVzYS9Ub2Rhc01lc2FzLmNzaHRtbA==
+[C:/Projetos/GastroLink/GastroLink/Views/Mesa/TodasMesas.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcTWVzYVxUb2Rhc01lc2FzLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[/src/Views/Prato/Cadastrar.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3MvUHJhdG8vQ2FkYXN0cmFyLmNzaHRtbA==
+[C:/Projetos/GastroLink/GastroLink/Views/Prato/Cadastrar.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUHJhdG9cQ2FkYXN0cmFyLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[/src/Views/Prato/TodosPratos.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3MvUHJhdG8vVG9kb3NQcmF0b3MuY3NodG1s
+[C:/Projetos/GastroLink/GastroLink/Views/Prato/TodosPratos.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUHJhdG9cVG9kb3NQcmF0b3MuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[/src/Views/Prato/_VisualizarPrato.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3MvUHJhdG8vX1Zpc3VhbGl6YXJQcmF0by5jc2h0bWw=
+[C:/Projetos/GastroLink/GastroLink/Views/Prato/_VisualizarPrato.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUHJhdG9cX1Zpc3VhbGl6YXJQcmF0by5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[/src/Views/Shared/_ValidationScriptsPartial.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3MvU2hhcmVkL19WYWxpZGF0aW9uU2NyaXB0c1BhcnRpYWwuY3NodG1s
+[C:/Projetos/GastroLink/GastroLink/Views/Shared/_ValidationScriptsPartial.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9WYWxpZGF0aW9uU2NyaXB0c1BhcnRpYWwuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[/src/Views/Usuario/CadastroUsuario.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3MvVXN1YXJpby9DYWRhc3Ryb1VzdWFyaW8uY3NodG1s
+[C:/Projetos/GastroLink/GastroLink/Views/Usuario/CadastroUsuario.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcVXN1YXJpb1xDYWRhc3Ryb1VzdWFyaW8uY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[/src/Views/Usuario/TodosUsuarios.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3MvVXN1YXJpby9Ub2Rvc1VzdWFyaW9zLmNzaHRtbA==
+[C:/Projetos/GastroLink/GastroLink/Views/Usuario/TodosUsuarios.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcVXN1YXJpb1xUb2Rvc1VzdWFyaW9zLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[/src/Views/Usuario/_TabelaUsuario.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3MvVXN1YXJpby9fVGFiZWxhVXN1YXJpby5jc2h0bWw=
+[C:/Projetos/GastroLink/GastroLink/Views/Usuario/_TabelaUsuario.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcVXN1YXJpb1xfVGFiZWxhVXN1YXJpby5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[/src/Views/Usuario/_VisualizarUsuario.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3MvVXN1YXJpby9fVmlzdWFsaXphclVzdWFyaW8uY3NodG1s
+[C:/Projetos/GastroLink/GastroLink/Views/Usuario/_VisualizarUsuario.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcVXN1YXJpb1xfVmlzdWFsaXphclVzdWFyaW8uY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[/src/Views/_ViewImports.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3MvX1ZpZXdJbXBvcnRzLmNzaHRtbA==
+[C:/Projetos/GastroLink/GastroLink/Views/_ViewImports.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcX1ZpZXdJbXBvcnRzLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[/src/Views/_ViewStart.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3MvX1ZpZXdTdGFydC5jc2h0bWw=
+[C:/Projetos/GastroLink/GastroLink/Views/_ViewStart.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcX1ZpZXdTdGFydC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[/src/Views/Shared/_Layout.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3MvU2hhcmVkL19MYXlvdXQuY3NodG1s
-build_metadata.AdditionalFiles.CssScope = b-pa4rug99ia
+[C:/Projetos/GastroLink/GastroLink/Views/Shared/_Layout.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9MYXlvdXQuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = b-baoqzvad47
 
-[/src/Views/Shared/_LayoutLogin.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3MvU2hhcmVkL19MYXlvdXRMb2dpbi5jc2h0bWw=
-build_metadata.AdditionalFiles.CssScope = b-nvzx20w08d
+[C:/Projetos/GastroLink/GastroLink/Views/Shared/_LayoutLogin.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9MYXlvdXRMb2dpbi5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = b-n0cj8hj8qz

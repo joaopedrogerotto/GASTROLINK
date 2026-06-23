@@ -3,6 +3,18 @@
 @{
     Layout = "_Layout";
     ViewData["Title"] = "Mapeamento Mesas";
+
+    if (TempData["FalhaSalvarLayout"] != null) {
+        <div class="alert alert-danger" role="alert">
+            @TempData["FalhaSalvarLayout"]
+        </div>
+    }
+
+    if (TempData["SucessoSalvarLayout"] != null) {
+        <div class="alert alert-success" role="alert">
+            @TempData["SucessoSalvarLayout"]
+        </div>
+    }
 }
 <link rel="stylesheet" href="~/css/mapeamento-mesa.css" media="all" />
 

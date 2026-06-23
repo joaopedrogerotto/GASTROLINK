@@ -1,4 +1,5 @@
-﻿using GastroLink.Facade.Interface;
+﻿using GastroLink.DTO;
+using GastroLink.Facade.Interface;
 using GastroLink.Models;
 using GastroLink.ViewModel;
 using Microsoft.AspNetCore.Mvc;
@@ -45,6 +46,15 @@ namespace GastroLink.Controllers {
         public async Task<IActionResult> VisualizarUsuario(int idUsuario) {
             var usuario = await _facadeUsuario.ObterUsuarioId(idUsuario);
             return PartialView("_VisualizarUsuario",usuario);
+        }
+
+        [HttpPut]
+        public async Task<IActionResult> AlterarStatus([FromBody]UsuarioStatusUpdateDTO UsuarioStatusUpdateDTO) {
+            var response = await _facadeUsuario.AtualizarStatusUsuario(UsuarioStatusUpdateDTO);
+            if (response) {
+                return Ok();
+            }
+            return BadRequest();
         }
     }
 }

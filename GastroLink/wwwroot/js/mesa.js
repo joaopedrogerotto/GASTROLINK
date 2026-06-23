@@ -1,8 +1,7 @@
 "use strict";
-const API_BASE_URL = window.APP_CONFIG.apiBaseUrl;
 async function criarMesa() {
     const numeroMesa = $("#numeroMesaInput").val();
-    const response = await fetch(` ${API_BASE_URL}Mesa`, {
+    const response = await fetch('/Mesa/SalvarMesa', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
@@ -17,7 +16,7 @@ async function criarMesa() {
     }
 }
 async function carregarMesas() {
-    const response = await fetch(`${API_BASE_URL}Mesa}`);
+    const response = await fetch('/Mesa/TodasMesasJson');
     const mesas = await response.json();
     const tbody = document.querySelector("#tabelaMesas tbody");
     tbody.innerHTML = "";

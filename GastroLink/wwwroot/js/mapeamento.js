@@ -55,7 +55,7 @@ function salvarLayout() {
             PosicaoY: parseInt(mesa.style.top)
         });
     });
-    fetch("https://localhost:7209/api-gastrolink/Mesa/SalvarLayout", {
+    fetch("/Mesa/SalvarLayoutMesas", {
         method: "POST",
         headers: {
             "Content-Type": "application/json"

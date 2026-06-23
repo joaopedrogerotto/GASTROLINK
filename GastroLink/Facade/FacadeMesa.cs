@@ -1,4 +1,5 @@
 ﻿using GastroLink.Client;
+using GastroLink.DTO;
 using GastroLink.Facade.Interface;
 using GastroLink.Models;
 
@@ -13,5 +14,9 @@ namespace GastroLink.Facade {
         public async Task<List<Mesa>> BuscarMesasMapeamento() {
             return await _mesaClient.SelecionarMesasMapeamento();
         }
+
+        public async Task<bool> CadastrarMesa(MesaRequestDTO mesaRequestDto) => await _mesaClient.SalvarMesa(mesaRequestDto);
+
+        public async Task<bool> SalvarLayoutMesa(List<LayoutMesaDTO> listLayoutMesa) => await _mesaClient.SalvarLayoutMesas(listLayoutMesa);
     }
 }
