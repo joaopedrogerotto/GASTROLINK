@@ -1,4 +1,5 @@
 ﻿using APIGastroLink.DAO.Interfaces;
+using APIGastroLink.DTO;
 using APIGastroLink.Models;
 using Microsoft.Data.SqlClient;
 
@@ -31,33 +32,16 @@ namespace APIGastroLink.DAO {
         }
 
         public async Task<List<Prato>> SelectAll() {
-            var listPratos = new List<Prato>();
-
             try {
                 using (SqlConnection conn = _database.OpenConnection()) {
                     using (SqlCommand cmd = new SqlCommand("PR_S_TODOS_PRATOS", conn)) {
                         cmd.CommandType = System.Data.CommandType.StoredProcedure;
 
                         using (SqlDataReader reader = cmd.ExecuteReader()) {
-                            while (reader.Read()) {
-                                listPratos.Add(new Prato {
-                                    Id = reader.GetInt32(reader.GetOrdinal("PRT_ID")),
-                                    Nome = reader.GetString(reader.GetOrdinal("NOME")),
-                                    Descricao = reader.GetString(reader.GetOrdinal("DESCRICAO")),
-                                    Preco = reader.GetDecimal(reader.GetOrdinal("PRECO")),
-                                    Disponibilidades = reader.GetBoolean(reader.GetOrdinal("DISPONIBILIDADE")),
-                                    TempoMedioPreparo = reader.GetInt32(reader.GetOrdinal("TEMPO")),
-                                    UrlImagem = reader.GetString(reader.GetOrdinal("IMAGEM")),
-                                    CategoriaPrato = new CategoriaPrato {
-                                        Id = reader.GetInt32(reader.GetOrdinal("CTP_ID")),
-                                        Categoria = reader.GetString(reader.GetOrdinal("CATEGORIA"))
-                                    }
-                                });
-                            }
+                            return MontarListaPratos(reader);
                         }
                     }
                 }
-                return listPratos;
             } catch (Exception ex) {
                 throw new Exception("Falha ao buscar todos os pratos: " + ex.Message);
             }
@@ -115,6 +99,54 @@ namespace APIGastroLink.DAO {
             }catch (Exception ex) {
                 throw new Exception("Falha em atualizar a disponibilidade do prato: " + ex.Message);
             }
+        }
+
+        public async Task<List<Prato>> SelectWithFilters(FiltroPesquisaDTO filtro) {
+            try {
+                using (SqlConnection conn = _database.OpenConnection()) {
+                    using (SqlCommand cmd = new SqlCommand("PR_S_PESQUISAR_PRATOS", conn)) {
+                        cmd.CommandType = System.Data.CommandType.StoredProcedure;
+
+                        if (!string.IsNullOrEmpty(filtro.Nome)) {
+                            cmd.Parameters.AddWithValue("@NOME", filtro.Nome);
+                        }
+
+                        if (!string.IsNullOrEmpty(filtro.Descricao)) {
+                            cmd.Parameters.AddWithValue("@DESCRICAO", filtro.Descricao);
+                        }
+
+                        if(filtro.Preco > 0.0m) {
+                            cmd.Parameters.AddWithValue("@PRECO", filtro.Preco);
+                        }
+
+                        using (SqlDataReader reader = cmd.ExecuteReader()) {
+                            return MontarListaPratos(reader);
+                        }
+                    }
+                }
+            } catch (Exception ex) {
+                throw new Exception("Falha ao buscar todos os pratos: " + ex.Message);
+            }
+        }
+
+        private List<Prato> MontarListaPratos(SqlDataReader reader) {
+            var listPratos = new List<Prato>();
+            while (reader.Read()) {
+                listPratos.Add(new Prato {
+                    Id = reader.GetInt32(reader.GetOrdinal("PRT_ID")),
+                    Nome = reader.GetString(reader.GetOrdinal("NOME")),
+                    Descricao = reader.GetString(reader.GetOrdinal("DESCRICAO")),
+                    Preco = reader.GetDecimal(reader.GetOrdinal("PRECO")),
+                    Disponibilidades = reader.GetBoolean(reader.GetOrdinal("DISPONIBILIDADE")),
+                    TempoMedioPreparo = reader.GetInt32(reader.GetOrdinal("TEMPO")),
+                    UrlImagem = reader.GetString(reader.GetOrdinal("IMAGEM")),
+                    CategoriaPrato = new CategoriaPrato {
+                        Id = reader.GetInt32(reader.GetOrdinal("CTP_ID")),
+                        Categoria = reader.GetString(reader.GetOrdinal("CATEGORIA"))
+                    }
+                });
+            }
+            return listPratos;
         }
     }
 }

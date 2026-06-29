@@ -1,4 +1,5 @@
 ﻿using GastroLink.DTO;
+using GastroLink.Enums;
 using GastroLink.Facade.Interface;
 using GastroLink.Mapper;
 using GastroLink.Models;
@@ -6,6 +7,7 @@ using GastroLink.Settings;
 using GastroLink.ViewModel;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
+using System.Runtime.CompilerServices;
 
 namespace GastroLink.Controllers {
     public class PratoController : Controller {
@@ -27,15 +29,20 @@ namespace GastroLink.Controllers {
         }
 
         public async Task<IActionResult> TodosPratos() {
-            try {
-                var listPratos =  await _facadePrato.SelecionarTodosPratos();
+            
+            return View();
+        }
 
-                DefinirCaminhoImagem(listPratos.ToList());
+        public async Task<IActionResult> ListaPratos([FromBody] FiltroPesquisaDTO? filtroPesquisaDTO) { 
+             try {
+                var listPratos = filtroPesquisaDTO == null ? await _facadePrato.SelecionarTodosPratos() : await PesquisarPrato(filtroPesquisaDTO);
 
-                return View(listPratos);
+                DefinirCaminhoImagem(listPratos);
+
+                return PartialView("_ListaPratos",listPratos);
             } catch (InvalidOperationException iEx) {
                 TempData["Falha"] = iEx.Message;
-                return View(new List<Prato>());
+                return PartialView("_ListaPratos",new List<Prato>());
             }
         }
 
@@ -74,6 +81,11 @@ namespace GastroLink.Controllers {
         public async Task<IActionResult> AtualizarDisponibilidade([FromBody] PratoStatusUpdateDTO pratoStatusUpdateDTO) {
             await _facadePrato.AtualizarDisponibilidade(pratoStatusUpdateDTO);
             return Ok();
+        }
+
+        private async Task<List<Prato>> PesquisarPrato(FiltroPesquisaDTO FiltroPesquisaDTO) {
+            var listPrato = await _facadePrato.SelecionarPratosPesquisa(FiltroPesquisaDTO);
+            return listPrato;
         }
 
         private void DefinirCaminhoImagem(List<Prato> listPratos) {

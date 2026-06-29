@@ -1,4 +1,5 @@
-﻿using APIGastroLink.Models;
+﻿using APIGastroLink.DTO;
+using APIGastroLink.Models;
 
 namespace APIGastroLink.DAO.Interfaces {
     public interface IDAOPrato {
@@ -6,5 +7,6 @@ namespace APIGastroLink.DAO.Interfaces {
         public Task<List<Prato>> SelectAll();
         public Task<Prato> SelectById(int id);
         public void UpdateDisponibilidade(Prato Prato);
+        public Task<List<Prato>> SelectWithFilters(FiltroPesquisaDTO filtro);
     }
 }

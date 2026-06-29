@@ -1,5 +1,6 @@
 ﻿using APIGastroLink.DTO;
 using APIGastroLink.Facade.Interface;
+using APIGastroLink.Models;
 using APIGastroLink.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 
@@ -27,9 +28,14 @@ namespace APIGastroLink.Controllers {
         }
 
         [HttpGet("TodosPratos")]
-        public async Task<IActionResult> TodosPratos() {
+        public async Task<IActionResult> TodosPratos([FromQuery]FiltroPesquisaDTO filtroPesquisaDTO) {
             try {
-                var listPratos = await _facadePrato.SelcionarTodosPratos();
+                var listPratos = new List<Prato>();
+                if (filtroPesquisaDTO.PossuiFiltro()) {
+                    listPratos = await _facadePrato.SelcionarTodosPratos();
+                } else {
+                    listPratos = await _facadePrato.PesquisarPrato(filtroPesquisaDTO);
+                }
                 return Ok(listPratos);
             } catch (Exception ex) {
                 return BadRequest("Falha ao buscar todos os pratos: " +  ex.Message);

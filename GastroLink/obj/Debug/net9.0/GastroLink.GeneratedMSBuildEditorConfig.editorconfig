@@ -52,6 +52,10 @@ build_metadata.AdditionalFiles.CssScope =
 build_metadata.AdditionalFiles.TargetPath = Vmlld3MvUHJhdG8vVG9kb3NQcmF0b3MuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
+[/src/Views/Prato/_ListaPratos.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvUHJhdG8vX0xpc3RhUHJhdG9zLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
 [/src/Views/Prato/_VisualizarPrato.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3MvUHJhdG8vX1Zpc3VhbGl6YXJQcmF0by5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 

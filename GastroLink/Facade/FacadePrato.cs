@@ -35,8 +35,6 @@ namespace GastroLink.Facade {
 
         public async Task<bool> AtualizarDisponibilidade(PratoStatusUpdateDTO pratoStatusUpdateDTO) => await _pratoClient.AtualizarDisponibilidade(pratoStatusUpdateDTO);
 
-        public Task<bool> SalvarLayoutMesa(List<LayoutMesaDTO> listLayoutMesa) {
-            throw new NotImplementedException();
-        }
+        public async Task<List<Prato>> SelecionarPratosPesquisa(FiltroPesquisaDTO filtroPesquisaDTO) => await _pratoClient.SelicionarPesquisaPrato(filtroPesquisaDTO);
     }
 }

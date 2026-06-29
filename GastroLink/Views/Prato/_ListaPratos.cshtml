@@ -1,0 +1,40 @@
+﻿@model List<Prato>
+<link rel="stylesheet" href="~/css/card-prato.css" media="all" />
+
+<div class="div-cards-prato">
+    @{
+        foreach (var prato in Model) {
+            <a class="card-prato-link" data-id="@prato.Id">
+                <div class="card card-prato @(prato.Disponibilidades ? "" : "indisponivel")" style="width: 18rem;">
+                    <img class="card-img-top prato-img" src="@prato.UrlImagem" alt="@prato.Nome">
+
+                    <div class="card-body">
+                        <h5 class="card-title">
+                            @prato.Nome - @prato.CategoriaPrato.Categoria
+                        </h5>
+
+                        <p class="card-text">
+                            @prato.Descricao
+                        </p>
+
+                        <small class="text-muted d-block mb-2">
+                            Tempo médio de preparo: @prato.TempoMedioPreparo min
+                        </small>
+
+
+                        <h4 class="text-success preco">
+                            @prato.Preco.ToString("C")
+                        </h4>
+                    </div>
+                    <div class="acoes-card">
+                        <p class="alterar-status-prato" data-id-prato="@prato.Id" data-status="@prato.Disponibilidades"><i class="@(!prato.Disponibilidades ? "bi bi-check-lg" : "bi bi-ban")"></i></p>
+                    </div>
+                </div>
+            </a>
+        }
+    }
+</div>
+
+<div id="modalContainerPrato"></div>
+
+<script type="module" src="~/js/prato.js"></script>

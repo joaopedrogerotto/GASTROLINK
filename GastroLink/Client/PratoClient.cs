@@ -2,6 +2,7 @@
 using GastroLink.Mapper;
 using GastroLink.Models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.WebUtilities;
 using System.Globalization;
 
 namespace GastroLink.Client {
@@ -55,6 +56,27 @@ namespace GastroLink.Client {
         public async Task<bool> AtualizarDisponibilidade(PratoStatusUpdateDTO pratoStatusUpdateDTO) {
             var response = await _httpClient.PostAsJsonAsync("Prato/AtualizarDisponibilidade", pratoStatusUpdateDTO);
             return response.IsSuccessStatusCode;
+        }
+
+        public async Task<List<Prato>> SelicionarPesquisaPrato(FiltroPesquisaDTO filtroPesquisaDTO) {
+            if(filtroPesquisaDTO == null) {
+                throw new InvalidOperationException("Filtro de pesquisa não pode ser vazio");
+            }
+
+            var parametrosPesquisa = new Dictionary<string, string>() {
+                ["Nome"] = filtroPesquisaDTO.Nome,
+                ["Descricao"] = filtroPesquisaDTO.Descricao,
+                ["Preco"] = filtroPesquisaDTO.Preco?.ToString(CultureInfo.InvariantCulture)
+            };
+            var url = QueryHelpers.AddQueryString("Prato/TodosPratos", parametrosPesquisa);
+
+            var response = await _httpClient.GetAsync(url);
+            if (response.IsSuccessStatusCode) {
+                var listPratos = await response.Content.ReadFromJsonAsync<List<Prato>>();
+                return listPratos ?? new List<Prato>();
+            }
+
+            throw new InvalidOperationException("Falha ao buscar pratos pelo filtro");
         }
     }
 }
