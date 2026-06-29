@@ -1,8 +1,10 @@
 ﻿using GastroLink.DTO;
 using GastroLink.Enums;
+using GastroLink.Exceptions;
 using GastroLink.Facade.Interface;
 using GastroLink.Mapper;
 using GastroLink.Models;
+using GastroLink.Service;
 using GastroLink.Settings;
 using GastroLink.ViewModel;
 using Microsoft.AspNetCore.Mvc;
@@ -61,6 +63,8 @@ namespace GastroLink.Controllers {
                 }
             } catch (ArgumentException ex) {
                 TempData["ErroCadPrato"] = ex.Message;
+            }catch (InvalidExtensionException ieEx) {
+                TempData["ErroCadPrato"] = ieEx.Message;
             }
 
             return RedirectToAction("Cadastrar", "Prato"); 
