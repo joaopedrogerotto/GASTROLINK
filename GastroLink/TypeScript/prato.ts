@@ -14,11 +14,10 @@ interface FiltroBusca {
 document.addEventListener("click", (e) => {
     const card = (e.target as HTMLElement).closest(".card-prato-link");
 
-    if (!card) return;
+    if (!card || (e.target as HTMLElement).closest(".alterar-status-prato")) return;
 
     const id = card.getAttribute("data-id");
     visualizarPrato(Number(id));
-    console.log("Clicou")
 });
 
 function visualizarPrato(idUsuario: number): void {
@@ -38,18 +37,18 @@ function visualizarPrato(idUsuario: number): void {
     })
 }
 
-document.querySelectorAll(".alterar-status-prato").forEach(card => {
-    card.addEventListener("click", (e) => {
-        e.preventDefault();
-        e.stopPropagation();
+document.addEventListener("click", (e) => {
+    const prato = (e.target as HTMLElement).closest(".alterar-status-prato");
 
-        const elemento = card as HTMLElement;
+    if (!prato) return;
 
-        const id = Number(elemento.dataset.idPrato);
-        const status = elemento.dataset.status?.toLowerCase() === "true";
+    e.preventDefault();
+    e.stopPropagation();
 
-        atualizarDisponibilidadePrato(id, status);
-    });
+    const id = Number(prato.getAttribute("data-id-prato"));
+    const status = prato.getAttribute("data-status")?.toLowerCase() === "true";
+
+    atualizarDisponibilidadePrato(id, status);
 });
 
 function atualizarDisponibilidadePrato(id: Number, status: boolean): void {

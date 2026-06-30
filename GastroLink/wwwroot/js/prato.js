@@ -3,11 +3,10 @@
 ;
 document.addEventListener("click", (e) => {
     const card = e.target.closest(".card-prato-link");
-    if (!card)
+    if (!card || e.target.closest(".alterar-status-prato"))
         return;
     const id = card.getAttribute("data-id");
     visualizarPrato(Number(id));
-    console.log("Clicou");
 });
 function visualizarPrato(idUsuario) {
     $.ajax({
@@ -25,15 +24,15 @@ function visualizarPrato(idUsuario) {
         }
     });
 }
-document.querySelectorAll(".alterar-status-prato").forEach(card => {
-    card.addEventListener("click", (e) => {
-        e.preventDefault();
-        e.stopPropagation();
-        const elemento = card;
-        const id = Number(elemento.dataset.idPrato);
-        const status = elemento.dataset.status?.toLowerCase() === "true";
-        atualizarDisponibilidadePrato(id, status);
-    });
+document.addEventListener("click", (e) => {
+    const prato = e.target.closest(".alterar-status-prato");
+    if (!prato)
+        return;
+    e.preventDefault();
+    e.stopPropagation();
+    const id = Number(prato.getAttribute("data-id-prato"));
+    const status = prato.getAttribute("data-status")?.toLowerCase() === "true";
+    atualizarDisponibilidadePrato(id, status);
 });
 function atualizarDisponibilidadePrato(id, status) {
     const PratoStatus = { Id: id, Status: !status };
