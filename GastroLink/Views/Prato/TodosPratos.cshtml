@@ -35,6 +35,12 @@
         }
     </select>
 
+    <select class="form-select" id="select-disponibilidade" style="width: 250px;">
+        <option value="" selected disabled hidden> Selecione a disponibilidade </option>
+        <option value="1">Disponível</option>
+        <option value="0">Indisponível</option>
+    </select>
+
     <button class="btn btn-primary" id="btn-pesquisa-prato">Pesquisar</button>
     <button class="btn btn-success text-nowrap" id="btn-add-filtro">Adicionar Filtro</button>
 </div>
@@ -42,6 +48,9 @@
 <div id="list-filtro">
 
 </div>
+
+<br />
+<br />
 
 <div id="lista-pratos">
     @await Html.PartialAsync("_ListaPratos", new List<Prato>())

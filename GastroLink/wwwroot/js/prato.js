@@ -78,16 +78,18 @@ function obterFiltros() {
                 break;
         }
     });
-    const select = document.getElementById("select-cat-prato");
-    if (select.value !== "") {
-        filtro.IdCategoria = Number(select.value);
+    const selectPrato = document.getElementById("select-cat-prato");
+    if (selectPrato.value !== "") {
+        filtro.IdCategoria = Number(selectPrato.value);
+    }
+    const selectDisponibilidade = document.getElementById("select-disponibilidade");
+    if (selectDisponibilidade.value !== "") {
+        filtro.Disponibilidade = Number(selectDisponibilidade.value) === 1 ? true : false;
     }
     return filtro;
 }
 function pesquisarPrato() {
     const filtro = obterFiltros();
-    console.log(filtro.Preco);
-    console.log(JSON.stringify(filtro));
     $.ajax({
         url: "/Prato/ListaPratos",
         method: "POST",

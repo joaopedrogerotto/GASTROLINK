@@ -67,7 +67,8 @@ namespace GastroLink.Client {
                 ["Nome"] = filtroPesquisaDTO.Nome,
                 ["Descricao"] = filtroPesquisaDTO.Descricao,
                 ["Preco"] = filtroPesquisaDTO.Preco?.ToString(CultureInfo.InvariantCulture),
-                ["IdCategoria"] = filtroPesquisaDTO.IdCategoria?.ToString()
+                ["IdCategoria"] = filtroPesquisaDTO.IdCategoria?.ToString(),
+                ["Disponibilidade"] = filtroPesquisaDTO.Disponibilidade.ToString()
             };
             var url = QueryHelpers.AddQueryString("Prato/TodosPratos", parametrosPesquisa);
 

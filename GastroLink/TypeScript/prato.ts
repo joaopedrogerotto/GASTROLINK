@@ -7,7 +7,8 @@ interface FiltroBusca {
     Nome: String,
     Descricao: String,
     Preco: Number,
-    IdCategoria: Number
+    IdCategoria: Number,
+    Disponibilidade: Boolean
 }
 
 document.querySelectorAll(".card-prato-link").forEach(card => {
@@ -104,9 +105,14 @@ function obterFiltros(): FiltroBusca {
         }
     });
 
-    const select = document.getElementById("select-cat-prato") as HTMLSelectElement;
-    if (select.value !== "") {
-        filtro.IdCategoria = Number(select.value)
+    const selectPrato = document.getElementById("select-cat-prato") as HTMLSelectElement;
+    if (selectPrato.value !== "") {
+        filtro.IdCategoria = Number(selectPrato.value);
+    }
+
+    const selectDisponibilidade = document.getElementById("select-disponibilidade") as HTMLSelectElement;
+    if (selectDisponibilidade.value !== "") {
+        filtro.Disponibilidade = Number(selectDisponibilidade.value) === 1 ? true : false;
     }
 
     return filtro as FiltroBusca;
@@ -114,8 +120,7 @@ function obterFiltros(): FiltroBusca {
 
 function pesquisarPrato(): void{
     const filtro = obterFiltros();
-    console.log(filtro.Preco);
-    console.log(JSON.stringify(filtro));
+
     $.ajax({
         url: "/Prato/ListaPratos",
         method: "POST",

@@ -123,6 +123,10 @@ namespace APIGastroLink.DAO {
                             cmd.Parameters.AddWithValue("@ID_CATEGORIA", filtro.IdCategoria);
                         }
 
+                        if(filtro.Disponibilidade != null) {
+                            cmd.Parameters.AddWithValue("@DISPONIBILIDAE", filtro.Disponibilidade);
+                        }
+
                         using (SqlDataReader reader = cmd.ExecuteReader()) {
                             return MontarListaPratos(reader);
                         }
