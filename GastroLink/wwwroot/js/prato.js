@@ -1,10 +1,13 @@
 "use strict";
 ;
-document.querySelectorAll(".card-prato-link").forEach(card => {
-    card.addEventListener("click", () => {
-        const id = card.getAttribute("data-id");
-        visualizarPrato(Number(id));
-    });
+;
+document.addEventListener("click", (e) => {
+    const card = e.target.closest(".card-prato-link");
+    if (!card)
+        return;
+    const id = card.getAttribute("data-id");
+    visualizarPrato(Number(id));
+    console.log("Clicou");
 });
 function visualizarPrato(idUsuario) {
     $.ajax({

@@ -9,13 +9,16 @@ interface FiltroBusca {
     Preco: Number,
     IdCategoria: Number,
     Disponibilidade: Boolean
-}
+};
 
-document.querySelectorAll(".card-prato-link").forEach(card => {
-    card.addEventListener("click", () => {
-        const id = card.getAttribute("data-id");
-        visualizarPrato(Number(id));
-    });
+document.addEventListener("click", (e) => {
+    const card = (e.target as HTMLElement).closest(".card-prato-link");
+
+    if (!card) return;
+
+    const id = card.getAttribute("data-id");
+    visualizarPrato(Number(id));
+    console.log("Clicou")
 });
 
 function visualizarPrato(idUsuario: number): void {
