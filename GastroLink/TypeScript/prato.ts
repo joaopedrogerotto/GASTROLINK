@@ -101,7 +101,6 @@ function obterFiltros(): FiltroBusca {
                 break;
 
             case "Preço":
-                console.log(valor);
                 filtro.Preco = parseFloat(valor.replace(",", "."));
                 break;
         }

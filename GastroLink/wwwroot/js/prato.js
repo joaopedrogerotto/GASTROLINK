@@ -75,7 +75,6 @@ function obterFiltros() {
                 filtro.Descricao = valor;
                 break;
             case "Preço":
-                console.log(valor);
                 filtro.Preco = parseFloat(valor.replace(",", "."));
                 break;
         }
