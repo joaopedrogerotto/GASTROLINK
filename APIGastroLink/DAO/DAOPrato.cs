@@ -118,6 +118,10 @@ namespace APIGastroLink.DAO {
                         if(filtro.Preco > 0.0m) {
                             cmd.Parameters.AddWithValue("@PRECO", filtro.Preco);
                         }
+                        
+                        if(filtro.IdCategoria > 0) {
+                            cmd.Parameters.AddWithValue("@ID_CATEGORIA", filtro.IdCategoria);
+                        }
 
                         using (SqlDataReader reader = cmd.ExecuteReader()) {
                             return MontarListaPratos(reader);

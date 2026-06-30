@@ -6,7 +6,8 @@ interface PratoStatus {
 interface FiltroBusca {
     Nome: String,
     Descricao: String,
-    Preco: Number
+    Preco: Number,
+    IdCategoria: Number
 }
 
 document.querySelectorAll(".card-prato-link").forEach(card => {
@@ -102,6 +103,12 @@ function obterFiltros(): FiltroBusca {
                 break;
         }
     });
+
+    const select = document.getElementById("select-cat-prato") as HTMLSelectElement;
+    if (select.value !== "") {
+        filtro.IdCategoria = Number(select.value)
+    }
+
     return filtro as FiltroBusca;
 }
 

@@ -31,12 +31,12 @@ namespace GastroLink.Controllers {
         }
 
         public async Task<IActionResult> TodosPratos() {
-            
-            return View();
+            var listCategorias = await _facadeCategoriaPrato.SelecionarCategorias();
+            return View(listCategorias);
         }
 
         public async Task<IActionResult> ListaPratos([FromBody] FiltroPesquisaDTO? filtroPesquisaDTO) { 
-             try {
+            try {
                 var listPratos = filtroPesquisaDTO == null ? await _facadePrato.SelecionarTodosPratos() : await PesquisarPrato(filtroPesquisaDTO);
 
                 DefinirCaminhoImagem(listPratos);

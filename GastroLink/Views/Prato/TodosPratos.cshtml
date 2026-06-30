@@ -1,4 +1,6 @@
-﻿@{
+﻿@model IEnumerable<CategoriaPrato>
+
+@{
     ViewData["Title"] = "Todos os Pratos";
 
     if (TempData["Falha"] != null) {
@@ -11,20 +13,30 @@
 
 <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
 
-<div>
-    <div class="input-group mb-3">
-        <button class="btn btn-outline-secondary dropdown-toggle" type="button" id="titulo-opcoes" data-bs-toggle="dropdown" aria-expanded="false">Categorias</button>
+<div class="d-flex align-items-center gap-3 mb-3">
+    <div class="input-group flex-grow-1">
+        <button class="btn btn-outline-secondary dropdown-toggle" type="button" id="titulo-opcoes" data-bs-toggle="dropdown" aria-expanded="false"> Categorias </button>
         <ul class="dropdown-menu" id="opcoes-pesquisa">
-            @{
-                foreach(var item in Enum.GetValues<FiltroPesquisaPratoEnum>()){
-                    <li><a class="dropdown-item opcao-filtro" data-valor="@item">@item</a></li>
-                }
+            @foreach (var item in Enum.GetValues<FiltroPesquisaPratoEnum>()) {
+                <li>
+                    <a class="dropdown-item opcao-filtro" data-valor="@item">@item</a>
+                </li>
             }
         </ul>
-        <input type="text" class="form-control" id="input-pesquisa" placeholder="Pesquisar..." aria-label="Search">
-        <button class="btn btn-primary" id="btn-pesquisa-prato">Pesquisar</button>
-        <button class="btn btn-success" id="btn-add-filtro">Adicionar Filtro</button>
+
+        <input type="text" class="form-control" id="input-pesquisa" placeholder="Pesquisar...">
     </div>
+
+    <select class="form-select" id="select-cat-prato" style="width: 250px;">
+        <option value="" selected disabled hidden> Selecione uma categoria </option>
+
+        @foreach (var categoria in Model) {
+            <option value="@categoria.Id">@categoria.Categoria</option>
+        }
+    </select>
+
+    <button class="btn btn-primary" id="btn-pesquisa-prato">Pesquisar</button>
+    <button class="btn btn-success text-nowrap" id="btn-add-filtro">Adicionar Filtro</button>
 </div>
 
 <div id="list-filtro">

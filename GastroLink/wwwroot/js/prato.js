@@ -78,6 +78,10 @@ function obterFiltros() {
                 break;
         }
     });
+    const select = document.getElementById("select-cat-prato");
+    if (select.value !== "") {
+        filtro.IdCategoria = Number(select.value);
+    }
     return filtro;
 }
 function pesquisarPrato() {
