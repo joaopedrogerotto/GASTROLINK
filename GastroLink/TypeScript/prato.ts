@@ -14,7 +14,7 @@ interface FiltroBusca {
 document.addEventListener("click", (e) => {
     const card = (e.target as HTMLElement).closest(".card-prato-link");
 
-    if (!card || (e.target as HTMLElement).closest(".alterar-status-prato")) return;
+    if (!card || (e.target as HTMLElement).closest(".alterar-status-prato") || (e.target as HTMLElement).closest(".editar-prato")) return;
 
     const id = card.getAttribute("data-id");
     visualizarPrato(Number(id));
@@ -220,3 +220,14 @@ document.getElementById("btn-add-filtro")?.addEventListener("click", () => {
     input.removeAttribute("min");
 });
 
+document.addEventListener("click", (e) => {
+    const prato = (e.target as HTMLElement).closest(".editar-prato");
+
+    if (!prato) return;
+
+    e.preventDefault();
+    e.stopPropagation();
+
+    const id = Number(prato.getAttribute("data-id-prato"));
+    window.location.href = `/Prato/EditarPrato?id=${id}`;
+});

@@ -30,6 +30,17 @@ namespace GastroLink.Controllers {
             return View(viewModel);
         }
 
+        public async Task<IActionResult> EditarPrato(int id) {
+            var prato = await _facadePrato.BuscarPratoPorId(id);
+            DefinirCaminhoImagem(prato);
+
+            var viewModel = new EditarPratoViewModel {
+                Prato = PratoMapper.ToPratoEditarDTO(prato),
+                ListCategorias = await _facadeCategoriaPrato.SelecionarCategorias()
+            };
+            return View(viewModel);
+        }
+
         public async Task<IActionResult> TodosPratos() {
             var listCategorias = await _facadeCategoriaPrato.SelecionarCategorias();
             return View(listCategorias);
@@ -70,6 +81,27 @@ namespace GastroLink.Controllers {
             return RedirectToAction("Cadastrar", "Prato"); 
         }
 
+        [HttpPost]
+        public async Task<IActionResult> AtualizarPrato(EditarPratoViewModel viewModel) {
+            if (!ModelState.IsValid) {
+                viewModel.ListCategorias = await _facadeCategoriaPrato.SelecionarCategorias();
+                return View("EditarPrato", viewModel);
+            }
+
+            try {
+                RemoverCaminhoImagem(viewModel.Prato);
+                if (await _facadePrato.AtualizarPrato(viewModel.Prato)) {
+                    TempData["SucessoAtualizacao"] = "Prato atualizado com sucesso!";
+                } else {
+                    TempData["ErroAtualizacao"] = "Falha ao atualizar prato.";
+                }
+            } catch (ArgumentException ex) {
+                TempData["ErroAtualizacao"] = ex.Message;
+            }
+
+            return RedirectToAction("EditarPrato", new { id = viewModel.Prato.Id });
+        }
+
         public async Task<IActionResult> VisualizarPrato(int idPrato) {
             var prato = new Prato();
             try {
@@ -100,6 +132,12 @@ namespace GastroLink.Controllers {
 
         private void DefinirCaminhoImagem(Prato Prato) {
             Prato.UrlImagem = $"{_apiSettings.BaseUrlImagem}{Prato.UrlImagem}";
+        }
+
+        private void RemoverCaminhoImagem(PratoEditarDTO Prato) {
+            if (Prato.UrlImagem.StartsWith(_apiSettings.BaseUrlImagem)) {
+                Prato.UrlImagem = Prato.UrlImagem.Replace(_apiSettings.BaseUrlImagem, "");
+            }
         }
     }
 }

@@ -71,5 +71,22 @@ namespace APIGastroLink.Controllers {
                 return BadRequest("Falha ao atualizar disponibilidade");
             }
         }
+
+        [HttpPut("AtualizarPrato")]
+        public async Task<IActionResult> AtualizarPrato([FromForm] PratoEditarDTO pratoEditarDTO) {
+            if (pratoEditarDTO.Id == 0) {
+                return BadRequest("Id não pode ser zero");
+            }
+            try {
+                if(pratoEditarDTO.formFile != null) {
+                    var urlImagem = await _imagemService.UploadImagem(pratoEditarDTO.formFile);
+                    pratoEditarDTO.UrlImagem = urlImagem;
+                }
+                await _facadePrato.AtualizarPrato(pratoEditarDTO);
+                return Ok("Prato atualizado com sucesso");
+            } catch (Exception ex) {
+                return BadRequest("Falha ao atualizar prato: " + ex.Message);
+            }
+        }
     }
 }

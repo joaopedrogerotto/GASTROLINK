@@ -136,6 +136,26 @@ namespace APIGastroLink.DAO {
                 throw new Exception("Falha ao buscar todos os pratos: " + ex.Message);
             }
         }
+        public void UpdatePrato(PratoEditarDTO Prato) {
+            try {
+                using (SqlConnection conn = _database.OpenConnection()) {
+                    using (SqlCommand cmd = new SqlCommand("PR_U_PRATO", conn)) {
+                        cmd.CommandType = System.Data.CommandType.StoredProcedure;
+
+                        cmd.Parameters.AddWithValue("@ID_PRATO", Prato.Id);
+                        cmd.Parameters.AddWithValue("@NOME", Prato.Nome);
+                        cmd.Parameters.AddWithValue("@DESCRICAO", Prato.Descricao);
+                        cmd.Parameters.AddWithValue("@PRECO", Prato.Preco);
+                        cmd.Parameters.AddWithValue("@TEMPO_MEDIO_PREPARO", Prato.TempoMedioPreparo);
+                        cmd.Parameters.AddWithValue("@ID_CATEGORIA_PRATO", Prato.IdCategoriaPrato);
+                        cmd.Parameters.AddWithValue("@URL_IMAGEM", Prato.UrlImagem);
+                        cmd.ExecuteNonQuery();
+                    }
+                }
+            } catch (Exception ex) {
+                throw new Exception("Erro ao inserir prato: " + ex.Message);
+            }
+        }
 
         private List<Prato> MontarListaPratos(SqlDataReader reader) {
             var listPratos = new List<Prato>();

@@ -11,25 +11,28 @@ function atualizarTitulo() {
     (document.getElementById("previewNome") as HTMLElement).textContent = `${nomePrato} - ${nomeCategoria}`;
 }
 
-nome.addEventListener("input", atualizarTitulo);
-
-selectCategoria.addEventListener("change", atualizarTitulo);
-
-descricao.addEventListener("input", () => {
+function atualizarDescricao() {
     (document.getElementById("previewDescricao") as HTMLElement).textContent = descricao.value || "Descrição do prato";
-});
+}
 
-preco.addEventListener("input", () => {
+function atualizarPreco() {
     const valor = parseFloat(preco.value);
-
     (document.getElementById("previewPreco") as HTMLElement).textContent = `R$ ${isNaN(valor) ? "0,00" : valor.toFixed(2).replace(".", ",")}`;
-});
+}
+function atualizarTempoMedio() {
+    (document.getElementById("previewTempo") as HTMLElement).textContent = `Tempo médio de preparo: ${tempoMedio.value || "0"} min`;
+}
 
-tempoMedio.addEventListener("input", () => {
-    (document.getElementById("previewTempo") as HTMLElement).textContent = `Tempo médio de preparo: ${tempoMedio.value} min` || "Tempo médio de preparo: 0 min";
-});
+nome.addEventListener("input", atualizarTitulo);
+selectCategoria.addEventListener("change", atualizarTitulo);
+descricao.addEventListener("input", atualizarDescricao);
+preco.addEventListener("input", atualizarPreco);
+tempoMedio.addEventListener("input", atualizarTempoMedio);
 
 atualizarTitulo();
+atualizarDescricao();
+atualizarPreco();
+atualizarTempoMedio();
 
 const inputImagem = document.getElementById("formFile") as HTMLInputElement;
 const preview = document.getElementById("previewImagem") as HTMLImageElement;

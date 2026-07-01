@@ -17,6 +17,8 @@ namespace APIGastroLink.Facade {
             _daoPrato.UpdateDisponibilidade(prato); 
         }
 
+        public async Task AtualizarPrato(PratoEditarDTO pratoEditarDTO) => _daoPrato.UpdatePrato(pratoEditarDTO);
+
         public void CadastrarPrato(PratoCreateDTO pratoCreateDTO, string urlImagem) {
             var prato = PratoMapper.ToEntidade(pratoCreateDTO);
 
@@ -30,6 +32,7 @@ namespace APIGastroLink.Facade {
         public async Task<List<Prato>> SelcionarTodosPratos() => await _daoPrato.SelectAll();
 
         public async Task<Prato> SelecionarPratoPorId(int Id) => await _daoPrato.SelectById(Id);
+
 
     }
 }

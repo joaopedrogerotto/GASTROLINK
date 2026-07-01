@@ -3,7 +3,7 @@
 ;
 document.addEventListener("click", (e) => {
     const card = e.target.closest(".card-prato-link");
-    if (!card || e.target.closest(".alterar-status-prato"))
+    if (!card || e.target.closest(".alterar-status-prato") || e.target.closest(".editar-prato"))
         return;
     const id = card.getAttribute("data-id");
     visualizarPrato(Number(id));
@@ -165,5 +165,14 @@ document.getElementById("btn-add-filtro")?.addEventListener("click", () => {
     input.type = "text";
     input.removeAttribute("step");
     input.removeAttribute("min");
+});
+document.addEventListener("click", (e) => {
+    const prato = e.target.closest(".editar-prato");
+    if (!prato)
+        return;
+    e.preventDefault();
+    e.stopPropagation();
+    const id = Number(prato.getAttribute("data-id-prato"));
+    window.location.href = `/Prato/EditarPrato?id=${id}`;
 });
 //# sourceMappingURL=prato.js.map

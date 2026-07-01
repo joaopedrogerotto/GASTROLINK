@@ -1,0 +1,88 @@
+﻿@model EditarPratoViewModel
+
+@{
+    ViewData["Title"] = "Editar Prato";
+
+    if (TempData["ErroAtualizacao"] != null) {
+        <div class="alert alert-danger" role="alert">
+            @TempData["ErroAtualizacao"]
+        </div>
+    }
+
+    if (TempData["SucessoAtualizacao"] != null) {
+        <div class="alert alert-success" role="alert">
+            @TempData["SucessoAtualizacao"]
+        </div>
+    }
+}
+<link rel="stylesheet" href="~/css/card-prato.css" media="all" />
+
+<div class="row">
+    <div class="col-md-8">
+        <form asp-action="AtualizarPrato" asp-controller="Prato" enctype="multipart/form-data" method="post">
+            <input type="hidden" asp-for="@Model.Prato.Id" />
+            <input type="hidden" asp-for="@Model.Prato.UrlImagem" />
+
+            <div class="form-group">
+                <label for="prt_nome">Nome do Prato:</label>
+                <input type="text" class="form-control" id="prt_nome" asp-for="@Model.Prato.Nome" required>
+                <span asp-validation-for="Prato.Nome" class="text-danger"></span>
+            </div>
+            <div class="mb-3">
+                <label for="formFile" class="form-label">Imagem do prato:</label>
+                <input class="form-control" type="file" id="formFile" asp-for="@Model.Prato.formFile" accept="image/*">
+            </div>
+            <div class="form-group">
+                <label for="prt_descricao">Descrição do Prato:</label>
+                <textarea class="form-control" id="prt_descricao" asp-for="@Model.Prato.Descricao" required></textarea>
+                <span asp-validation-for="@Model.Prato.Descricao" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label for="prt_categoria">Categoria:</label>
+                <select class="form-select" id="prt_categoria" asp-for="@Model.Prato.IdCategoriaPrato">
+                    @foreach (var categoria in Model.ListCategorias) {
+                        <option value="@categoria.Id" selected="@(Model.Prato.IdCategoriaPrato == categoria.Id ? "selected" : "")">@categoria.Categoria</option>
+                    }
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="prt_tempo">Tempo médio de preparo:</label>
+                <input type="number" class="form-control" id="prt_tempo" asp-for="@Model.Prato.TempoMedioPreparo" required>
+                <span asp-validation-for="@Model.Prato.TempoMedioPreparo" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label for="prt_preco">Preço:</label>
+                <input type="number" class="form-control" id="prt_preco" asp-for="@Model.Prato.Preco" step="0.01" onblur="if(this.value) this.value = parseFloat(this.value).toFixed(2)" required>
+                <span asp-validation-for="@Model.Prato.Preco" class="text-danger"></span>
+            </div>
+            <button type="submit" class="btn btn-primary">Salvar</button>
+        </form>
+    </div>
+
+    <div class="col-md-4">
+        <div class="card" id="previewCard" style="width: 18rem;">
+            <img id="previewImagem" class="card-img-top prato-img" src="@Model.Prato.UrlImagem">
+
+            <div class="card-body">
+                <h5 class="card-title" id="previewNome">
+                    Nome do prato
+                </h5>
+
+                <p class="card-text" id="previewDescricao">
+                    Descrição do prato
+                </p>
+
+                <small class="text-muted d-block mb-2" id="previewTempo">
+                    0 min
+                </small>
+
+                <h4 class="text-success preco fw-bold" id="previewPreco">
+                    R$ 0,00
+                </h4>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script src="~/js/cardPreview.js" type="module"></script>

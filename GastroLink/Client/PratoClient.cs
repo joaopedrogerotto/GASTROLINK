@@ -1,5 +1,4 @@
 ﻿using GastroLink.DTO;
-using GastroLink.Mapper;
 using GastroLink.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.WebUtilities;
@@ -79,6 +78,29 @@ namespace GastroLink.Client {
             }
 
             throw new InvalidOperationException("Falha ao buscar pratos pelo filtro");
+        }
+
+        public async Task<bool> AtualizarPrato(PratoEditarDTO pratoEditarDTO) {
+            using (var content = new MultipartFormDataContent()) {
+                content.Add(new StringContent(pratoEditarDTO.Id.ToString()), nameof(pratoEditarDTO.Id));
+                content.Add(new StringContent(pratoEditarDTO.Nome), nameof(pratoEditarDTO.Nome));
+                content.Add(new StringContent(pratoEditarDTO.Descricao), nameof(pratoEditarDTO.Descricao));
+                content.Add(new StringContent(pratoEditarDTO.Preco.ToString(CultureInfo.InvariantCulture)), nameof(pratoEditarDTO.Preco));
+                content.Add(new StringContent(pratoEditarDTO.TempoMedioPreparo.ToString()), nameof(pratoEditarDTO.TempoMedioPreparo));
+                content.Add(new StringContent(pratoEditarDTO.IdCategoriaPrato.ToString()), nameof(pratoEditarDTO.IdCategoriaPrato));
+                content.Add(new StringContent(pratoEditarDTO.UrlImagem), nameof(pratoEditarDTO.UrlImagem));
+                if (pratoEditarDTO.formFile != null) {
+                    var streamContent = new StreamContent(pratoEditarDTO.formFile.OpenReadStream());
+                    streamContent.Headers.ContentType = new System.Net.Http.Headers.MediaTypeHeaderValue(pratoEditarDTO.formFile.ContentType);
+                    content.Add(streamContent, nameof(pratoEditarDTO.formFile), pratoEditarDTO.formFile.FileName);
+                }
+                var response = await _httpClient.PutAsync("Prato/AtualizarPrato", content);
+                var responseContent = await response.Content.ReadAsStringAsync();
+
+                Console.WriteLine($"Status: {response.StatusCode}");
+                Console.WriteLine($"Resposta: {responseContent}");
+                return response.IsSuccessStatusCode;
+            }
         }
     }
 }

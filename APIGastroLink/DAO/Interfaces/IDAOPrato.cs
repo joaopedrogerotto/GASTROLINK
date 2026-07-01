@@ -8,5 +8,6 @@ namespace APIGastroLink.DAO.Interfaces {
         public Task<Prato> SelectById(int id);
         public void UpdateDisponibilidade(Prato Prato);
         public Task<List<Prato>> SelectWithFilters(FiltroPesquisaDTO filtro);
+        public void UpdatePrato(PratoEditarDTO Prato);
     }
 }
