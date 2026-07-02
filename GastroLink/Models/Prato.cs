@@ -8,5 +8,6 @@
         public bool Disponibilidades { get; set; }
         public CategoriaPrato CategoriaPrato { get; set; }
         public string UrlImagem { get; set; }
+        public List<HistoricoDisponibilidade> HistoricoDisponibilidade { get; set; }
     }
 }

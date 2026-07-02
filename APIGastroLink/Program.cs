@@ -20,6 +20,7 @@ builder.Services.AddScoped<IDAOTipoUsuario, DAOTipoUsuario>();
 builder.Services.AddScoped<IDAOUsuario, DAOUsuario>();
 builder.Services.AddScoped<IDAOCategoriaPrato, DAOCategoriaPrato>();
 builder.Services.AddScoped<IDAOPrato, DAOPrato>();
+builder.Services.AddScoped<IDAOHistoricoDisponibilidade, DAOHistoricoDisponibilidade>();
 
 builder.Services.AddScoped<IFacadeLogin, FacadeLogin>();
 builder.Services.AddScoped<IFacadeMesa, FacadeMesa>();

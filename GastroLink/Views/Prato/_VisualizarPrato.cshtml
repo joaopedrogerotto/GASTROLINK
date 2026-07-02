@@ -11,47 +11,105 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
             </div>
             <div class="modal-body">
-                <div class="row">
-                    <div class="col-md-5 text-center mb-3">
-                        <img src="@Model.UrlImagem" class="img-fluid rounded shadow-sm" style="max-height:300px; object-fit:cover;" alt="@Model.Nome" />
-                    </div>
+                <ul class="nav nav-tabs mb-3" id="pratoTabs" role="tablist">
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link active" id="detalhes-tab" data-bs-toggle="tab" data-bs-target="#detalhes" type="button" role="tab">
+                            Detalhes
+                        </button>
+                    </li>
 
-                    <div class="col-md-7">
-                        <h4 class="fw-bold">@Model.Nome</h4>
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link" id="historico-tab" data-bs-toggle="tab" data-bs-target="#historico" type="button" role="tab">
+                            Histórico de Disponibilidade
+                        </button>
+                    </li>
+                </ul>
+                <!-- ABA DETALHES -->
+                <div class="tab-content">
+                    <div class="tab-pane fade show active" id="detalhes" role="tabpanel">
+                        <div class="row">
+                            <div class="col-md-5 text-center mb-3">
+                                <img src="@Model.UrlImagem" class="img-fluid rounded shadow-sm" style="max-height:300px; object-fit:cover;" alt="@Model.Nome" />
+                            </div>
 
-                        <p class="text-muted modal-descricao" >@Model.Descricao</p>
+                            <div class="col-md-7">
+                                <h4 class="fw-bold">@Model.Nome</h4>
 
-                        <hr />
+                                <p class="text-muted modal-descricao" >@Model.Descricao</p>
 
-                        <div class="mb-2">
-                            <strong>Preço:</strong>
-                            <span class="fs-5 text-success fw-bold">@Model.Preco.ToString("C")</span>
+                                <hr />
+
+                                <div class="mb-2">
+                                    <strong>Preço:</strong>
+                                    <span class="fs-5 text-success fw-bold">@Model.Preco.ToString("C")</span>
+                                </div>
+
+                                <div class="mb-2">
+                                    <strong>Tempo de preparo:</strong>@Model.TempoMedioPreparo minutos
+                                </div>
+
+                                <div class="mb-2">
+                                    <strong>Categoria:</strong>
+                                    <span class="badge bg-primary">@Model.CategoriaPrato.Categoria</span>
+                                </div>
+                                <div class="mt-3">
+                                    <strong>Status:</strong>
+                                    @if (Model.Disponibilidades){
+                                        <span class="badge bg-success">
+                                            Disponível
+                                        </span>
+                                    }else{
+                                        <span class="badge bg-danger">
+                                            Indisponível
+                                        </span>
+                                    }
+                                </div>
+                            </div>
                         </div>
 
-                        <div class="mb-2">
-                            <strong>Tempo de preparo:</strong>@Model.TempoMedioPreparo minutos
-                        </div>
-
-                        <div class="mb-2">
-                            <strong>Categoria:</strong>
-                            <span class="badge bg-primary">@Model.CategoriaPrato.Categoria</span>
-                        </div>
-                        <div class="mt-3">
-                            <strong>Status:</strong>
-                            @if (Model.Disponibilidades){
-                                <span class="badge bg-success">
-                                    Disponível
-                                </span>
-                            }else{
-                                <span class="badge bg-danger">
-                                    Indisponível
-                                </span>
-                            }
-                        </div>
+                        <div id="justificativaContainer"></div>
                     </div>
                 </div>
+
+                <!-- ABA HISTÓRICO -->
+                <div class="tab-pane fade"
+                     id="historico"
+                     role="tabpanel">
+
+                    <table class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th>Data</th>
+                                <th>Status</th>
+                                <th>Justificativa</th>
+                                <th>Usuário</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model.HistoricoDisponibilidade) {
+                                <tr>
+                                    <td>@item.Data.ToString("dd/MM/yyyy HH:mm:ss")</td>
+                                    <td>
+                                        @if (item.Disponivel) {
+                                            <span class="badge bg-success">
+                                                Disponível
+                                            </span>
+                                        } else {
+                                            <span class="badge bg-danger">
+                                                Indisponível
+                                            </span>
+                                        }
+                                    </td>
+                                    <td style="max-width:300px; white-space:normal; word-break:break-word;">@item.Justificativa</td>
+                                    <td>@item.Usuario.Nome</td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+
+                </div>
             </div>
-            <div class="modal-footer">
+            <div class="modal-footer" id="modalFooterPrato">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
             </div>
         </div>

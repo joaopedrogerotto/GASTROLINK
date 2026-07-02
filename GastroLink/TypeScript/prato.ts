@@ -1,6 +1,8 @@
 interface PratoStatus {
     Id: Number;
     Status: boolean;
+    Justificativa: String;
+    IdUsuario: Number;
 };
 
 interface FiltroBusca {
@@ -12,15 +14,23 @@ interface FiltroBusca {
 };
 
 document.addEventListener("click", (e) => {
+    const alterarStatus = (e.target as HTMLElement).closest(".alterar-status-prato");
+
+    if (alterarStatus) {
+        const id = Number(alterarStatus.getAttribute("data-id-prato"));
+        visualizarPrato(id, alterarStatus as HTMLElement);
+        return;
+    }
+
     const card = (e.target as HTMLElement).closest(".card-prato-link");
 
-    if (!card || (e.target as HTMLElement).closest(".alterar-status-prato") || (e.target as HTMLElement).closest(".editar-prato")) return;
-
-    const id = card.getAttribute("data-id");
-    visualizarPrato(Number(id));
+    if (card) {
+        const id = Number(card.getAttribute("data-id"));
+        visualizarPrato(id, card as HTMLElement);
+    }
 });
 
-function visualizarPrato(idUsuario: number): void {
+function visualizarPrato(idUsuario: number, target: HTMLElement): void {
     $.ajax({
         url: '/Prato/VisualizarPrato?idPrato=' + idUsuario,
         method: 'GET',
@@ -30,6 +40,54 @@ function visualizarPrato(idUsuario: number): void {
             if (modalElement) {
                 bootstrap.Modal.getOrCreateInstance(modalElement).show();
             }
+
+            if (target.classList.contains("alterar-status-prato")) {
+                const container = document.getElementById("justificativaContainer");
+
+                if (container) {
+                    container.innerHTML = `
+                            <hr>
+                            <div class="mb-3">
+                                <label for="txtJustificativa" class="form-label">
+                                    Justificativa da alteração
+                                </label>
+                                <textarea
+                                    id="txtJustificativa"
+                                    class="form-control"
+                                    rows="3"
+                                    placeholder="Digite o motivo da alteração de disponibilidade..."
+                                ></textarea>
+                            </div>
+                        `;
+                }
+
+                const footer = document.getElementById("modalFooterPrato");
+
+                if (footer && !document.getElementById("btnAlterarDisponibilidade")) {
+                    const botao = document.createElement("button");
+
+                    botao.type = "button";
+                    botao.id = "btnAlterarDisponibilidade";
+                    botao.className = "btn btn-danger";
+                    botao.textContent = "Atualizar Disponibilidade";
+                    botao.dataset.idPrato = idUsuario.toString();
+                    botao.dataset.status = target.getAttribute("data-status") ?? "false";
+
+                    footer.appendChild(botao);
+                }
+            } else {
+                const container = document.getElementById("justificativaContainer");
+
+                if (container) {
+                    container.innerHTML = "";
+                }
+
+                const botao = document.getElementById("btnAlterarDisponibilidade");
+
+                if (botao) {
+                    botao.remove();
+                }
+            }
         },
         error: function (xhr, status, error) {
             console.error("Erro ao carregar os dados do prato: ", error);
@@ -38,21 +96,22 @@ function visualizarPrato(idUsuario: number): void {
 }
 
 document.addEventListener("click", (e) => {
-    const prato = (e.target as HTMLElement).closest(".alterar-status-prato");
+    const btn = (e.target as HTMLElement).closest("#btnAlterarDisponibilidade");
 
-    if (!prato) return;
+    if (!btn) return;
 
     e.preventDefault();
     e.stopPropagation();
 
-    const id = Number(prato.getAttribute("data-id-prato"));
-    const status = prato.getAttribute("data-status")?.toLowerCase() === "true";
+    const id = Number(btn.getAttribute("data-id-prato"));
+    const status = btn.getAttribute("data-status")?.toLowerCase() === "true";
+    const justificativaInput = document.getElementById("txtJustificativa") as HTMLTextAreaElement | null;       
 
-    atualizarDisponibilidadePrato(id, status);
+    atualizarDisponibilidadePrato(id, status, justificativaInput?.value || "");
 });
 
-function atualizarDisponibilidadePrato(id: Number, status: boolean): void {
-    const PratoStatus: PratoStatus = { Id: id, Status: !status };
+function atualizarDisponibilidadePrato(id: Number, status: boolean, justificativa: string): void {
+    const PratoStatus: PratoStatus = { Id: id, Status: !status, Justificativa: justificativa, IdUsuario: 0 };
 
     $.ajax({
         url: "/Prato/AtualizarDisponibilidade",

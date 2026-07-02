@@ -115,6 +115,7 @@ namespace GastroLink.Controllers {
 
         [HttpPost]
         public async Task<IActionResult> AtualizarDisponibilidade([FromBody] PratoStatusUpdateDTO pratoStatusUpdateDTO) {
+            pratoStatusUpdateDTO.IdUsuario = HttpContext.Session.GetInt32("IdUsuario") ?? 0;
             await _facadePrato.AtualizarDisponibilidade(pratoStatusUpdateDTO);
             return Ok();
         }

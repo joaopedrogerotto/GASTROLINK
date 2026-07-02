@@ -26,6 +26,7 @@ namespace GastroLink.Controllers {
             }
 
             HttpContext.Session.SetString("NomeUsuario", usuario.Nome);
+            HttpContext.Session.SetInt32("IdUsuario", usuario.Id);
             HttpContext.Session.SetInt32("IdTipoUsuario", usuario.Tipo.Id);
             HttpContext.Session.SetString("TipoUsuarioStr", usuario.Tipo.Tipo);
 
