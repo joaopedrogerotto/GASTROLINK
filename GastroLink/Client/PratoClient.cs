@@ -17,7 +17,7 @@ namespace GastroLink.Client {
             using (var content = new MultipartFormDataContent()) {
                 content.Add(new StringContent(pratoCreateDTO.Nome), nameof(pratoCreateDTO.Nome));
                 content.Add(new StringContent(pratoCreateDTO.Descricao), nameof(pratoCreateDTO.Descricao));
-                content.Add(new StringContent(pratoCreateDTO.Preco.ToString(CultureInfo.InvariantCulture)), nameof(pratoCreateDTO.Preco));
+                content.Add(new StringContent(pratoCreateDTO.Preco.ToString(new CultureInfo("pt-BR"))), nameof(pratoCreateDTO.Preco));
                 content.Add(new StringContent(pratoCreateDTO.TempoMedioPreparo.ToString()), nameof(pratoCreateDTO.TempoMedioPreparo));
                 content.Add(new StringContent(pratoCreateDTO.IdCategoriaPrato.ToString()), nameof(pratoCreateDTO.IdCategoriaPrato));
 
@@ -85,7 +85,7 @@ namespace GastroLink.Client {
                 content.Add(new StringContent(pratoEditarDTO.Id.ToString()), nameof(pratoEditarDTO.Id));
                 content.Add(new StringContent(pratoEditarDTO.Nome), nameof(pratoEditarDTO.Nome));
                 content.Add(new StringContent(pratoEditarDTO.Descricao), nameof(pratoEditarDTO.Descricao));
-                content.Add(new StringContent(pratoEditarDTO.Preco.ToString(CultureInfo.InvariantCulture)), nameof(pratoEditarDTO.Preco));
+                content.Add(new StringContent(pratoEditarDTO.Preco.ToString(new CultureInfo("pt-BR"))), nameof(pratoEditarDTO.Preco));
                 content.Add(new StringContent(pratoEditarDTO.TempoMedioPreparo.ToString()), nameof(pratoEditarDTO.TempoMedioPreparo));
                 content.Add(new StringContent(pratoEditarDTO.IdCategoriaPrato.ToString()), nameof(pratoEditarDTO.IdCategoriaPrato));
                 content.Add(new StringContent(pratoEditarDTO.UrlImagem), nameof(pratoEditarDTO.UrlImagem));
