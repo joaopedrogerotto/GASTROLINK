@@ -48,5 +48,11 @@ namespace GastroLink.Controllers {
 
             return RedirectToAction("TodasMesas","Mesa");
         }
+
+        public async Task<IActionResult> Logout() {
+            await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
+            HttpContext.Session.Clear();
+            return RedirectToAction("Index", "Login");
+        }
     }
 }
