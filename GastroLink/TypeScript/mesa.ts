@@ -20,10 +20,25 @@ async function criarMesa(): Promise<void> {
         })
     });
 
+    const header = $("#headerModalCadastroMesa");
     if (response.ok) {
+        header.removeClass("bg-danger text-white");
+        header.addClass("bg-success text-white");
+        $("#statusCadastroMesa").text("Mesa criada com sucesso.");
+        bootstrap.Modal.getOrCreateInstance(document.getElementById("modalCadastroMesa")).show();
         carregarMesas();
-        $("#numeroMesaInput").val("");
+    } else {
+        header.removeClass("bg-success text-white");
+        header.addClass("bg-danger text-white");
+        if (response.status === 409) {
+            $("#statusCadastroMesa").text("Mesa já cadastrada.");
+        } else {
+            const erro = await response.json();
+            $("#statusCadastroMesa").text(erro.message ?? erro.Message ?? "Erro desconhecido.");
+        }
+        bootstrap.Modal.getOrCreateInstance(document.getElementById("modalCadastroMesa")).show();
     }
+    $("#numeroMesaInput").val("");
 }
 
 async function carregarMesas(): Promise<void> {

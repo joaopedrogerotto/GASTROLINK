@@ -1,4 +1,5 @@
 ﻿using APIGastroLink.DAO.Interfaces;
+using APIGastroLink.Exceptions;
 using APIGastroLink.Models;
 using Microsoft.Data.SqlClient;
 using System.Data;
@@ -20,10 +21,12 @@ namespace APIGastroLink.DAO {
                 using (SqlConnection conn = _database.OpenConnection()) {
                     using (SqlCommand cmd = new SqlCommand("PR_I_CADASTRAR_MESA", conn)) {
                         cmd.CommandType = CommandType.StoredProcedure;
-                        cmd.Parameters.AddWithValue("@NUMERO_MESA",Numero);
+                        cmd.Parameters.AddWithValue("@NUMERO_MESA", Numero);
                         cmd.ExecuteNonQuery();
                     }
                 }
+            } catch (SqlException ex) when (ex.Number == 2627 || ex.Number == 2601) {
+                throw new EntityAlreadyExistsException("Mesa já cadastrada");
             } catch (Exception ex) {
                 Console.WriteLine(ex.ToString());
             }

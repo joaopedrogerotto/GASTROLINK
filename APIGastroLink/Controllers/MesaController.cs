@@ -1,4 +1,5 @@
 ﻿using APIGastroLink.DTO;
+using APIGastroLink.Exceptions;
 using APIGastroLink.Facade.Interface;
 using APIGastroLink.Models;
 using Microsoft.AspNetCore.Mvc;
@@ -19,7 +20,9 @@ namespace APIGastroLink.Controllers {
             try {
                 _facadeMesa.CadastrarMesa(Mesa.NumeroMesa);
                 return Created();
-            }catch (Exception ex) {
+            } catch (EntityAlreadyExistsException ex) {
+                return Conflict(new { message = ex.Message });
+            } catch (Exception ex) {
                 return BadRequest(ex.Message);
             }
         }

@@ -1,4 +1,5 @@
 ﻿using GastroLink.DTO;
+using GastroLink.Exceptions;
 using GastroLink.Models;
 
 namespace GastroLink.Client {
@@ -21,6 +22,9 @@ namespace GastroLink.Client {
 
         public async Task<bool> SalvarMesa(MesaRequestDTO mesaRequestDTO) {
             var response = await _HttpClient.PostAsJsonAsync("Mesa/SalvarMesa", mesaRequestDTO);
+            if (response.StatusCode == System.Net.HttpStatusCode.Conflict) {
+                throw new EntityAlreadyExistsException("Categoria já cadastrada");
+            }
             return response.IsSuccessStatusCode;
         }
 
