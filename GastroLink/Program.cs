@@ -4,6 +4,9 @@ using GastroLink.Facade.Interface;
 using GastroLink.Mappings;
 using GastroLink.Service;
 using GastroLink.Settings;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc.ViewFeatures;
 using Microsoft.Extensions.Options;
 using System.Globalization;
 
@@ -75,6 +78,29 @@ builder.Services.AddScoped<IFacadeCategoriaPrato, FacadeCategoriaPrato>();
 builder.Services.AddScoped<IFacadeUsuario, FacadeUsuario>();
 builder.Services.AddScoped<IFacadePrato, FacadePrato>();
 
+builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+    .AddCookie(options => {
+        options.LoginPath = "/Login";
+        options.LogoutPath = "/Login/Sair";
+        options.ExpireTimeSpan = TimeSpan.FromMinutes(120);
+        options.SlidingExpiration = true;
+
+        options.Events.OnRedirectToLogin = context => {
+            context.HttpContext.Response.Redirect($"{context.RedirectUri}");
+
+            var tempdata = context.HttpContext.RequestServices.GetRequiredService<ITempDataDictionaryFactory>().GetTempData(context.HttpContext);
+            tempdata["FalhaLogin"] = "É necessário fazer login para acessar o sistema.";
+            tempdata.Save();
+
+            return Task.CompletedTask;
+        };
+});
+
+builder.Services.AddAuthorization(options => {
+    options.FallbackPolicy = new AuthorizationPolicyBuilder()
+        .RequireAuthenticatedUser()
+        .Build();
+});
 
 var app = builder.Build();
 
@@ -91,9 +117,10 @@ app.UseRouting();
 
 app.UseSession();
 
+app.UseAuthentication();
 app.UseAuthorization();
 
-app.MapStaticAssets();
+app.MapStaticAssets().AllowAnonymous();
 
 app.MapControllerRoute(
     name: "default",

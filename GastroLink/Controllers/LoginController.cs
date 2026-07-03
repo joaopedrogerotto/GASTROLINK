@@ -1,9 +1,14 @@
 ﻿using GastroLink.Facade;
 using GastroLink.Facade.Interface;
 using GastroLink.Models;
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System.Security.Claims;
 
 namespace GastroLink.Controllers {
+    [AllowAnonymous]
     public class LoginController : Controller {
         private readonly IFacadeLogin _facadeLogin;
 
@@ -24,6 +29,17 @@ namespace GastroLink.Controllers {
                 TempData["FalhaLogin"] = "Login e/ou Senha incorretos.";
                 return View("Index");
             }
+
+            var claims = new List<Claim> {
+                new Claim(ClaimTypes.Name, usuario.Nome),
+                new Claim(ClaimTypes.Role, usuario.Tipo.Tipo)
+            };
+
+            var identity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
+            var principal = new ClaimsPrincipal(identity);
+            
+            await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, principal);
+
 
             HttpContext.Session.SetString("NomeUsuario", usuario.Nome);
             HttpContext.Session.SetInt32("IdUsuario", usuario.Id);
