@@ -1,5 +1,9 @@
-﻿@model Prato
+﻿@inject IConfiguration Configuration;
+@model Prato
 
+@{
+    var tipo = Context.Session.GetString("TipoUsuarioStr");
+}
 
 <div class="modal fade" id="visualizarPratoModel" tabindex="-1" aria-labelledby="visualizarPratoLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg modal-dialog-centered">
@@ -17,12 +21,13 @@
                             Detalhes
                         </button>
                     </li>
-
-                    <li class="nav-item" role="presentation">
-                        <button class="nav-link" id="historico-tab" data-bs-toggle="tab" data-bs-target="#historico" type="button" role="tab">
-                            Histórico de Disponibilidade
-                        </button>
-                    </li>
+                    @if (tipo == "ADMINISTRADOR" || tipo == "GERENTE") {
+                        <li class="nav-item" role="presentation">
+                            <button class="nav-link" id="historico-tab" data-bs-toggle="tab" data-bs-target="#historico" type="button" role="tab">
+                                Histórico de Disponibilidade
+                            </button>
+                        </li>
+                    }
                 </ul>
                 <!-- ABA DETALHES -->
                 <div class="tab-content">
@@ -48,10 +53,10 @@
                                     <strong>Tempo de preparo:</strong>@Model.TempoMedioPreparo minutos
                                 </div>
 
-                                <div class="mb-2">
-                                    <strong>Categoria:</strong>
-                                    <span class="badge bg-primary">@Model.CategoriaPrato.Categoria</span>
-                                </div>
+                                    <div class="mb-2">
+                                        <strong>Categoria:</strong>
+                                        <span class="badge bg-primary">@Model.CategoriaPrato.Categoria</span>
+                                    </div>
                                 <div class="mt-3">
                                     <strong>Status:</strong>
                                     @if (Model.Disponibilidades){
@@ -64,50 +69,59 @@
                                         </span>
                                     }
                                 </div>
+                                <div class="mb-2">
+                                    <label for="quantidadeItem" class="form-label">Quantidade:</label>
+                                    <input type="number" class="form-control" id="quantidadeItem" placeholder="1" min="1" value="1">
+                                </div>
                             </div>
                         </div>
 
-                        <div id="justificativaContainer"></div>
+                        @if (tipo == "ADMINISTRADOR" || tipo == "GERENTE"){
+                            <div id="justificativaContainer"></div>
+                        }else{
+                            <div id="observacaoPrato"></div>
+                        }
                     </div>
                 </div>
+                
+                @if (tipo == "ADMINISTRADOR" || tipo == "GERENTE") {
+                    <!-- ABA HISTÓRICO -->
+                    <div class="tab-pane fade"
+                    id="historico"
+                    role="tabpanel">
 
-                <!-- ABA HISTÓRICO -->
-                <div class="tab-pane fade"
-                     id="historico"
-                     role="tabpanel">
-
-                    <table class="table table-striped">
-                        <thead>
-                            <tr>
-                                <th>Data</th>
-                                <th>Status</th>
-                                <th>Justificativa</th>
-                                <th>Usuário</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach (var item in Model.HistoricoDisponibilidade) {
+                        <table class="table table-striped">
+                            <thead>
                                 <tr>
-                                    <td>@item.Data.ToString("dd/MM/yyyy HH:mm:ss")</td>
-                                    <td>
-                                        @if (item.Disponivel) {
-                                            <span class="badge bg-success">
-                                                Disponível
-                                            </span>
-                                        } else {
-                                            <span class="badge bg-danger">
-                                                Indisponível
-                                            </span>
-                                        }
-                                    </td>
-                                    <td style="max-width:300px; white-space:normal; word-break:break-word;">@item.Justificativa</td>
-                                    <td>@item.Usuario.Nome</td>
+                                    <th>Data</th>
+                                    <th>Status</th>
+                                    <th>Justificativa</th>
+                                    <th>Usuário</th>
                                 </tr>
-                            }
-                        </tbody>
-                    </table>
-
-                </div>
+                            </thead>
+                            <tbody>
+                                @foreach (var item in Model.HistoricoDisponibilidade) {
+                                    <tr>
+                                        <td>@item.Data.ToString("dd/MM/yyyy HH:mm:ss")</td>
+                                        <td>
+                                            @if (item.Disponivel) {
+                                                <span class="badge bg-success">
+                                                    Disponível
+                                                </span>
+                                            } else {
+                                                <span class="badge bg-danger">
+                                                    Indisponível
+                                                </span>
+                                            }
+                                        </td>
+                                        <td style="max-width:300px; white-space:normal; word-break:break-word;">@item.Justificativa</td>
+                                        <td>@item.Usuario.Nome</td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                }
             </div>
             <div class="modal-footer" id="modalFooterPrato">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>

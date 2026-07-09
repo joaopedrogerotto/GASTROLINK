@@ -1,0 +1,14 @@
+﻿.nav-tabs .nav-link {
+    color: #000;
+    font-weight: bold;
+}
+
+.nav-tabs .nav-link:hover,
+.nav-tabs .nav-link:focus {
+    color: #000;
+}
+
+.nav-tabs .nav-link.active {
+    color: #000;
+    font-weight: bold;
+}

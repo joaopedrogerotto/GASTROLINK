@@ -3,11 +3,13 @@ using GastroLink.Facade;
 using GastroLink.Facade.Interface;
 using GastroLink.Mappings;
 using GastroLink.Service;
+using GastroLink.Service.Interfaces;
 using GastroLink.Settings;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc.ViewFeatures;
 using Microsoft.Extensions.Options;
+using StackExchange.Redis;
 using System.Globalization;
 
 var culture = new CultureInfo("pt-BR");
@@ -66,17 +68,36 @@ builder.Services.AddHttpClient<PratoClient>((name, client) => {
         .Value;
     client.BaseAddress = new Uri(settings.BaseUrl);
 });
+builder.Services.AddHttpClient<CardapioClient>((name, client) => {
+    var settings = name
+        .GetRequiredService<IOptions<ApiGastroLinkSettings>>()
+        .Value;
+    client.BaseAddress = new Uri(settings.BaseUrl);
+});
+builder.Services.AddHttpClient<PedidoClient>((name, client) => {
+    var settings = name
+        .GetRequiredService<IOptions<ApiGastroLinkSettings>>()
+        .Value;
+    client.BaseAddress = new Uri(settings.BaseUrl);
+});
+
 
 
 builder.Services.AddDistributedMemoryCache();
 builder.Services.AddSession();
 
+builder.Services.AddSingleton<IConnectionMultiplexer>(ConnectionMultiplexer.Connect("localhost:6379"));
+
 builder.Services.AddScoped<IFacadeLogin, FacadeLogin>();
+builder.Services.AddScoped<IFacadeCardapio, FacadeCardapio>();
 builder.Services.AddScoped<IFacadeMesa, FacadeMesa>();
 builder.Services.AddScoped<IFacadeTipoUsuario, FacadeTipoUsuario>();
 builder.Services.AddScoped<IFacadeCategoriaPrato, FacadeCategoriaPrato>();
 builder.Services.AddScoped<IFacadeUsuario, FacadeUsuario>();
 builder.Services.AddScoped<IFacadePrato, FacadePrato>();
+builder.Services.AddScoped<IFacadePedido, FacadePedido>();
+
+builder.Services.AddScoped<IRascunhoPedidoService, RascunhoPedidoService>();
 
 builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
     .AddCookie(options => {

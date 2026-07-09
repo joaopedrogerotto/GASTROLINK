@@ -21,6 +21,7 @@ builder.Services.AddScoped<IDAOUsuario, DAOUsuario>();
 builder.Services.AddScoped<IDAOCategoriaPrato, DAOCategoriaPrato>();
 builder.Services.AddScoped<IDAOPrato, DAOPrato>();
 builder.Services.AddScoped<IDAOHistoricoDisponibilidade, DAOHistoricoDisponibilidade>();
+builder.Services.AddScoped<IDAOPedido, DAOPedido>();
 
 builder.Services.AddScoped<IFacadeLogin, FacadeLogin>();
 builder.Services.AddScoped<IFacadeMesa, FacadeMesa>();
@@ -28,9 +29,12 @@ builder.Services.AddScoped<IFacadeTipoUsuario, FacadeTipoUsuario>();
 builder.Services.AddScoped<IFacadeUsuario, FacadeUsuario>();
 builder.Services.AddScoped<IFacadeCategoriaPrato, FacadeCategoriaPrato>();
 builder.Services.AddScoped<IFacadePrato, FacadePrato>();
+builder.Services.AddScoped<IFacadeCardapio, FacadeCardapio>();
+builder.Services.AddScoped<IFacadePedido, FacadePedido>();
 
 builder.Services.AddScoped<PasswordService>();
 builder.Services.AddScoped<IImagemService, ImagemService>();
+builder.Services.AddScoped<IPedidoService, PedidoService>();
 
 builder.Services.AddCors(options => {
     options.AddPolicy("PermitirMVC", policy => {

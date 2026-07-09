@@ -6,5 +6,6 @@ namespace APIGastroLink.DAO.Interfaces {
         public void Insert(CategoriaPrato categoriaPrato);
         public List<CategoriaPrato> SelectAll();
         public List<CategoriaPratoDTO> SelectAllDTOQuantidadePratos();
+        public Task<List<CategoriaPrato>> SelectCardapio();
     }
 }

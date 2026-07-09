@@ -56,6 +56,10 @@
             "AutoMapper": {
               "target": "Package",
               "version": "[16.1.1, )"
+            },
+            "StackExchange.Redis": {
+              "target": "Package",
+              "version": "[3.0.11, )"
             }
           },
           "imports": [

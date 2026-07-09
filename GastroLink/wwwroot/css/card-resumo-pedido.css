@@ -1,0 +1,11 @@
+﻿.imagem-prato {
+    width: 90px;
+    height: 90px;
+    object-fit: cover;
+}
+
+.resumo-pedido {
+    display: flex !important;
+    flex-direction: row !important;
+    align-items: center !important;
+}

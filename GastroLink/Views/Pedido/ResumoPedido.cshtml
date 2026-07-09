@@ -1,0 +1,92 @@
+﻿@model RascunhoPedido
+
+<link rel="stylesheet" href="~/css/card-resumo-pedido.css" media="all" />
+
+<div class="modal fade" id="modalResumoPrato" tabindex="-1" aria-labelledby="modalResumoPrato" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-centered">
+        <div class="modal-content shadow">
+            <div class="modal-header">
+                <h5 class="modal-title" id="modalResumoPrato">
+                    Resumo Pedido
+                </h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+
+            <div class="modal-body">
+                <input type="hidden" value="@Model.MesaId" id="mesaId" />
+                @foreach (var item in Model.Itens) {
+                    <div class="card mb-3 shadow-sm border-0">
+                        <div class="card-body d-flex align-items-center resumo-pedido">
+
+                            <img src="@item.Prato.UrlImagem" alt="@item.Prato.Nome" class="rounded flex-shrink-0 me-3" style="width:90px; height:90px; object-fit:cover;" />
+
+                            <div class="flex-grow-1">
+                                <h5 class="mb-1">
+                                    @item.Prato.Nome
+                                </h5>
+
+                                <small class="text-muted d-block">
+                                    Observação:
+                                    @(string.IsNullOrWhiteSpace(item.Observacao) ? "Nenhuma" : item.Observacao)
+                                </small>
+                            </div>
+
+                            <div class="ms-auto">
+                                <span class="badge bg-primary rounded-pill fs-6 px-3 py-2"> @item.Quantidade </span>
+                            </div>
+
+                        </div>
+                    </div>
+                }
+            </div>
+
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary"data-bs-dismiss="modal"> Fechar </button>
+                <button type="button" class="btn btn-success" id="btnConfirmarPedido"> Confirmar </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="modalSucessoCadastroPedido" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+
+            <div class="modal-header">
+                <h5 class="modal-title" id="tituloSucessoCadastroPedido">Pedido Criado</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+
+            <div class="modal-body" id="textSucessoCadastroPedido">
+                Pedido criado com sucesso.
+            </div>
+
+            <div class="modal-footer">
+                <button type="button" class="btn btn-success" data-bs-dismiss="modal">OK</button>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="modalFalhaCadastroPedido" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+
+            <div class="modal-header">
+                <h5 class="modal-title" id="tituloFalhaCadastroPedido">Falha ao Criar Pedido</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+
+            <div class="modal-body" id="textFalhaCadastroPedido">
+                Falha ao criar pedido.
+            </div>
+
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger" data-bs-dismiss="modal">OK</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="~/js/pedido.js" type="module"></script>

@@ -73,5 +73,50 @@ namespace APIGastroLink.DAO {
             }
             return categorias;
         }
+
+        public async Task<List<CategoriaPrato>> SelectCardapio() {
+            var categorias = new List<CategoriaPrato>();
+
+            try {
+                using (SqlConnection conn = _database.OpenConnection()) {
+                    using (SqlCommand cmd = new SqlCommand("PR_S_CARDAPIO", conn)) {
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        using (SqlDataReader reader = cmd.ExecuteReader()) {
+                            var categoriasMap = new Dictionary<int, CategoriaPrato>();
+                            while (reader.Read()) {
+                                int categoriaId = reader.GetInt32(reader.GetOrdinal("CTP_ID"));
+                                var categoria = new CategoriaPrato();
+                                if (!categoriasMap.ContainsKey(categoriaId)) {
+                                    categoria = new CategoriaPrato {
+                                        Id = reader.GetInt32(reader.GetOrdinal("CTP_ID")),
+                                        Categoria = reader.GetString(reader.GetOrdinal("CATEGORIA"))
+                                    };
+                                    categoriasMap[categoriaId] = categoria;
+                                }
+
+                                categoria = categoriasMap[categoriaId];
+
+                                categoria.Pratos.Add(
+                                    new Prato {
+                                        Id = reader.GetInt32(reader.GetOrdinal("PRT_ID")),
+                                        Nome = reader.GetString(reader.GetOrdinal("NOME")),
+                                        Preco = reader.GetDecimal(reader.GetOrdinal("PRECO")),
+                                        Descricao = reader.GetString(reader.GetOrdinal("DESCRICAO")),
+                                        TempoMedioPreparo = reader.GetInt32(reader.GetOrdinal("TEMPO_MEDIO")),
+                                        UrlImagem = reader.GetString(reader.GetOrdinal("URL_IMAGEM")),
+                                        Disponibilidades = true
+                                    }
+                                );
+                            }
+
+                            categorias.AddRange(categoriasMap.Values);
+                        }
+                    }
+                }
+                return categorias;
+            } catch (SqlException ex) {
+                throw new Exception("Erro ao selecionar cardápio: " + ex.Message);
+            }
+        }
     }   
 }

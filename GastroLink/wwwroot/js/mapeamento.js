@@ -44,7 +44,6 @@ function salvarPosicao(mesa) {
     const id = parseInt(mesa.getAttribute("data-id") || "0");
     const x = parseInt(mesa.style.left);
     const y = parseInt(mesa.style.top);
-    console.log("Salvar:", id, x, y);
 }
 function salvarLayout() {
     const mesas = [];
@@ -84,4 +83,10 @@ function mostrarModal(status) {
     }
     bootstrap.Modal.getOrCreateInstance(document.getElementById("modalSalvarLayout")).show();
 }
+document.addEventListener("click", (e) => {
+    const mesa = e.target.closest(".mesa-livre");
+    if (!mesa)
+        return;
+    window.location.href = `/Pedido/CriarPedido?idMesa=${mesa.getAttribute("data-id")}`;
+});
 //# sourceMappingURL=mapeamento.js.map

@@ -72,8 +72,6 @@ function salvarPosicao(mesa: HTMLElement): void {
     const id: number = parseInt(mesa.getAttribute("data-id") || "0");
     const x: number = parseInt(mesa.style.left);
     const y: number = parseInt(mesa.style.top);
-
-    console.log("Salvar:", id, x, y);
 }
 
 
@@ -123,3 +121,11 @@ function mostrarModal(status: string): void {
 
     bootstrap.Modal.getOrCreateInstance(document.getElementById("modalSalvarLayout")).show();
 }
+
+document.addEventListener("click", (e) => {
+    const mesa = (e.target as HTMLElement).closest(".mesa-livre");
+
+    if (!mesa) return;
+
+    window.location.href = `/Pedido/CriarPedido?idMesa=${mesa.getAttribute("data-id")}`;
+})
