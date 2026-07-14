@@ -2,6 +2,7 @@ using APIGastroLink.DAO;
 using APIGastroLink.DAO.Interfaces;
 using APIGastroLink.Facade;
 using APIGastroLink.Facade.Interface;
+using APIGastroLink.Hubs;
 using APIGastroLink.Services;
 using APIGastroLink.Services.Interfaces;
 
@@ -36,12 +37,17 @@ builder.Services.AddScoped<PasswordService>();
 builder.Services.AddScoped<IImagemService, ImagemService>();
 builder.Services.AddScoped<IPedidoService, PedidoService>();
 
+builder.Services.AddScoped<IPedidoNotificacaoService, PedidoNotificacaoService>();
+
+builder.Services.AddSignalR();
+
 builder.Services.AddCors(options => {
     options.AddPolicy("PermitirMVC", policy => {
         policy
             .WithOrigins("https://localhost:7102")
             .AllowAnyHeader()
-            .AllowAnyMethod();
+            .AllowAnyMethod()
+            .AllowCredentials();
     });
 });
 
@@ -61,6 +67,8 @@ app.UseAuthorization();
 app.UseStaticFiles();
 
 app.MapControllers();
+
+app.MapHub<PedidoHub>("/pedidoHub");
 
 app.Run();
 

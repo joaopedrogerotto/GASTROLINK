@@ -1,6 +1,7 @@
 ﻿using APIGastroLink.DAO.Interfaces;
 using APIGastroLink.DTO;
 using APIGastroLink.Facade.Interface;
+using APIGastroLink.Models;
 using APIGastroLink.Services.Interfaces;
 
 namespace APIGastroLink.Facade {
@@ -13,9 +14,10 @@ namespace APIGastroLink.Facade {
             _daoPedido = daoPedido;
         }
 
-        public async Task CadastrarPedido(PedidoCreateDTO pedido) {
+        public async Task<Pedido> CadastrarPedido(PedidoCreateDTO pedido) {
             pedido.ValorTotal = _pedidoService.CalcularValorTotalPedido(pedido.Itens);
-            await _daoPedido.CadastrarPedido(pedido);
+            int idPedido = await _daoPedido.CadastrarPedido(pedido);
+            return await _daoPedido.SelecionarPedidoPorId(idPedido);
         }
     }
 }

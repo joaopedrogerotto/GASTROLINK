@@ -9,15 +9,18 @@ namespace APIGastroLink.Controllers {
     [Route("api-gastrolink/[controller]")]
     public class PedidoController : ControllerBase {
         private readonly IFacadePedido _facadePedido;
-
-        public PedidoController(IFacadePedido facadePedido) {
+        private readonly IPedidoNotificacaoService _pedidoNotificacaoService;
+         
+        public PedidoController(IFacadePedido facadePedido, IPedidoNotificacaoService pedidoNotificacaoService) {
             _facadePedido = facadePedido;
+            _pedidoNotificacaoService = pedidoNotificacaoService;
         }
 
         [HttpPost]
         public async Task<IActionResult> CadastrarPedido([FromBody] PedidoCreateDTO pedido) {
             try {
-                await _facadePedido.CadastrarPedido(pedido);
+                var novoPedido = await _facadePedido.CadastrarPedido(pedido);
+                await _pedidoNotificacaoService.NovoPedido(novoPedido);
             } catch (Exception ex) {
                 return BadRequest(ex.Message);
             }

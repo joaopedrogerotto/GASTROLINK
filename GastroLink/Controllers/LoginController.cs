@@ -46,6 +46,10 @@ namespace GastroLink.Controllers {
             HttpContext.Session.SetInt32("IdTipoUsuario", usuario.Tipo.Id);
             HttpContext.Session.SetString("TipoUsuarioStr", usuario.Tipo.Tipo);
 
+            if(usuario.Tipo.Tipo == "COZINHA") {
+                return RedirectToAction("TodosPedidos", "Cozinha");
+            }
+
             return RedirectToAction("TodasMesas","Mesa");
         }
 
