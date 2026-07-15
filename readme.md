@@ -7,7 +7,8 @@ Inicialmente, o sistema será uma aplicação Web MVC, com possibilidade de expa
 ## 🛠️ Tecnologias
 ### Backend
 - ASP.NET Core MVC(.NET 9)
-- ADO.NET 
+- ADO.NET
+- SignalR
 
 ### Frontend
 - HTML 5
@@ -17,6 +18,7 @@ Inicialmente, o sistema será uma aplicação Web MVC, com possibilidade de expa
 
 ### Banco de Dados
 - SQL Server 2022
+- Redis (Cache)
 
 
 ## 📐 Padrões de Projeto
@@ -25,6 +27,12 @@ Inicialmente, o sistema será uma aplicação Web MVC, com possibilidade de expa
 - Service Layer
 - DTO (Data Transfer Object)
 - Mapper
+  
+## ⚙️ Recursos Utilizados
+
+- **SignalR** para comunicação em tempo real entre atendimento, cozinha e caixa.
+- **Redis** para cache e armazenamento temporário dos pedidos até a confirmação do mesmo, melhorando o desempenho e reduzindo acessos ao banco de dados.
+
 
 ## 📋 Principais Funcionalidades
 
@@ -37,7 +45,7 @@ Inicialmente, o sistema será uma aplicação Web MVC, com possibilidade de expa
 
 
 ## 📚 Documentação
-- [📄 Documento de Requisitos](./REQUISITOS%20GASTROLINK.pdf)
+- [📄 Documento de Requisitos](./Documentação/REQUISITOS%20GASTROLINK.pdf)
 
 
 ## 📄 Licença
