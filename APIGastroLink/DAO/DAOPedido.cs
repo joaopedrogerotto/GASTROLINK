@@ -77,9 +77,7 @@ namespace APIGastroLink.DAO {
                                         Nome = reader.GetString(reader.GetOrdinal("NOME_PRATO"))
                                     }
                                 }
-                                );
-
-                            return pedido;
+                              );
                         }
                     }
                     return pedidosMap[idPedido];

@@ -13,15 +13,21 @@ function adicionarNovoPedidoNaTela(pedido: any): void {
     console.log(pedido);
     const container = document.getElementById("containerPedidos");
 
+    const itensPedido = pedido.itens.map((item: any) => `
+        <p class="card-text">Prato: ${item.prato.nome}</p>
+        <p class="card-text">Quantidade: ${item.quantidade}</p>
+        <p class="card-text">Observação: ${item.observacao}</p>
+        <hr>
+    `).join("");
+
     container?.insertAdjacentHTML(
-        "beforeend",
-        `<div class="card">
+        "beforeend",        `<div class="card">
             <div class="card-header">
                 Pedido #${pedido.id}
             </div>
             <div class="card-body">
-                <h5 class="card-title"></h5>
-                <p class="card-text">TESTE</p>
+                <h5 class="card-title">Mesa ${pedido.mesa.numero}</h5>
+                ${itensPedido}
                 <a href="#" class="btn btn-primary">TESTE</a>
             </div>
         </div>
