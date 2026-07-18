@@ -10,7 +10,7 @@ namespace APIGastroLink.DAO {
         }
 
         public void CloseConnection(SqlConnection connection) {
-            if(connection !=  null && connection.State == System.Data.ConnectionState.Open) {
+            if (connection != null && connection.State == System.Data.ConnectionState.Open) {
                 connection.Close();
             }
         }

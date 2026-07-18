@@ -1,7 +1,6 @@
 using GastroLink.Client;
 using GastroLink.Facade;
 using GastroLink.Facade.Interface;
-using GastroLink.Mappings;
 using GastroLink.Service;
 using GastroLink.Service.Interfaces;
 using GastroLink.Settings;
@@ -80,6 +79,13 @@ builder.Services.AddHttpClient<PedidoClient>((name, client) => {
         .Value;
     client.BaseAddress = new Uri(settings.BaseUrl);
 });
+builder.Services.AddHttpClient<CozinhaClient>((name, client) => {
+    var settings = name
+        .GetRequiredService<IOptions<ApiGastroLinkSettings>>()
+        .Value;
+    client.BaseAddress = new Uri(settings.BaseUrl);
+});
+
 
 
 
@@ -115,7 +121,7 @@ builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationSc
 
             return Task.CompletedTask;
         };
-});
+    });
 
 builder.Services.AddAuthorization(options => {
     options.FallbackPolicy = new AuthorizationPolicyBuilder()
@@ -126,8 +132,7 @@ builder.Services.AddAuthorization(options => {
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
-if (!app.Environment.IsDevelopment())
-{
+if (!app.Environment.IsDevelopment()) {
     app.UseExceptionHandler("/Home/Error");
     // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
     app.UseHsts();

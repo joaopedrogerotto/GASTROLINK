@@ -29,7 +29,7 @@ namespace APIGastroLink.Facade {
             Usuario.Password = _passwordService.HashPassword(Usuario.Password);
             _daoUsuario.Insert(Usuario);
         }
-      
+
         public Usuario ObterUsuarioPeloId(int usuarioId) => _daoUsuario.SelectById(usuarioId);
 
         public List<Usuario> ObterTodosUsuarios() => _daoUsuario.SelectAll();

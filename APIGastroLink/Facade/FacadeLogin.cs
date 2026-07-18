@@ -13,7 +13,7 @@ namespace APIGastroLink.Facade {
         }
 
         public Usuario ValidarLogin(Login Login) {
-           var usuario = _daoLogin.Autenticar(Login);
+            var usuario = _daoLogin.Autenticar(Login);
             if (usuario == null) {
                 return null;
             }

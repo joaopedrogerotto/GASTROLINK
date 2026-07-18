@@ -19,9 +19,9 @@ namespace APIGastroLink.Controllers {
                 _facade.CadastrarCategoriaPrato(categoriaPrato);
                 return Ok();
             } catch (EntityAlreadyExistsException ex) {
-                return Conflict(new {message = ex.Message});
+                return Conflict(new { message = ex.Message });
             } catch (Exception ex) {
-                return StatusCode(500, new {Message = "Erro interno: " + ex.Message});
+                return StatusCode(500, new { Message = "Erro interno: " + ex.Message });
             }
         }
 

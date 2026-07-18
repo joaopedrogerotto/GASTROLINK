@@ -28,7 +28,7 @@ namespace GastroLink.Client {
             return response.IsSuccessStatusCode;
         }
 
-        public async Task<bool> SalvarLayoutMesas (List<LayoutMesaDTO> listLayout) {
+        public async Task<bool> SalvarLayoutMesas(List<LayoutMesaDTO> listLayout) {
             var response = await _HttpClient.PostAsJsonAsync("Mesa/SalvarLayout", listLayout);
             return response.IsSuccessStatusCode;
         }

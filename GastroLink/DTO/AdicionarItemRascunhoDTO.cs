@@ -1,5 +1,4 @@
 ﻿using GastroLink.Models;
-using GastroLink.Service;
 
 namespace GastroLink.DTO {
     public class AdicionarItemRascunhoDTO {

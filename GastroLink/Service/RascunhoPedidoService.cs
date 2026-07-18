@@ -30,6 +30,6 @@ namespace GastroLink.Service {
         public int ObterQuantidadePratos(List<RascunhoItemPedido> itens) => itens.Sum(item => item.Quantidade);
 
         public async Task RemoverRascunho(int mesaId) => await _database.KeyDeleteAsync($"pedido:mesa:{mesaId}");
-        
+
     }
 }

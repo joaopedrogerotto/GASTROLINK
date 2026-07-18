@@ -8,6 +8,6 @@ namespace GastroLink.Facade {
         public FacadeCardapio(CardapioClient client) {
             _client = client;
         }
-        public async Task<List<CategoriaPrato>> SelecionarCardapio() => await _client.SelecionarCardapio(); 
+        public async Task<List<CategoriaPrato>> SelecionarCardapio() => await _client.SelecionarCardapio();
     }
 }

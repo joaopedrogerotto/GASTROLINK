@@ -3,7 +3,7 @@ using APIGastroLink.Models;
 
 namespace APIGastroLink.Mapper {
     public class PratoMapper {
-        public static Prato ToEntidade (PratoCreateDTO pratoCreateDTO) {
+        public static Prato ToEntidade(PratoCreateDTO pratoCreateDTO) {
             return new Prato {
                 Nome = pratoCreateDTO.Nome,
                 Descricao = pratoCreateDTO.Descricao,
@@ -13,7 +13,7 @@ namespace APIGastroLink.Mapper {
             };
         }
 
-        public static Prato ToEntidade (PratoStatusUpdateDTO pratoStatusUpdateDTO) {
+        public static Prato ToEntidade(PratoStatusUpdateDTO pratoStatusUpdateDTO) {
             return new Prato {
                 Id = pratoStatusUpdateDTO.Id,
                 Disponibilidades = pratoStatusUpdateDTO.Status

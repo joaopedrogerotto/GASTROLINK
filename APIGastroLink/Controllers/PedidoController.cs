@@ -1,5 +1,4 @@
-﻿using APIGastroLink.DAO.Interfaces;
-using APIGastroLink.DTO;
+﻿using APIGastroLink.DTO;
 using APIGastroLink.Facade.Interface;
 using APIGastroLink.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
@@ -10,7 +9,7 @@ namespace APIGastroLink.Controllers {
     public class PedidoController : ControllerBase {
         private readonly IFacadePedido _facadePedido;
         private readonly IPedidoNotificacaoService _pedidoNotificacaoService;
-         
+
         public PedidoController(IFacadePedido facadePedido, IPedidoNotificacaoService pedidoNotificacaoService) {
             _facadePedido = facadePedido;
             _pedidoNotificacaoService = pedidoNotificacaoService;

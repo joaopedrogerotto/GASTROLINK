@@ -25,16 +25,16 @@ namespace GastroLink.Controllers {
             return Json(categorias);
         }
 
-        public async Task<IActionResult> CadastrarCategoria([FromBody]CategoriaPrato categoriaPrato) {
+        public async Task<IActionResult> CadastrarCategoria([FromBody] CategoriaPrato categoriaPrato) {
             try {
                 var resultado = await _facadeCategoria.SalvarCategoria(categoriaPrato);
                 if (resultado) {
                     return Ok();
                 }
-            }catch(EntityAlreadyExistsException eaEX) {
-                return Conflict(new { message = "Categoria já cadastrada"});
+            } catch (EntityAlreadyExistsException eaEX) {
+                return Conflict(new { message = "Categoria já cadastrada" });
             }
-            return BadRequest(new {message = "Falha ao cadastrar categoria"});
+            return BadRequest(new { message = "Falha ao cadastrar categoria" });
         }
     }
 }

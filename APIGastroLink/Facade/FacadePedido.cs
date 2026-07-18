@@ -19,5 +19,7 @@ namespace APIGastroLink.Facade {
             int idPedido = await _daoPedido.CadastrarPedido(pedido);
             return await _daoPedido.SelecionarPedidoPorId(idPedido);
         }
+
+        public async Task<List<Pedido>> SelecionarPedidosCozinha() => await _daoPedido.SelecionarPedidosEmPreparo();
     }
 }

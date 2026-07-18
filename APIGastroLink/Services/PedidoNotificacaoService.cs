@@ -1,5 +1,4 @@
-﻿using APIGastroLink.DTO;
-using APIGastroLink.Hubs;
+﻿using APIGastroLink.Hubs;
 using APIGastroLink.Models;
 using APIGastroLink.Services.Interfaces;
 using Microsoft.AspNetCore.SignalR;

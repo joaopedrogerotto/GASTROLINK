@@ -29,7 +29,7 @@ namespace APIGastroLink.DAO {
         public void Insert(Usuario Usuario) {
             try {
                 using (SqlConnection conn = _database.OpenConnection()) {
-                    using (SqlCommand cmd =  new SqlCommand("PR_I_CADASTRO_USUARIO", conn)) {
+                    using (SqlCommand cmd = new SqlCommand("PR_I_CADASTRO_USUARIO", conn)) {
                         cmd.CommandType = CommandType.StoredProcedure;
                         cmd.Parameters.AddWithValue("@NOME", Usuario.Nome);
                         cmd.Parameters.AddWithValue("@LOGIN", Usuario.Login);
@@ -65,10 +65,10 @@ namespace APIGastroLink.DAO {
                             }
                             return usuarios;
                         }
-                    }   
+                    }
                 }
-            }catch (Exception sqlEx) { 
-                throw new Exception( sqlEx.Message); 
+            } catch (Exception sqlEx) {
+                throw new Exception(sqlEx.Message);
             }
         }
 

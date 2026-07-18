@@ -1,5 +1,4 @@
-﻿using APIGastroLink.DAO.Interfaces;
-using APIGastroLink.Facade.Interface;
+﻿using APIGastroLink.Facade.Interface;
 using APIGastroLink.Models;
 using Microsoft.AspNetCore.Mvc;
 
@@ -16,13 +15,13 @@ namespace APIGastroLink.Controllers {
 
         [HttpPost]
         public ActionResult Login(Login Login) {
-            if(Login == null) {
+            if (Login == null) {
                 return BadRequest("Login não pode ser nulo");
             }
 
             var usuario = _facade.ValidarLogin(Login);
 
-            if(usuario == null) {
+            if (usuario == null) {
                 return BadRequest("Login e/ou Senha inválido");
             }
 

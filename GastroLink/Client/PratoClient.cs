@@ -1,6 +1,5 @@
 ﻿using GastroLink.DTO;
 using GastroLink.Models;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.WebUtilities;
 using System.Globalization;
 
@@ -21,7 +20,7 @@ namespace GastroLink.Client {
                 content.Add(new StringContent(pratoCreateDTO.TempoMedioPreparo.ToString()), nameof(pratoCreateDTO.TempoMedioPreparo));
                 content.Add(new StringContent(pratoCreateDTO.IdCategoriaPrato.ToString()), nameof(pratoCreateDTO.IdCategoriaPrato));
 
-                if(pratoCreateDTO.formFile != null) {
+                if (pratoCreateDTO.formFile != null) {
                     var streamContent = new StreamContent(pratoCreateDTO.formFile.OpenReadStream());
 
                     streamContent.Headers.ContentType = new System.Net.Http.Headers.MediaTypeHeaderValue(pratoCreateDTO.formFile.ContentType);
@@ -58,7 +57,7 @@ namespace GastroLink.Client {
         }
 
         public async Task<List<Prato>> SelicionarPesquisaPrato(FiltroPesquisaDTO filtroPesquisaDTO) {
-            if(filtroPesquisaDTO == null) {
+            if (filtroPesquisaDTO == null) {
                 throw new InvalidOperationException("Filtro de pesquisa não pode ser vazio");
             }
 

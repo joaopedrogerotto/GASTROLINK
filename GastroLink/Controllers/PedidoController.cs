@@ -26,7 +26,7 @@ namespace GastroLink.Controllers {
 
         public async Task<IActionResult> CriarPedido(int idMesa) {
             var cardapio = await _facadeCardapio.SelecionarCardapio();
-           
+
             foreach (var categoria in cardapio) {
                 DefinirCaminhoImagem(categoria.Pratos);
             }
@@ -39,7 +39,7 @@ namespace GastroLink.Controllers {
         }
 
         [HttpPost]
-        public async Task<IActionResult> AdicionarItemRascunho([FromBody]AdicionarItemRascunhoDTO dto) {
+        public async Task<IActionResult> AdicionarItemRascunho([FromBody] AdicionarItemRascunhoDTO dto) {
             var pedidoRascunho = await _rascunhoPedidoService.ObterRascunhoPedido(dto.mesaId);
 
             try {
@@ -69,7 +69,7 @@ namespace GastroLink.Controllers {
             return Ok(_rascunhoPedidoService.ObterQuantidadePratos(pedidoRascunho.Itens));
         }
 
-        [HttpGet] 
+        [HttpGet]
         public async Task<IActionResult> ResumoPedido(int idMesa) {
             var pedidoCacheRedis = await _rascunhoPedidoService.ObterRascunhoPedido(idMesa);
             if (pedidoCacheRedis == null) {
@@ -91,7 +91,7 @@ namespace GastroLink.Controllers {
         }
 
         [HttpPost]
-        public async Task<IActionResult> GerarPedido([FromBody]int idMesa) {
+        public async Task<IActionResult> GerarPedido([FromBody] int idMesa) {
             try {
                 var pedidoRascunho = await _rascunhoPedidoService.ObterRascunhoPedido(idMesa);
 
@@ -99,18 +99,18 @@ namespace GastroLink.Controllers {
 
                 pedido.IdUsuario = HttpContext.Session.GetInt32("IdUsuario") ?? 0;
 
-                if(await _facadePedido.CadastrarPedido(pedido)) {
+                if (await _facadePedido.CadastrarPedido(pedido)) {
                     await _rascunhoPedidoService.RemoverRascunho(idMesa);
                 } else {
                     return BadRequest();
                 }
 
-            }catch(Exception ex) {
+            } catch (Exception ex) {
                 return BadRequest();
             }
             return Ok();
         }
-        
+
         private void DefinirCaminhoImagem(List<Prato> listPratos) {
             foreach (var prato in listPratos) {
                 prato.UrlImagem = $"{_apiSettings.BaseUrlImagem}{prato.UrlImagem}";

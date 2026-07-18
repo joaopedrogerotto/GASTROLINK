@@ -31,7 +31,7 @@ namespace APIGastroLink.Controllers {
         public IActionResult SelecionarMesas() {
             try {
                 return Ok(_facadeMesa.SelecionarTodasMesas());
-            } catch (Exception ex) { 
+            } catch (Exception ex) {
                 return BadRequest(ex.Message);
             }
         }

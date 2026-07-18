@@ -1,7 +1,6 @@
 ﻿using GastroLink.DTO;
 using GastroLink.Exceptions;
 using GastroLink.Models;
-using Microsoft.AspNetCore.Http.HttpResults;
 
 namespace GastroLink.Client {
     public class CategoriaPratoClient {
@@ -13,7 +12,7 @@ namespace GastroLink.Client {
 
         public async Task<List<CategoriaPratoQuantidadeDTO>> CategoriasQuantidadePratos() {
             var response = await _httpClient.GetAsync("CategoriaPrato/QuantidadePratos");
-            if(response.IsSuccessStatusCode) {
+            if (response.IsSuccessStatusCode) {
                 var categorias = await response.Content.ReadFromJsonAsync<List<CategoriaPratoQuantidadeDTO>>();
                 return categorias ?? new List<CategoriaPratoQuantidadeDTO>();
             }
@@ -31,7 +30,7 @@ namespace GastroLink.Client {
 
         public async Task<bool> SalvarCategoriaPrato(CategoriaPrato CategoriaPrato) {
             var response = await _httpClient.PostAsJsonAsync("CategoriaPrato", CategoriaPrato);
-            if(response.StatusCode == System.Net.HttpStatusCode.Conflict) {
+            if (response.StatusCode == System.Net.HttpStatusCode.Conflict) {
                 throw new EntityAlreadyExistsException("Categoria já cadastrada");
             }
             return response.IsSuccessStatusCode;

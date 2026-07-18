@@ -59,7 +59,7 @@ namespace APIGastroLink.DAO {
                     }
                 }
                 return listMesa;
-            } catch (Exception ex) { 
+            } catch (Exception ex) {
                 throw new Exception(ex.ToString());
             }
         }
@@ -84,7 +84,7 @@ namespace APIGastroLink.DAO {
             }
         }
 
-        private DataTable ConvertForDataTable (List<Mesa> listMesa) {
+        private DataTable ConvertForDataTable(List<Mesa> listMesa) {
             var table = new DataTable();
 
             table.Columns.Add("Id", typeof(int));

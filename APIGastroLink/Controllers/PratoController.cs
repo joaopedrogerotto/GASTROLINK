@@ -28,7 +28,7 @@ namespace APIGastroLink.Controllers {
         }
 
         [HttpGet("TodosPratos")]
-        public async Task<IActionResult> TodosPratos([FromQuery]FiltroPesquisaDTO filtroPesquisaDTO) {
+        public async Task<IActionResult> TodosPratos([FromQuery] FiltroPesquisaDTO filtroPesquisaDTO) {
             try {
                 var listPratos = new List<Prato>();
                 if (filtroPesquisaDTO.PossuiFiltro()) {
@@ -38,13 +38,13 @@ namespace APIGastroLink.Controllers {
                 }
                 return Ok(listPratos);
             } catch (Exception ex) {
-                return BadRequest("Falha ao buscar todos os pratos: " +  ex.Message);
+                return BadRequest("Falha ao buscar todos os pratos: " + ex.Message);
             }
         }
 
         [HttpGet("{idPrato}")]
         public async Task<IActionResult> SelecionarPratoPorId(int idPrato) {
-            if(idPrato == 0) {
+            if (idPrato == 0) {
                 return BadRequest("Id não pode ser zero");
             }
             try {
@@ -53,14 +53,14 @@ namespace APIGastroLink.Controllers {
                     return Ok(prato);
                 }
                 return NotFound("Prato não encontrado");
-            }catch (Exception ex) {
+            } catch (Exception ex) {
                 return BadRequest("Falha ao buscar prato: " + ex.Message);
             }
         }
 
         [HttpPost("AtualizarDisponibilidade")]
         public async Task<IActionResult> AtualizarDisponibilidade(PratoStatusUpdateDTO pratoStatusUpdateDTO) {
-            if(pratoStatusUpdateDTO.Id == 0) {
+            if (pratoStatusUpdateDTO.Id == 0) {
                 return BadRequest("Id não pode ser zero");
             }
 
@@ -78,7 +78,7 @@ namespace APIGastroLink.Controllers {
                 return BadRequest("Id não pode ser zero");
             }
             try {
-                if(pratoEditarDTO.formFile != null) {
+                if (pratoEditarDTO.formFile != null) {
                     var urlImagem = await _imagemService.UploadImagem(pratoEditarDTO.formFile);
                     pratoEditarDTO.UrlImagem = urlImagem;
                 }

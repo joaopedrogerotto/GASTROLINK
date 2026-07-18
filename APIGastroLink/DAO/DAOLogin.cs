@@ -36,7 +36,7 @@ namespace APIGastroLink.DAO {
                         }
                     }
                 }
-            }catch(Exception ex) {
+            } catch (Exception ex) {
                 Console.WriteLine(ex.ToString());
             }
             return Usuario;

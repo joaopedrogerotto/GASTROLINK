@@ -1,11 +1,10 @@
-﻿using AutoMapper;
-using GastroLink.DTO;
+﻿using GastroLink.DTO;
 using GastroLink.Models;
 
 namespace GastroLink.Mappings {
     public class UsuarioMapper {
-        public static UsuarioCreateDTO ToCreateDTO (Usuario entidade) {
-            if(entidade == null) {
+        public static UsuarioCreateDTO ToCreateDTO(Usuario entidade) {
+            if (entidade == null) {
                 return null;
             }
 

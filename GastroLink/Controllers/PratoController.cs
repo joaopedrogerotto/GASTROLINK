@@ -1,15 +1,12 @@
 ﻿using GastroLink.DTO;
-using GastroLink.Enums;
 using GastroLink.Exceptions;
 using GastroLink.Facade.Interface;
 using GastroLink.Mapper;
 using GastroLink.Models;
-using GastroLink.Service;
 using GastroLink.Settings;
 using GastroLink.ViewModel;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
-using System.Runtime.CompilerServices;
 
 namespace GastroLink.Controllers {
     public class PratoController : Controller {
@@ -46,16 +43,16 @@ namespace GastroLink.Controllers {
             return View(listCategorias);
         }
 
-        public async Task<IActionResult> ListaPratos([FromBody] FiltroPesquisaDTO? filtroPesquisaDTO) { 
+        public async Task<IActionResult> ListaPratos([FromBody] FiltroPesquisaDTO? filtroPesquisaDTO) {
             try {
                 var listPratos = filtroPesquisaDTO == null ? await _facadePrato.SelecionarTodosPratos() : await PesquisarPrato(filtroPesquisaDTO);
 
                 DefinirCaminhoImagem(listPratos);
 
-                return PartialView("_ListaPratos",listPratos);
+                return PartialView("_ListaPratos", listPratos);
             } catch (InvalidOperationException iEx) {
                 TempData["Falha"] = iEx.Message;
-                return PartialView("_ListaPratos",new List<Prato>());
+                return PartialView("_ListaPratos", new List<Prato>());
             }
         }
 
@@ -74,11 +71,11 @@ namespace GastroLink.Controllers {
                 }
             } catch (ArgumentException ex) {
                 TempData["ErroCadPrato"] = ex.Message;
-            }catch (InvalidExtensionException ieEx) {
+            } catch (InvalidExtensionException ieEx) {
                 TempData["ErroCadPrato"] = ieEx.Message;
             }
 
-            return RedirectToAction("Cadastrar", "Prato"); 
+            return RedirectToAction("Cadastrar", "Prato");
         }
 
         [HttpPost]
@@ -106,7 +103,7 @@ namespace GastroLink.Controllers {
             var prato = new Prato();
             try {
                 prato = await _facadePrato.BuscarPratoPorId(idPrato);
-                DefinirCaminhoImagem(prato);   
+                DefinirCaminhoImagem(prato);
             } catch {
                 prato = null;
             }

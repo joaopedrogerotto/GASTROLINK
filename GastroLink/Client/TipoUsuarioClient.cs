@@ -14,7 +14,7 @@ namespace GastroLink.Client {
             var response = await _httpClient.GetAsync("TipoUsuario");
             if (response.IsSuccessStatusCode) {
                 var content = await response.Content.ReadAsStringAsync();
-                return await JsonSerializer.DeserializeAsync<List<TipoUsuario>>(new MemoryStream(Encoding.UTF8.GetBytes(content))   , new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
+                return await JsonSerializer.DeserializeAsync<List<TipoUsuario>>(new MemoryStream(Encoding.UTF8.GetBytes(content)), new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
             }
             return new List<TipoUsuario>();
         }

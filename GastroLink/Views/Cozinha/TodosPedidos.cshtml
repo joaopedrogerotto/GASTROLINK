@@ -1,5 +1,23 @@
-﻿<script src="~/js/cozinha.js" type="module"></script>
+﻿@model IEnumerable<Pedido>
+
+<script src="~/js/cozinha.js" type="module"></script>
 
 <div id="containerPedidos">
-
+    @foreach (var pedido in Model) {
+        <div class="card">
+            <div class="card-header">
+                Pedido #@pedido.Id
+            </div>
+            <div class="card-body">
+                <h5 class="card-title">Mesa @pedido.Mesa.Numero</h5>
+                @foreach(var itemPedido in pedido.Itens){
+                    <p class="card-text">Prato: @itemPedido.Prato.Nome</p>
+                    <p class="card-text">Quantidade: @itemPedido.Quantidade</p>
+                    <p class="card-text">Observação: @itemPedido.Observacao</p>
+                }
+                <a href="#" class="btn btn-primary">TESTE</a>
+            </div>
+        </div>
+        <br>
+    }
 </div>

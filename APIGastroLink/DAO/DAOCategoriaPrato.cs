@@ -118,5 +118,5 @@ namespace APIGastroLink.DAO {
                 throw new Exception("Erro ao selecionar cardápio: " + ex.Message);
             }
         }
-    }   
+    }
 }

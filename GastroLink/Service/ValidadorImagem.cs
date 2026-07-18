@@ -7,7 +7,7 @@ namespace GastroLink.Service {
             ".jpeg",
             ".png",
             ".webp"
-        ]; 
+        ];
 
         public static void ValidarExtensaoImagem(IFormFile file) {
             var extensao = Path.GetExtension(file.FileName).ToLowerInvariant();

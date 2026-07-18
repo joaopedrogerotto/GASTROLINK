@@ -1,6 +1,5 @@
 ﻿using APIGastroLink.DTO;
 using APIGastroLink.Facade.Interface;
-using APIGastroLink.Models;
 using Microsoft.AspNetCore.Mvc;
 
 namespace APIGastroLink.Controllers {

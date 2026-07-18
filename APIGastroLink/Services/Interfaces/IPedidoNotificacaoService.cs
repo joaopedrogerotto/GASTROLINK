@@ -1,5 +1,4 @@
-﻿using APIGastroLink.DTO;
-using APIGastroLink.Models;
+﻿using APIGastroLink.Models;
 
 namespace APIGastroLink.Services.Interfaces {
     public interface IPedidoNotificacaoService {

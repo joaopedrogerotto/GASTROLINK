@@ -8,7 +8,7 @@ namespace APIGastroLink.Controllers {
         private readonly IFacadeTipoUsuario _facadeTipoUsuario;
 
         public TipoUsuarioController(IFacadeTipoUsuario facadeTipoUsuario) {
-            _facadeTipoUsuario = facadeTipoUsuario; 
+            _facadeTipoUsuario = facadeTipoUsuario;
         }
 
         [HttpGet]

@@ -45,11 +45,11 @@ namespace GastroLink.Controllers {
         [HttpGet]
         public async Task<IActionResult> VisualizarUsuario(int idUsuario) {
             var usuario = await _facadeUsuario.ObterUsuarioId(idUsuario);
-            return PartialView("_VisualizarUsuario",usuario);
+            return PartialView("_VisualizarUsuario", usuario);
         }
 
         [HttpPut]
-        public async Task<IActionResult> AlterarStatus([FromBody]UsuarioStatusUpdateDTO UsuarioStatusUpdateDTO) {
+        public async Task<IActionResult> AlterarStatus([FromBody] UsuarioStatusUpdateDTO UsuarioStatusUpdateDTO) {
             var response = await _facadeUsuario.AtualizarStatusUsuario(UsuarioStatusUpdateDTO);
             if (response) {
                 return Ok();
@@ -58,7 +58,7 @@ namespace GastroLink.Controllers {
         }
 
         [HttpPut]
-        public async Task<IActionResult> AtualizarUsuario([FromBody]UsuarioUpdateDTO UsuarioUpdateDTO) {
+        public async Task<IActionResult> AtualizarUsuario([FromBody] UsuarioUpdateDTO UsuarioUpdateDTO) {
             var response = await _facadeUsuario.AtualizarUsuario(UsuarioUpdateDTO);
             if (response) {
                 return Ok();

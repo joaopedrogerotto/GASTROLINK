@@ -3,7 +3,7 @@ using GastroLink.Facade.Interface;
 using GastroLink.Models;
 
 namespace GastroLink.Facade {
-    public class FacadeTipoUsuario : IFacadeTipoUsuario{
+    public class FacadeTipoUsuario : IFacadeTipoUsuario {
         private readonly TipoUsuarioClient _tipoUsuarioClient;
 
         public FacadeTipoUsuario(TipoUsuarioClient tipoUsuarioClient) {

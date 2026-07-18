@@ -1,5 +1,4 @@
-﻿using GastroLink.Facade;
-using GastroLink.Facade.Interface;
+﻿using GastroLink.Facade.Interface;
 using GastroLink.Models;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
@@ -37,7 +36,7 @@ namespace GastroLink.Controllers {
 
             var identity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
             var principal = new ClaimsPrincipal(identity);
-            
+
             await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, principal);
 
 
@@ -46,11 +45,11 @@ namespace GastroLink.Controllers {
             HttpContext.Session.SetInt32("IdTipoUsuario", usuario.Tipo.Id);
             HttpContext.Session.SetString("TipoUsuarioStr", usuario.Tipo.Tipo);
 
-            if(usuario.Tipo.Tipo == "COZINHA") {
+            if (usuario.Tipo.Tipo == "COZINHA") {
                 return RedirectToAction("TodosPedidos", "Cozinha");
             }
 
-            return RedirectToAction("TodasMesas","Mesa");
+            return RedirectToAction("TodasMesas", "Mesa");
         }
 
         public async Task<IActionResult> Logout() {

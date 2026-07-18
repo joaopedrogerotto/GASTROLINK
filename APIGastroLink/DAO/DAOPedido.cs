@@ -39,50 +39,73 @@ namespace APIGastroLink.DAO {
                     var pedidosMap = new Dictionary<int, Pedido>();
 
                     using (SqlDataReader reader = cmd.ExecuteReader()) {
-                        while (reader.Read()) {
-                            int id = reader.GetInt32(reader.GetOrdinal("NUMERO_PEDIDO"));
-                            var pedido = new Pedido();
-
-                            if (!pedidosMap.ContainsKey(id)) {
-                                pedido = new Pedido() {
-                                    Id = id,
-                                    ValorTotal = reader.GetDecimal(reader.GetOrdinal("TOTAL")),
-                                    Status = new StatusPedido() {
-                                        Id = reader.GetInt32(reader.GetOrdinal("ID_STATUS")),
-                                        Status = reader.GetString(reader.GetOrdinal("STATUS"))
-                                    },
-                                    Mesa = new Mesa() {
-                                        Id = reader.GetInt32(reader.GetOrdinal("ID_MESA")),
-                                        Numero = reader.GetString(reader.GetOrdinal("NUMERO_MESA"))
-                                    },
-                                    Usuario = new Usuario() {
-                                        Id = reader.GetInt32(reader.GetOrdinal("ID_USUARIO")),
-                                        Nome = reader.GetString(reader.GetOrdinal("NOME_USUARIO"))
-                                    },
-                                    dataCriacao = reader.GetDateTime(reader.GetOrdinal("DATA"))
-                                };
-
-
-                                pedidosMap[id] = pedido;
-                            }
-
-                            pedido = pedidosMap[id];
-
-                            pedido.Itens.Add(
-                                new ItemPedido {
-                                    Quantidade = reader.GetInt32(reader.GetOrdinal("QUANTIDADE")),
-                                    Observacao = reader.GetString(reader.GetOrdinal("OBSERVACAO")),
-                                    Prato = new Prato() {
-                                        Id = reader.GetInt32(reader.GetOrdinal("ID_PRATO")),
-                                        Nome = reader.GetString(reader.GetOrdinal("NOME_PRATO"))
-                                    }
-                                }
-                              );
-                        }
+                        pedidosMap = GerarMapPedido(reader);
                     }
                     return pedidosMap[idPedido];
                 }
             }
+        }
+
+        public async Task<List<Pedido>> SelecionarPedidosEmPreparo() {
+            var pedidoMap = new Dictionary<int, Pedido>();
+
+            using (SqlConnection conn = _database.OpenConnection()) {
+                using (SqlCommand cmd = new SqlCommand("PR_S_TODOS_PEDIDOS_COZINHA", conn)) {
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    using (SqlDataReader reader = await cmd.ExecuteReaderAsync()) {
+                        pedidoMap = GerarMapPedido(reader);
+                    }
+                }
+            }
+
+            return pedidoMap.Values.ToList();
+        }
+
+        private Dictionary<int, Pedido> GerarMapPedido(SqlDataReader reader) {
+            var pedidosMap = new Dictionary<int, Pedido>();
+
+            while (reader.Read()) {
+                int id = reader.GetInt32(reader.GetOrdinal("NUMERO_PEDIDO"));
+                var pedido = new Pedido();
+
+                if (!pedidosMap.ContainsKey(id)) {
+                    pedido = new Pedido() {
+                        Id = id,
+                        ValorTotal = reader.GetDecimal(reader.GetOrdinal("TOTAL")),
+                        Status = new StatusPedido() {
+                            Id = reader.GetInt32(reader.GetOrdinal("ID_STATUS")),
+                            Status = reader.GetString(reader.GetOrdinal("STATUS"))
+                        },
+                        Mesa = new Mesa() {
+                            Id = reader.GetInt32(reader.GetOrdinal("ID_MESA")),
+                            Numero = reader.GetString(reader.GetOrdinal("NUMERO_MESA"))
+                        },
+                        Usuario = new Usuario() {
+                            Id = reader.GetInt32(reader.GetOrdinal("ID_USUARIO")),
+                            Nome = reader.GetString(reader.GetOrdinal("NOME_USUARIO"))
+                        },
+                        dataCriacao = reader.GetDateTime(reader.GetOrdinal("DATA"))
+                    };
+
+
+                    pedidosMap[id] = pedido;
+                }
+
+                pedido = pedidosMap[id];
+
+                pedido.Itens.Add(
+                    new ItemPedido {
+                        Quantidade = reader.GetInt32(reader.GetOrdinal("QUANTIDADE")),
+                        Observacao = reader.GetString(reader.GetOrdinal("OBSERVACAO")),
+                        Prato = new Prato() {
+                            Id = reader.GetInt32(reader.GetOrdinal("ID_PRATO")),
+                            Nome = reader.GetString(reader.GetOrdinal("NOME_PRATO"))
+                        }
+                    }
+                );
+            }
+
+            return pedidosMap;
         }
 
         private DataTable ConvertForDataTable(List<ItemPedidoCreateDTO> itens) {

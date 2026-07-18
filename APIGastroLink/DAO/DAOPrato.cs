@@ -26,7 +26,7 @@ namespace APIGastroLink.DAO {
                         cmd.ExecuteNonQuery();
                     }
                 }
-            } catch (Exception ex) { 
+            } catch (Exception ex) {
                 throw new Exception("Erro ao inserir prato: " + ex.Message);
             }
         }
@@ -50,7 +50,7 @@ namespace APIGastroLink.DAO {
         public async Task<Prato> SelectById(int id) {
             var prato = new Prato();
 
-            if(id == 0) {
+            if (id == 0) {
                 throw new ArgumentException("Id informado não pode ser 0");
             }
 
@@ -80,7 +80,7 @@ namespace APIGastroLink.DAO {
                     }
                 }
                 return prato;
-            }catch (Exception ex) {
+            } catch (Exception ex) {
                 throw new Exception("Falha ao buscar o prato: " + ex.Message);
             }
         }
@@ -96,7 +96,7 @@ namespace APIGastroLink.DAO {
                         cmd.ExecuteNonQuery();
                     }
                 }
-            }catch (Exception ex) {
+            } catch (Exception ex) {
                 throw new Exception("Falha em atualizar a disponibilidade do prato: " + ex.Message);
             }
         }
@@ -115,15 +115,15 @@ namespace APIGastroLink.DAO {
                             cmd.Parameters.AddWithValue("@DESCRICAO", filtro.Descricao);
                         }
 
-                        if(filtro.Preco > 0.0m) {
+                        if (filtro.Preco > 0.0m) {
                             cmd.Parameters.AddWithValue("@PRECO", filtro.Preco);
                         }
-                        
-                        if(filtro.IdCategoria > 0) {
+
+                        if (filtro.IdCategoria > 0) {
                             cmd.Parameters.AddWithValue("@ID_CATEGORIA", filtro.IdCategoria);
                         }
 
-                        if(filtro.Disponibilidade != null) {
+                        if (filtro.Disponibilidade != null) {
                             cmd.Parameters.AddWithValue("@DISPONIBILIDAE", filtro.Disponibilidade);
                         }
 

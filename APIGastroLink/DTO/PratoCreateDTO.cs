@@ -1,6 +1,4 @@
-﻿using APIGastroLink.Models;
-
-namespace APIGastroLink.DTO {
+﻿namespace APIGastroLink.DTO {
     public class PratoCreateDTO {
         public string Nome { get; set; }
         public string Descricao { get; set; }
