@@ -33,8 +33,6 @@ namespace GastroLink.Controllers {
                 DefinirCaminhoImagem(categoria.Pratos);
             }
 
-            var listMesas = ;
-
             var criarPedidoViewModel = new CriarPedidoViewModel {
                 idMesa = idMesa,
                 numeroMesa = (await _facadeMesa.BuscarMesasMapeamento()).FirstOrDefault(mesa => mesa.Id == idMesa).Numero ?? "", 
