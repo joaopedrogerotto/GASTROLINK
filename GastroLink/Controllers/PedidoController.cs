@@ -15,13 +15,15 @@ namespace GastroLink.Controllers {
         private readonly IFacadePrato _facadePrato;
         private readonly ApiGastroLinkSettings _apiSettings;
         private readonly IFacadePedido _facadePedido;
+        private readonly IFacadeMesa _facadeMesa;
 
-        public PedidoController(IFacadeCardapio facadeCardapio, IRascunhoPedidoService rascunhoPedidoService, IFacadePrato facadePrato, IOptions<ApiGastroLinkSettings> apiSettings, IFacadePedido facadePedido) {
+        public PedidoController(IFacadeCardapio facadeCardapio, IRascunhoPedidoService rascunhoPedidoService, IFacadePrato facadePrato, IOptions<ApiGastroLinkSettings> apiSettings, IFacadePedido facadePedido, IFacadeMesa facadeMesa) {
             _facadeCardapio = facadeCardapio;
             _rascunhoPedidoService = rascunhoPedidoService;
             _facadePrato = facadePrato;
             _facadePedido = facadePedido;
             _apiSettings = apiSettings.Value;
+            _facadeMesa = facadeMesa;
         }
 
         public async Task<IActionResult> CriarPedido(int idMesa) {
@@ -31,8 +33,11 @@ namespace GastroLink.Controllers {
                 DefinirCaminhoImagem(categoria.Pratos);
             }
 
+            var listMesas = ;
+
             var criarPedidoViewModel = new CriarPedidoViewModel {
                 idMesa = idMesa,
+                numeroMesa = (await _facadeMesa.BuscarMesasMapeamento()).FirstOrDefault(mesa => mesa.Id == idMesa).Numero ?? "", 
                 listCategoriaPrato = cardapio
             };
             return View(criarPedidoViewModel);
