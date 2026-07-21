@@ -39,3 +39,7 @@ document.addEventListener("click", (e) => {
         }
     })
 });
+
+document.getElementById("okModalSucessoCadPdd")?.addEventListener("click", () => {
+    window.location.href = '/Mesa/TodasMesas'
+})
