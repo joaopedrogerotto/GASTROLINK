@@ -13,6 +13,8 @@ namespace GastroLink.Facade {
             _cozinhaClient = cozinhaClient;
         }
 
+        public async Task<bool> AtualizarPedido(StatusPedidoUpdateDTO StatusPedidoUpdateDTO) => await _pedidoClient.AtualizarStatusPedido(StatusPedidoUpdateDTO);
+
         public async Task<bool> CadastrarPedido(PedidoCreateDTO pedido) => await _pedidoClient.CadastrarPedido(pedido);
 
         public async Task<List<Pedido>> PedidosCozinhaPendente() => await _cozinhaClient.PedidosPendentes();

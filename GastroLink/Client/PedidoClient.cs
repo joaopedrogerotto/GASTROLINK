@@ -12,5 +12,10 @@ namespace GastroLink.Client {
             var response = await _httpClient.PostAsJsonAsync("Pedido", pedido);
             return response.IsSuccessStatusCode;
         }
+
+        public async Task<bool> AtualizarStatusPedido (StatusPedidoUpdateDTO StatusPedidoUpdateDTO) {
+            var response = await _httpClient.PutAsJsonAsync("Pedido", StatusPedidoUpdateDTO);
+            return response.IsSuccessStatusCode;
+        }
     }
 }

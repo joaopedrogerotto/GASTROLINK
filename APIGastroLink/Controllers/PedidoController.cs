@@ -25,5 +25,19 @@ namespace APIGastroLink.Controllers {
             }
             return Ok();
         }
+
+        [HttpPut]
+        public async Task<IActionResult> AtualizarStatusPedido([FromBody] StatusPedidoUpdateDTO StatusPedidoUpdateDTO) {
+            if (StatusPedidoUpdateDTO.IdPedido == 0 || StatusPedidoUpdateDTO.IdStatusPedido == 0) {
+                return BadRequest();
+            }
+
+            try {
+                await _facadePedido.AtualizarStatus(StatusPedidoUpdateDTO);
+                return Ok();
+            } catch (Exception ex) {
+                return BadRequest(ex.Message);
+            }
+        }
     }
 }

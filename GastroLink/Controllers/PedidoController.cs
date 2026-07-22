@@ -114,6 +114,19 @@ namespace GastroLink.Controllers {
             return Ok();
         }
 
+        [HttpPost]
+        public async Task<IActionResult> AtualizarStatusPedido([FromBody]StatusPedidoUpdateDTO StatusPedidoUpdateDTO) {
+            try {
+                bool resultado = await _facadePedido.AtualizarPedido(StatusPedidoUpdateDTO);
+                if (!resultado) {
+                    return BadRequest();
+                }
+                return Ok();
+            }catch(Exception ex) {
+                return BadRequest(ex.ToString());
+            }
+        }
+
         private void DefinirCaminhoImagem(List<Prato> listPratos) {
             foreach (var prato in listPratos) {
                 prato.UrlImagem = $"{_apiSettings.BaseUrlImagem}{prato.UrlImagem}";

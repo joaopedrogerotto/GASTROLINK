@@ -21,9 +21,28 @@ function adicionarNovoPedidoNaTela(pedido) {
             <div class="card-body">
                 <h5 class="card-title">Mesa ${pedido.mesa.numero}</h5>
                 ${itensPedido}
-                <a href="#" class="btn btn-primary">TESTE</a>
+                <a href="#" class="btn btn-primary">PRONTO</a>
             </div>
         </div>
         <br>`);
 }
+document.addEventListener("click", (e) => {
+    const btnPedidoPronto = e.target.closest("#btnPedidoPronto");
+    if (!btnPedidoPronto) {
+        return;
+    }
+    let statusPedido = { IdPedido: Number(btnPedidoPronto.dataset.idPedido), IdStatusPedido: 4 };
+    $.ajax({
+        url: '/Pedido/AtualizarStatusPedido',
+        method: 'POST',
+        data: JSON.stringify(statusPedido),
+        contentType: 'application/json',
+        success: function () {
+            location.reload();
+        },
+        error: function (xhr, status, error) {
+            console.log("Erro:" + error);
+        }
+    });
+});
 //# sourceMappingURL=cozinha.js.map

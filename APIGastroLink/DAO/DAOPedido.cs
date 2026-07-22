@@ -61,6 +61,23 @@ namespace APIGastroLink.DAO {
             return pedidoMap.Values.ToList();
         }
 
+
+        public async Task AtualizarStatus(StatusPedidoUpdateDTO StatusPedidoUpdateDTO) {
+            try {
+                using (SqlConnection conn = _database.OpenConnection()) {
+                    using (SqlCommand cmd = new SqlCommand("PR_U_STATUS_PEDIDO", conn)) {
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        cmd.Parameters.AddWithValue("@ID_PEDIDO", StatusPedidoUpdateDTO.IdPedido);
+                        cmd.Parameters.AddWithValue("@ID_STATUS", StatusPedidoUpdateDTO.IdStatusPedido);
+                        await cmd.ExecuteNonQueryAsync();
+                    }
+                }
+            } catch (Exception ex) {
+                throw new Exception(ex.Message);
+            }
+
+        }
+
         private Dictionary<int, Pedido> GerarMapPedido(SqlDataReader reader) {
             var pedidosMap = new Dictionary<int, Pedido>();
 
@@ -121,5 +138,6 @@ namespace APIGastroLink.DAO {
 
             return table;
         }
+
     }
 }

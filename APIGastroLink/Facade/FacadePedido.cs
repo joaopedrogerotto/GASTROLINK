@@ -14,6 +14,8 @@ namespace APIGastroLink.Facade {
             _daoPedido = daoPedido;
         }
 
+        public async Task AtualizarStatus(StatusPedidoUpdateDTO StatusPedidoUpdateDTO) => await _daoPedido.AtualizarStatus(StatusPedidoUpdateDTO);
+
         public async Task<Pedido> CadastrarPedido(PedidoCreateDTO pedido) {
             pedido.ValorTotal = _pedidoService.CalcularValorTotalPedido(pedido.Itens);
             int idPedido = await _daoPedido.CadastrarPedido(pedido);
