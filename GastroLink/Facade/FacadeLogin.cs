@@ -1,4 +1,5 @@
-﻿using GastroLink.Facade.Interface;
+﻿using GastroLink.DTO;
+using GastroLink.Facade.Interface;
 using GastroLink.Models;
 using GastroLink.Service;
 
@@ -10,7 +11,7 @@ namespace GastroLink.Facade {
             _loginCliente = loginCliente;
         }
 
-        public async Task<Usuario> ValidarLogin(Login Login) {
+        public async Task<UsuarioLoginDTO> ValidarLogin(Login Login) {
             return await _loginCliente.Login(Login);
         }
     }

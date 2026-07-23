@@ -22,30 +22,33 @@ namespace GastroLink.Controllers {
         [HttpPost]
         public async Task<IActionResult> Autenticar(Login Login) {
 
-            var usuario = await _facadeLogin.ValidarLogin(Login);
+            var usuarioToken = await _facadeLogin.ValidarLogin(Login);
 
-            if (usuario == null) {
+            if (usuarioToken == null) {
                 TempData["FalhaLogin"] = "Login e/ou Senha incorretos.";
                 return View("Index");
             }
 
             var claims = new List<Claim> {
-                new Claim(ClaimTypes.Name, usuario.Nome),
-                new Claim(ClaimTypes.Role, usuario.Tipo.Tipo)
+                new Claim(ClaimTypes.Name, usuarioToken.Usuario.Login),
+                new Claim(ClaimTypes.Role, usuarioToken.Usuario.Tipo.Tipo),
+                new Claim("jwt_token", usuarioToken.Token)
             };
+
 
             var identity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
             var principal = new ClaimsPrincipal(identity);
+            var authenticationProperites = new AuthenticationProperties { IsPersistent = true, ExpiresUtc = DateTimeOffset.UtcNow.AddHours(1) };
 
-            await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, principal);
+            await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, principal, authenticationProperites);
 
 
-            HttpContext.Session.SetString("NomeUsuario", usuario.Nome);
-            HttpContext.Session.SetInt32("IdUsuario", usuario.Id);
-            HttpContext.Session.SetInt32("IdTipoUsuario", usuario.Tipo.Id);
-            HttpContext.Session.SetString("TipoUsuarioStr", usuario.Tipo.Tipo);
+            HttpContext.Session.SetString("NomeUsuario", usuarioToken.Usuario.Nome);
+            HttpContext.Session.SetInt32("IdUsuario", usuarioToken.Usuario.Id);
+            HttpContext.Session.SetInt32("IdTipoUsuario", usuarioToken.Usuario.Tipo.Id);
+            HttpContext.Session.SetString("TipoUsuarioStr", usuarioToken.Usuario.Tipo.Tipo);
 
-            if (usuario.Tipo.Tipo == "COZINHA") {
+            if (usuarioToken.Usuario.Tipo.Tipo == "COZINHA") {
                 return RedirectToAction("TodosPedidos", "Cozinha");
             }
 

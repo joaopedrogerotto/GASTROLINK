@@ -1,4 +1,5 @@
-﻿using GastroLink.Models;
+﻿using GastroLink.DTO;
+using GastroLink.Models;
 
 namespace GastroLink.Service {
     public class LoginClient {
@@ -8,7 +9,7 @@ namespace GastroLink.Service {
             _httpClient = httpClient;
         }
 
-        public async Task<Usuario?> Login(Login Login) {
+        public async Task<UsuarioLoginDTO?> Login(Login Login) {
             var response = await _httpClient.PostAsJsonAsync("Login", Login);
 
             if (!response.IsSuccessStatusCode) {

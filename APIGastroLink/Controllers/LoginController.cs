@@ -1,5 +1,7 @@
-﻿using APIGastroLink.Facade.Interface;
+﻿using APIGastroLink.DTO;
+using APIGastroLink.Facade.Interface;
 using APIGastroLink.Models;
+using APIGastroLink.Services;
 using Microsoft.AspNetCore.Mvc;
 
 namespace APIGastroLink.Controllers {
@@ -8,8 +10,10 @@ namespace APIGastroLink.Controllers {
     [Route("api-gastrolink/[controller]")]
     public class LoginController : ControllerBase {
         private readonly IFacadeLogin _facade;
-        public LoginController(IFacadeLogin facadeLogin) {
+        private readonly TokenJwtService _tokenJwtService;
+        public LoginController(IFacadeLogin facadeLogin, TokenJwtService tokenJwtService) {
             _facade = facadeLogin;
+            _tokenJwtService = tokenJwtService;
         }
 
 
@@ -25,7 +29,15 @@ namespace APIGastroLink.Controllers {
                 return BadRequest("Login e/ou Senha inválido");
             }
 
-            return Ok(usuario);
+            var token = _tokenJwtService.GeraToken(usuario.Id.ToString(), usuario.Login, new[] { usuario.Tipo.Tipo });
+           
+
+            var usuarioToken = new UsuarioTokenDTO {
+                Usuario = usuario,
+                Token = token
+            };
+
+            return Ok(usuarioToken);
         }
     }
 }

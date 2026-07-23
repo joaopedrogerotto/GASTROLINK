@@ -1,7 +1,8 @@
-﻿using GastroLink.Models;
+﻿using GastroLink.DTO;
+using GastroLink.Models;
 
 namespace GastroLink.Facade.Interface {
     public interface IFacadeLogin {
-        public Task<Usuario> ValidarLogin(Login Login);
+        public Task<UsuarioLoginDTO> ValidarLogin(Login Login);
     }
 }

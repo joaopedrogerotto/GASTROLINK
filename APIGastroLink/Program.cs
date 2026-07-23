@@ -5,8 +5,14 @@ using APIGastroLink.Facade.Interface;
 using APIGastroLink.Hubs;
 using APIGastroLink.Services;
 using APIGastroLink.Services.Interfaces;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
+
+var jwtSettings = builder.Configuration.GetSection("Jwt");
+var key = Encoding.UTF8.GetBytes(jwtSettings["Key"]!);
 
 // Add services to the container.
 
@@ -34,6 +40,8 @@ builder.Services.AddScoped<IFacadeCardapio, FacadeCardapio>();
 builder.Services.AddScoped<IFacadePedido, FacadePedido>();
 
 builder.Services.AddScoped<PasswordService>();
+builder.Services.AddScoped<TokenJwtService>();
+
 builder.Services.AddScoped<IImagemService, ImagemService>();
 builder.Services.AddScoped<IPedidoService, PedidoService>();
 
@@ -51,6 +59,22 @@ builder.Services.AddCors(options => {
     });
 });
 
+builder.Services.AddAuthentication(options => {
+    options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+    options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+}).AddJwtBearer(options => {
+    options.TokenValidationParameters = new TokenValidationParameters {
+        ValidateIssuer = true,
+        ValidateAudience = true,
+        ValidateLifetime = true,
+        ValidateIssuerSigningKey = true,
+        ValidIssuer = jwtSettings["Issuer"],
+        ValidAudience = jwtSettings["Audience"],
+        IssuerSigningKey = new SymmetricSecurityKey(key),
+        ClockSkew = TimeSpan.Zero
+    };
+});
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -61,6 +85,8 @@ if (app.Environment.IsDevelopment()) {
 app.UseHttpsRedirection();
 
 app.UseCors("PermitirMVC");
+
+app.UseAuthentication();
 
 app.UseAuthorization();
 
