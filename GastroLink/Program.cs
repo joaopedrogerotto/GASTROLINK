@@ -1,6 +1,7 @@
 using GastroLink.Client;
 using GastroLink.Facade;
 using GastroLink.Facade.Interface;
+using GastroLink.Handlers;
 using GastroLink.Service;
 using GastroLink.Service.Interfaces;
 using GastroLink.Settings;
@@ -23,6 +24,9 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 
+builder.Services.AddHttpContextAccessor();
+builder.Services.AddTransient<JwtAuthHandler>();
+
 builder.Services.Configure<ApiGastroLinkSettings>(builder.Configuration.GetSection("ApiGastroLink"));
 builder.Services.AddHttpClient<LoginClient>((name, client) => {
     var settings = name
@@ -38,53 +42,53 @@ builder.Services.AddHttpClient<MesaClient>((name, client) => {
         .Value;
 
     client.BaseAddress = new Uri(settings.BaseUrl);
-});
+}).AddHttpMessageHandler<JwtAuthHandler>();
 
 builder.Services.AddHttpClient<TipoUsuarioClient>((name, client) => {
     var settings = name
         .GetRequiredService<IOptions<ApiGastroLinkSettings>>()
         .Value;
     client.BaseAddress = new Uri(settings.BaseUrl);
-});
+}).AddHttpMessageHandler<JwtAuthHandler>();
 
 builder.Services.AddHttpClient<UsuarioClient>((name, client) => {
     var settings = name
         .GetRequiredService<IOptions<ApiGastroLinkSettings>>()
         .Value;
     client.BaseAddress = new Uri(settings.BaseUrl);
-});
+}).AddHttpMessageHandler<JwtAuthHandler>();
 
 builder.Services.AddHttpClient<CategoriaPratoClient>((name, client) => {
     var settings = name
         .GetRequiredService<IOptions<ApiGastroLinkSettings>>()
         .Value;
     client.BaseAddress = new Uri(settings.BaseUrl);
-});
+}).AddHttpMessageHandler<JwtAuthHandler>();
 
 builder.Services.AddHttpClient<PratoClient>((name, client) => {
     var settings = name
         .GetRequiredService<IOptions<ApiGastroLinkSettings>>()
         .Value;
     client.BaseAddress = new Uri(settings.BaseUrl);
-});
+}).AddHttpMessageHandler<JwtAuthHandler>();
 builder.Services.AddHttpClient<CardapioClient>((name, client) => {
     var settings = name
         .GetRequiredService<IOptions<ApiGastroLinkSettings>>()
         .Value;
     client.BaseAddress = new Uri(settings.BaseUrl);
-});
+}).AddHttpMessageHandler<JwtAuthHandler>();
 builder.Services.AddHttpClient<PedidoClient>((name, client) => {
     var settings = name
         .GetRequiredService<IOptions<ApiGastroLinkSettings>>()
         .Value;
     client.BaseAddress = new Uri(settings.BaseUrl);
-});
+}).AddHttpMessageHandler<JwtAuthHandler>();
 builder.Services.AddHttpClient<CozinhaClient>((name, client) => {
     var settings = name
         .GetRequiredService<IOptions<ApiGastroLinkSettings>>()
         .Value;
     client.BaseAddress = new Uri(settings.BaseUrl);
-});
+}).AddHttpMessageHandler<JwtAuthHandler>();
 
 
 

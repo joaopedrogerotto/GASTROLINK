@@ -16,7 +16,7 @@ namespace GastroLink.Service {
                 return null;
             }
 
-            return await response.Content.ReadFromJsonAsync<Usuario>();
+            return await response.Content.ReadFromJsonAsync<UsuarioLoginDTO>();
         }
     }
 }

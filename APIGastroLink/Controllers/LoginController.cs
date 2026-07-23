@@ -2,12 +2,15 @@
 using APIGastroLink.Facade.Interface;
 using APIGastroLink.Models;
 using APIGastroLink.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace APIGastroLink.Controllers {
 
     [ApiController]
     [Route("api-gastrolink/[controller]")]
+    [AllowAnonymous]
+
     public class LoginController : ControllerBase {
         private readonly IFacadeLogin _facade;
         private readonly TokenJwtService _tokenJwtService;

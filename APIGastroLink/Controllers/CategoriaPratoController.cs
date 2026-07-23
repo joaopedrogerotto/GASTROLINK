@@ -1,6 +1,7 @@
 ﻿using APIGastroLink.Exceptions;
 using APIGastroLink.Facade.Interface;
 using APIGastroLink.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace APIGastroLink.Controllers {
@@ -14,6 +15,7 @@ namespace APIGastroLink.Controllers {
         }
 
         [HttpPost]
+        [Authorize(Policy = "SomenteAdmin")]
         public IActionResult CadastrarCategoriaPrato(CategoriaPrato categoriaPrato) {
             try {
                 _facade.CadastrarCategoriaPrato(categoriaPrato);

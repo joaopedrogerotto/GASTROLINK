@@ -7,6 +7,7 @@ using APIGastroLink.Services;
 using APIGastroLink.Services.Interfaces;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
+using Microsoft.AspNetCore.Authorization;
 using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -73,6 +74,24 @@ builder.Services.AddAuthentication(options => {
         IssuerSigningKey = new SymmetricSecurityKey(key),
         ClockSkew = TimeSpan.Zero
     };
+});
+
+
+builder.Services.AddAuthorization(options => {
+    options.FallbackPolicy = new AuthorizationPolicyBuilder().RequireAuthenticatedUser().Build();
+
+    //Somente admins
+    options.AddPolicy("SomenteAdmin", policy => policy.RequireRole("ADMINISTRADOR"));
+
+    //Admin ou Gerente
+    options.AddPolicy("AdminGerente", policy => policy.RequireRole("ADMINISTRADOR", "GERENTE"));
+
+    //Atendimento (Garçom, Admin e Gerente)
+    options.AddPolicy("Atendimento", policy => policy.RequireRole("ADMINISTRADOR", "GERENTE", "GARÇOM"));
+
+    //Cozinha (Cozinha, Admin e Gerente)
+    options.AddPolicy("Cozinha", policy => policy.RequireRole("ADMINISTRADOR", "GERENTE", "COZINHA"));
+
 });
 
 var app = builder.Build();

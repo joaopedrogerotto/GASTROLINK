@@ -1,6 +1,7 @@
 ﻿using APIGastroLink.DTO;
 using APIGastroLink.Facade.Interface;
 using APIGastroLink.Services.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace APIGastroLink.Controllers {
@@ -16,6 +17,7 @@ namespace APIGastroLink.Controllers {
         }
 
         [HttpPost]
+        [Authorize("Atendimento")]
         public async Task<IActionResult> CadastrarPedido([FromBody] PedidoCreateDTO pedido) {
             try {
                 var novoPedido = await _facadePedido.CadastrarPedido(pedido);
@@ -27,6 +29,7 @@ namespace APIGastroLink.Controllers {
         }
 
         [HttpPut]
+        [Authorize]
         public async Task<IActionResult> AtualizarStatusPedido([FromBody] StatusPedidoUpdateDTO StatusPedidoUpdateDTO) {
             if (StatusPedidoUpdateDTO.IdPedido == 0 || StatusPedidoUpdateDTO.IdStatusPedido == 0) {
                 return BadRequest();

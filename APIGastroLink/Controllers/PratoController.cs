@@ -2,6 +2,7 @@
 using APIGastroLink.Facade.Interface;
 using APIGastroLink.Models;
 using APIGastroLink.Services.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace APIGastroLink.Controllers {
@@ -17,6 +18,7 @@ namespace APIGastroLink.Controllers {
         }
 
         [HttpPost]
+        [Authorize(Policy = "AdminGerente")]
         public async Task<IActionResult> CadastrarPrato([FromForm] PratoCreateDTO pratoCreateDTO) {
             try {
                 var urlImagem = await _imagemService.UploadImagem(pratoCreateDTO.formFile);

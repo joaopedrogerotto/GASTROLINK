@@ -1,4 +1,5 @@
 ﻿using APIGastroLink.Facade.Interface;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace APIGastroLink.Controllers {
@@ -12,6 +13,7 @@ namespace APIGastroLink.Controllers {
         }
 
         [HttpGet]
+        [Authorize(Policy = "AdminGerente")]
         public IActionResult SelecionarTodosTipoUsuario() {
             try {
                 return Ok(_facadeTipoUsuario.SelectAll());

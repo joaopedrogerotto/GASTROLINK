@@ -1,9 +1,11 @@
 ﻿using APIGastroLink.Facade.Interface;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace APIGastroLink.Controllers {
     [ApiController]
     [Route("api-gastrolink/[controller]")]
+    [Authorize(Policy = "Atendimento")]
     public class CardapioController : ControllerBase {
         private readonly IFacadeCardapio _facadeCardapio;
 

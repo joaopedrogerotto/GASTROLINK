@@ -2,6 +2,7 @@
 using APIGastroLink.Exceptions;
 using APIGastroLink.Facade.Interface;
 using APIGastroLink.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace APIGastroLink.Controllers {
@@ -16,6 +17,7 @@ namespace APIGastroLink.Controllers {
 
 
         [HttpPost("SalvarMesa")]
+        [Authorize(Policy = "AdminGerente")]
         public IActionResult CadastrarMesa([FromBody] MesaRequestDTO Mesa) {
             try {
                 _facadeMesa.CadastrarMesa(Mesa.NumeroMesa);
@@ -28,6 +30,7 @@ namespace APIGastroLink.Controllers {
         }
 
         [HttpGet]
+        [Authorize(Policy = "Atendimento")]
         public IActionResult SelecionarMesas() {
             try {
                 return Ok(_facadeMesa.SelecionarTodasMesas());
@@ -37,6 +40,7 @@ namespace APIGastroLink.Controllers {
         }
 
         [HttpPost("SalvarLayout")]
+        [Authorize(Policy = "AdminGerente")]
         public IActionResult SalvarLayoutMesas(List<LayoutMesaDTO> layout) {
             try {
                 var listMesa = new List<Mesa>();
