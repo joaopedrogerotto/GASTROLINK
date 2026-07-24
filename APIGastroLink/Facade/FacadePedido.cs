@@ -23,5 +23,7 @@ namespace APIGastroLink.Facade {
         }
 
         public async Task<List<Pedido>> SelecionarPedidosCozinha() => await _daoPedido.SelecionarPedidosEmPreparo();
+
+        public async Task<Pedido> SelecionarPeloId(int idPedido) => await _daoPedido.SelecionarPedidoPorId(idPedido);
     }
 }

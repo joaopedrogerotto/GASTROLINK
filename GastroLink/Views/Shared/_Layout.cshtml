@@ -19,10 +19,10 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
 
     <script>
-        window.APP_CONFIG = {
-            apiBaseUrl: "@Configuration["ApiGastroLink:BaseUrl"]",
-            apiSignalR: "@Configuration["ApiGastroLink:BaseUrlSignalR"]"
-        };
+            window.APP_CONFIG = {
+                apiBaseUrl: "@Configuration["ApiGastroLink:BaseUrl"]",
+                apiSignalR: "@Configuration["ApiGastroLink:BaseUrlSignalR"]"
+            };
     </script>
 </head>
 
@@ -116,6 +116,48 @@
                                     </ul>
                                 </li>
                             }
+
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle" href="#" id="mesasDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                    Pedidos
+                                </a>
+                                <ul class="dropdown-menu" aria-labelledby="mesasDropdown">
+                                    @if (tipo == "GARÇOM" || tipo == "ADMINISTRADOR" || tipo == "GERENTE") {
+                                        <li class="dropdown-submenu">
+                                            <a class="dropdown-item dropdown-toggle" href="#">
+                                                Garcom
+                                            </a>
+                                            <ul class="dropdown-menu">
+                                                <li>
+                                                    <a class="dropdown-item" asp-action="CriarPedido" asp-controller="Pedido">Abrir Pedido</a>
+                                                </li>
+
+                                                <li>
+                                                    <a class="dropdown-item" asp-action="PedidosProntos" asp-controller="Garcom">Pedidos Prontos</a>
+                                                </li>
+                                            </ul>
+                                        </li>
+                                    }
+
+                                    @if (tipo == "COZINHA" || tipo == "ADMINISTRADOR" || tipo == "GERENTE") {
+                                        <li class="dropdown-submenu">
+                                            <a class="dropdown-item dropdown-toggle" href="#">
+                                                Cozinha
+                                            </a>
+                                            <ul class="dropdown-menu">
+                                                <li>
+                                                    <a class="dropdown-item" asp-action="Cadastrar" asp-controller="Prato">Cadastrar</a>
+                                                </li>
+
+                                                <li>
+                                                    <a class="dropdown-item" asp-action="TodosPratos" asp-controller="Prato">Todos Pratos</a>
+                                                </li>
+                                            </ul>
+                                        </li>
+                                    }
+                                </ul>
+                            </li>
+
                         }
                     </ul>
 

@@ -1,6 +1,14 @@
+async function buscarToken() {
+    const response = await fetch("/Token/ObterToken", { credentials: "include" });
+    if (!response.ok) {
+        throw new Error("Não foi possível obter o token");
+    }
+    const data = await response.json();
+    return data.token;
+}
 export class PedidoHub {
     constructor(hubNome) {
-        this.connection = new signalR.HubConnectionBuilder().withUrl(`${window.APP_CONFIG.apiSignalR}/${hubNome}`).withAutomaticReconnect().build();
+        this.connection = new signalR.HubConnectionBuilder().withUrl(`${window.APP_CONFIG.apiSignalR}/${hubNome}`, { accessTokenFactory: () => buscarToken() }).withAutomaticReconnect().build();
     }
     async startConnection() {
         try {
@@ -13,6 +21,9 @@ export class PedidoHub {
     }
     onNovoPedido(callback) {
         this.connection.on("NovoPedido", callback);
+    }
+    onPedidoPronto(callback) {
+        this.connection.on("PedidoPronto", callback);
     }
 }
 //# sourceMappingURL=pedidoHub.js.map
