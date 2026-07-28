@@ -78,6 +78,21 @@ namespace APIGastroLink.DAO {
 
         }
 
+        public async Task<List<Pedido>> SelectAllPronto() {
+            var pedidoMap = new Dictionary<int, Pedido>();
+
+            using (SqlConnection conn = _database.OpenConnection()) {
+                using (SqlCommand cmd = new SqlCommand("PR_S_PEDIDOS_PRONTOS", conn)) {
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    using (SqlDataReader reader = await cmd.ExecuteReaderAsync()) {
+                        pedidoMap = GerarMapPedido(reader);
+                    }
+                }
+            }
+
+            return pedidoMap.Values.ToList();
+        }
+
         private Dictionary<int, Pedido> GerarMapPedido(SqlDataReader reader) {
             var pedidosMap = new Dictionary<int, Pedido>();
 
@@ -139,5 +154,6 @@ namespace APIGastroLink.DAO {
             return table;
         }
 
+       
     }
 }

@@ -89,6 +89,12 @@ builder.Services.AddHttpClient<CozinhaClient>((name, client) => {
         .Value;
     client.BaseAddress = new Uri(settings.BaseUrl);
 }).AddHttpMessageHandler<JwtAuthHandler>();
+builder.Services.AddHttpClient<GarcomClient>((name, client) => {
+    var settings = name
+        .GetRequiredService<IOptions<ApiGastroLinkSettings>>()
+        .Value;
+    client.BaseAddress = new Uri(settings.BaseUrl);
+}).AddHttpMessageHandler<JwtAuthHandler>();
 
 
 

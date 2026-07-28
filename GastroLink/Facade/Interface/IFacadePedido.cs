@@ -6,5 +6,6 @@ namespace GastroLink.Facade.Interface {
         public Task<bool> CadastrarPedido(PedidoCreateDTO pedido);
         public Task<List<Pedido>> PedidosCozinhaPendente();
         public Task<bool> AtualizarPedido(StatusPedidoUpdateDTO StatusPedidoUpdateDTO);
+        public Task<List<Pedido>> PedidosProntos();
     }
 }
