@@ -12,7 +12,7 @@ namespace APIGastroLink.DAO {
             _database = database;
         }
 
-        public async Task<int> CadastrarPedido(PedidoCreateDTO pedido) {
+        public async Task<int> InsertPedido(PedidoCreateDTO pedido) {
             int idPedido = 0;
             using (SqlConnection conn = _database.OpenConnection()) {
                 using (SqlCommand cmd = new SqlCommand("PR_I_PEDIDO", conn)) {
@@ -31,7 +31,7 @@ namespace APIGastroLink.DAO {
             return idPedido;
         }
 
-        public async Task<Pedido> SelecionarPedidoPorId(int idPedido) {
+        public async Task<Pedido> SelectPedidoById(int idPedido) {
             using (SqlConnection conn = _database.OpenConnection()) {
                 using (SqlCommand cmd = new SqlCommand("PR_S_PEDIDO_POR_ID", conn)) {
                     cmd.CommandType = CommandType.StoredProcedure;
@@ -46,7 +46,7 @@ namespace APIGastroLink.DAO {
             }
         }
 
-        public async Task<List<Pedido>> SelecionarPedidosEmPreparo() {
+        public async Task<List<Pedido>> SelectPedidosEmPreparo() {
             var pedidoMap = new Dictionary<int, Pedido>();
 
             using (SqlConnection conn = _database.OpenConnection()) {
@@ -62,7 +62,7 @@ namespace APIGastroLink.DAO {
         }
 
 
-        public async Task AtualizarStatus(StatusPedidoUpdateDTO StatusPedidoUpdateDTO) {
+        public async Task UpdateStatus(StatusPedidoUpdateDTO StatusPedidoUpdateDTO) {
             try {
                 using (SqlConnection conn = _database.OpenConnection()) {
                     using (SqlCommand cmd = new SqlCommand("PR_U_STATUS_PEDIDO", conn)) {
