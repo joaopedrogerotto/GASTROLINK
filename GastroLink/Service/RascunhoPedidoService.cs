@@ -24,7 +24,7 @@ namespace GastroLink.Service {
                 return null;
             }
 
-            return JsonSerializer.Deserialize<RascunhoPedido>(jsonPedidoRascunho);
+            return JsonSerializer.Deserialize<RascunhoPedido>((string)jsonPedidoRascunho);
         }
 
         public int ObterQuantidadePratos(List<RascunhoItemPedido> itens) => itens.Sum(item => item.Quantidade);

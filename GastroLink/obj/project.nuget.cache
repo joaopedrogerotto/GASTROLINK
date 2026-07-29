@@ -1,33 +1,31 @@
 {
   "version": 2,
-  "dgSpecHash": "gCIzqyyVLPw=",
+  "dgSpecHash": "qRFzsXEK1AM=",
   "success": true,
   "projectFilePath": "C:\\Projetos\\GastroLink\\GastroLink\\GastroLink.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\jp120\\.nuget\\packages\\automapper\\16.1.1\\automapper.16.1.1.nupkg.sha512",
-    "C:\\Users\\jp120\\.nuget\\packages\\microsoft.aspnetcore.authorization\\2.3.10\\microsoft.aspnetcore.authorization.2.3.10.nupkg.sha512",
-    "C:\\Users\\jp120\\.nuget\\packages\\microsoft.aspnetcore.connections.abstractions\\2.3.0\\microsoft.aspnetcore.connections.abstractions.2.3.0.nupkg.sha512",
-    "C:\\Users\\jp120\\.nuget\\packages\\microsoft.aspnetcore.http.features\\2.3.0\\microsoft.aspnetcore.http.features.2.3.0.nupkg.sha512",
-    "C:\\Users\\jp120\\.nuget\\packages\\microsoft.aspnetcore.signalr.common\\1.2.0\\microsoft.aspnetcore.signalr.common.1.2.0.nupkg.sha512",
     "C:\\Users\\jp120\\.nuget\\packages\\microsoft.aspnetcore.signalr.core\\1.2.11\\microsoft.aspnetcore.signalr.core.1.2.11.nupkg.sha512",
-    "C:\\Users\\jp120\\.nuget\\packages\\microsoft.aspnetcore.signalr.protocols.json\\1.2.0\\microsoft.aspnetcore.signalr.protocols.json.1.2.0.nupkg.sha512",
-    "C:\\Users\\jp120\\.nuget\\packages\\microsoft.extensions.dependencyinjection.abstractions\\10.0.5\\microsoft.extensions.dependencyinjection.abstractions.10.0.5.nupkg.sha512",
-    "C:\\Users\\jp120\\.nuget\\packages\\microsoft.extensions.logging.abstractions\\10.0.5\\microsoft.extensions.logging.abstractions.10.0.5.nupkg.sha512",
-    "C:\\Users\\jp120\\.nuget\\packages\\microsoft.extensions.options\\10.0.0\\microsoft.extensions.options.10.0.0.nupkg.sha512",
-    "C:\\Users\\jp120\\.nuget\\packages\\microsoft.extensions.primitives\\10.0.0\\microsoft.extensions.primitives.10.0.0.nupkg.sha512",
     "C:\\Users\\jp120\\.nuget\\packages\\microsoft.identitymodel.abstractions\\8.14.0\\microsoft.identitymodel.abstractions.8.14.0.nupkg.sha512",
     "C:\\Users\\jp120\\.nuget\\packages\\microsoft.identitymodel.jsonwebtokens\\8.14.0\\microsoft.identitymodel.jsonwebtokens.8.14.0.nupkg.sha512",
     "C:\\Users\\jp120\\.nuget\\packages\\microsoft.identitymodel.logging\\8.14.0\\microsoft.identitymodel.logging.8.14.0.nupkg.sha512",
     "C:\\Users\\jp120\\.nuget\\packages\\microsoft.identitymodel.tokens\\8.14.0\\microsoft.identitymodel.tokens.8.14.0.nupkg.sha512",
-    "C:\\Users\\jp120\\.nuget\\packages\\newtonsoft.json\\11.0.2\\newtonsoft.json.11.0.2.nupkg.sha512",
     "C:\\Users\\jp120\\.nuget\\packages\\respite\\3.0.11\\respite.3.0.11.nupkg.sha512",
     "C:\\Users\\jp120\\.nuget\\packages\\stackexchange.redis\\3.0.11\\stackexchange.redis.3.0.11.nupkg.sha512",
-    "C:\\Users\\jp120\\.nuget\\packages\\system.buffers\\4.6.0\\system.buffers.4.6.0.nupkg.sha512",
-    "C:\\Users\\jp120\\.nuget\\packages\\system.diagnostics.diagnosticsource\\10.0.5\\system.diagnostics.diagnosticsource.10.0.5.nupkg.sha512",
-    "C:\\Users\\jp120\\.nuget\\packages\\system.io.hashing\\10.0.5\\system.io.hashing.10.0.5.nupkg.sha512",
-    "C:\\Users\\jp120\\.nuget\\packages\\system.io.pipelines\\10.0.5\\system.io.pipelines.10.0.5.nupkg.sha512",
-    "C:\\Users\\jp120\\.nuget\\packages\\system.reflection.emit\\4.7.0\\system.reflection.emit.4.7.0.nupkg.sha512",
-    "C:\\Users\\jp120\\.nuget\\packages\\system.threading.channels\\8.0.0\\system.threading.channels.8.0.0.nupkg.sha512"
+    "C:\\Users\\jp120\\.nuget\\packages\\system.io.hashing\\10.0.5\\system.io.hashing.10.0.5.nupkg.sha512"
   ],
-  "logs": []
+  "logs": [
+    {
+      "code": "NU1510",
+      "level": "Warning",
+      "message": "PackageReference Microsoft.AspNetCore.SignalR.Core não será removido. Este pacote está disponível automaticamente e não precisa ser referenciado explicitamente. Remova o item PackageReference.",
+      "projectPath": "C:\\Projetos\\GastroLink\\GastroLink\\GastroLink.csproj",
+      "warningLevel": 1,
+      "filePath": "C:\\Projetos\\GastroLink\\GastroLink\\GastroLink.csproj",
+      "libraryId": "Microsoft.AspNetCore.SignalR.Core",
+      "targetGraphs": [
+        "net10.0"
+      ]
+    }
+  ]
 }
