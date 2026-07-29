@@ -33,9 +33,33 @@ function adicionarNovoPedidoNaTela(pedido) {
             <div class="card-body">
                 <h5 class="card-title">Mesa ${pedido.mesa.numero}</h5>
                 ${itensPedido}
-                 <button href="#" class="btn btn-info" data-id-pedido="${pedido.id}" data-id-status="3" id="btnPedidoPronto">ENTREGUE</button>
+                 <button href="#" class="btn btn-info" data-id-pedido="${pedido.id}" data-id-status="6" id="btnPedidoPronto">ENTREGUE</button>
             </div>
         </div>
         <br>`);
 }
+document.addEventListener("click", (e) => {
+    const btnPedidoPronto = e.target.closest("#btnPedidoPronto");
+    if (!btnPedidoPronto) {
+        return;
+    }
+    const carPedido = btnPedidoPronto.closest(".card-pedido");
+    let idStatus = Number(btnPedidoPronto.dataset.idStatus);
+    let idPedido = Number(btnPedidoPronto.dataset.idPedido);
+    let statusPedido = { IdPedido: idPedido, IdStatusPedido: idStatus };
+    $.ajax({
+        url: '/Pedido/AtualizarStatusPedido',
+        method: 'POST',
+        data: JSON.stringify(statusPedido),
+        contentType: 'application/json',
+        success: function () {
+            if (idStatus === 6) {
+                carPedido?.remove();
+            }
+        },
+        error: function (xhr, status, error) {
+            console.log("Erro:" + error);
+        }
+    });
+});
 //# sourceMappingURL=garcom.js.map
