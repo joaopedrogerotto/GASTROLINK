@@ -16,7 +16,7 @@ services:
     restart: unless-stopped
 
   api:
-    image: mcr.microsoft.com/dotnet/sdk:9.0
+    image: mcr.microsoft.com/dotnet/sdk:10.0
 
     container_name: api-gastrolink
 
@@ -44,7 +44,7 @@ services:
       - sqlserver
 
   mvc:
-    image: mcr.microsoft.com/dotnet/sdk:9.0
+    image: mcr.microsoft.com/dotnet/sdk:10.0
 
     container_name: mvc-gastrolink
 
