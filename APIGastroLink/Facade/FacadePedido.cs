@@ -14,18 +14,18 @@ namespace APIGastroLink.Facade {
             _daoPedido = daoPedido;
         }
 
-        public async Task AtualizarStatus(StatusPedidoUpdateDTO StatusPedidoUpdateDTO) => await _daoPedido.AtualizarStatus(StatusPedidoUpdateDTO);
+        public async Task AtualizarStatus(StatusPedidoUpdateDTO StatusPedidoUpdateDTO) => await _daoPedido.UpdateStatus(StatusPedidoUpdateDTO);
 
         public async Task<Pedido> CadastrarPedido(PedidoCreateDTO pedido) {
             pedido.ValorTotal = _pedidoService.CalcularValorTotalPedido(pedido.Itens);
-            int idPedido = await _daoPedido.CadastrarPedido(pedido);
-            return await _daoPedido.SelecionarPedidoPorId(idPedido);
+            int idPedido = await _daoPedido.InsertPedido(pedido);
+            return await _daoPedido.SelectPedidoById(idPedido);
         }
 
         public async Task<List<Pedido>> SelecionaPedidosProntos() => await _daoPedido.SelectAllPronto();
 
-        public async Task<List<Pedido>> SelecionarPedidosCozinha() => await _daoPedido.SelecionarPedidosEmPreparo();
+        public async Task<List<Pedido>> SelecionarPedidosCozinha() => await _daoPedido.SelectPedidosEmPreparo();
 
-        public async Task<Pedido> SelecionarPeloId(int idPedido) => await _daoPedido.SelecionarPedidoPorId(idPedido);
+        public async Task<Pedido> SelecionarPeloId(int idPedido) => await _daoPedido.SelectPedidoById(idPedido);
     }
 }

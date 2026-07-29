@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("APIGastroLink")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+069a7555fe656eb56d2c6826a898e9f0ddc9508d")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+bdef338c5e40f383c3d56849a9acba3860e47c8e")]
 [assembly: System.Reflection.AssemblyProductAttribute("APIGastroLink")]
 [assembly: System.Reflection.AssemblyTitleAttribute("APIGastroLink")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
