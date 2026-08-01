@@ -127,6 +127,16 @@ namespace GastroLink.Controllers {
             }
         }
 
+        [HttpGet]
+        public async Task<IActionResult> SelecionarPedidoPeloId(int id) {
+            try {
+                var pedido = await _facadePedido.SelecionaPedidoPeloId(id);
+                return Ok(pedido);
+            } catch (Exception ex) {
+                return BadRequest(ex.ToString);
+            }
+        }
+
         private void DefinirCaminhoImagem(List<Prato> listPratos) {
             foreach (var prato in listPratos) {
                 prato.UrlImagem = $"{_apiSettings.BaseUrlImagem}{prato.UrlImagem}";

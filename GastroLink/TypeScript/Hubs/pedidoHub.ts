@@ -31,4 +31,8 @@ export class PedidoHub {
     onPedidoPronto(callback: (pedido: any) => void): void {
         this.connection.on("PedidoPronto", callback);
     }
+
+    onPedidoAguarndandoPag(callback: (pedido: any) => void): void {
+        this.connection.on("AguardandoPagamento", callback);
+    }
 }

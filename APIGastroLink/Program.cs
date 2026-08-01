@@ -30,6 +30,8 @@ builder.Services.AddScoped<IDAOCategoriaPrato, DAOCategoriaPrato>();
 builder.Services.AddScoped<IDAOPrato, DAOPrato>();
 builder.Services.AddScoped<IDAOHistoricoDisponibilidade, DAOHistoricoDisponibilidade>();
 builder.Services.AddScoped<IDAOPedido, DAOPedido>();
+builder.Services.AddScoped<IDAOFormaPagamento, DAOFormaPagamento>();
+builder.Services.AddScoped<IDAOPagamento, DAOPagamento>();
 
 builder.Services.AddScoped<IFacadeLogin, FacadeLogin>();
 builder.Services.AddScoped<IFacadeMesa, FacadeMesa>();
@@ -39,6 +41,8 @@ builder.Services.AddScoped<IFacadeCategoriaPrato, FacadeCategoriaPrato>();
 builder.Services.AddScoped<IFacadePrato, FacadePrato>();
 builder.Services.AddScoped<IFacadeCardapio, FacadeCardapio>();
 builder.Services.AddScoped<IFacadePedido, FacadePedido>();
+builder.Services.AddScoped<IFacadeFormaPagamento, FacadeFormaPagamento>();
+builder.Services.AddScoped<IFacadePagamento, FacadePagamento>();
 
 builder.Services.AddScoped<PasswordService>();
 builder.Services.AddScoped<TokenJwtService>();
@@ -104,6 +108,9 @@ builder.Services.AddAuthorization(options => {
 
     //Cozinha (Cozinha, Admin e Gerente)
     options.AddPolicy("Cozinha", policy => policy.RequireRole("ADMINISTRADOR", "GERENTE", "COZINHA"));
+
+    //Caixa (Caixa, Admin e Gerente)
+    options.AddPolicy("Caixa", policy => policy.RequireRole("ADMINISTRADOR", "GERENTE", "CAIXA"));
 
 });
 

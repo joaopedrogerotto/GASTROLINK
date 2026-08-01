@@ -50,6 +50,8 @@ namespace GastroLink.Controllers {
 
             if (usuarioToken.Usuario.Tipo.Tipo == "COZINHA") {
                 return RedirectToAction("TodosPedidos", "Cozinha");
+            }else if(usuarioToken.Usuario.Tipo.Tipo == "CAIXA") {
+                return RedirectToAction("TodosPedidos", "Caixa");
             }
 
             return RedirectToAction("TodasMesas", "Mesa");

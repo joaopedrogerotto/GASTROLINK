@@ -14,7 +14,7 @@ namespace GastroLink.Client {
                 var cardapio = await response.Content.ReadFromJsonAsync<List<CategoriaPrato>>();
                 return cardapio ?? new List<CategoriaPrato>();
             }
-            throw new InvalidOperationException("Falha ao recuperar o cardápio.");
+            throw new InvalidOperationException($"Falha ao recuperar cardapio: {(int)response.StatusCode} - {response.Content.ReadAsStringAsync()}");
         }
     }
 }

@@ -25,5 +25,8 @@ export class PedidoHub {
     onPedidoPronto(callback) {
         this.connection.on("PedidoPronto", callback);
     }
+    onPedidoAguarndandoPag(callback) {
+        this.connection.on("AguardandoPagamento", callback);
+    }
 }
 //# sourceMappingURL=pedidoHub.js.map

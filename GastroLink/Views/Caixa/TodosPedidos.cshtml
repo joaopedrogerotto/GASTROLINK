@@ -1,0 +1,76 @@
+﻿@model IEnumerable<Pedido>
+
+@{
+    ViewData["Title"] = "Todos os pedidos - Caixa";
+}
+
+<script src="~/js/caixa.js" type="module"></script>
+
+<div class="divCardPedidos d-flex flex-wrap gap-3" id="containerPedidos">
+    @foreach (var pedido in Model){
+        <div class="card" style="width: 18rem;" id="pedido-@pedido.Id">
+            <div class="card-body">
+                <h5 class="card-title">Pedido @pedido.Id</h5>
+                <h6 class="card-subtitle mb-2 text-muted">Mesa @pedido.Mesa.Numero</h6>
+                <p class="card-text">Quantidade de itens: @pedido.Itens.Count()</p>
+                <button type="button" class="btn btn-primary" data-id="@pedido.Id" id="detalhesPedido"> Visualizar </button>
+                <button type="button" class="btn btn-success" data-id="@pedido.Id" id="pagamentoPedido"> Pagamento </button>
+            </div>
+        </div>
+    }
+</div>
+
+<div class="modal fade" id="modalDetalhesPedido">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title w-100" id="tituloPedido"></h5>
+            </div>
+
+            <div id="conteudoPedido" class="modal-body">
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="modal fade" id="modalSucessoPagamento" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+
+            <div class="modal-header">
+                <h5 class="modal-title" id="tituloPagSucess">Pagamento Registrado</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+
+            <div class="modal-body" id="txtSuccessPag">
+                Pagamento registrado com sucesso.
+            </div>
+
+            <div class="modal-footer">
+                <button type="button" class="btn btn-success" data-bs-dismiss="modal" id="okModalSucessPag">OK</button>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="modalFalhaPagamento" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+
+            <div class="modal-header">
+                <h5 class="modal-title" id="tituloPagFalha">Falha ao Registrar Pagamento</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+
+            <div class="modal-body" id="txtFalhaPag">
+                Falha ao registrar pagamento.
+            </div>
+
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger" data-bs-dismiss="modal">OK</button>
+            </div>
+        </div>
+    </div>
+</div>

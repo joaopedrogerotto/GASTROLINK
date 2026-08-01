@@ -38,14 +38,28 @@ namespace APIGastroLink.Controllers {
             try {
                 await _facadePedido.AtualizarStatus(StatusPedidoUpdateDTO);
 
-                if(StatusPedidoUpdateDTO.IdStatusPedido == 4) {
-                    var pedido = await _facadePedido.SelecionarPeloId(StatusPedidoUpdateDTO.IdPedido);
+                var pedido = await _facadePedido.SelecionarPeloId(StatusPedidoUpdateDTO.IdPedido);
+
+                if (StatusPedidoUpdateDTO.IdStatusPedido == 4) {
                     await _pedidoNotificacaoService.PedidoPronto(pedido);
+                }else if(StatusPedidoUpdateDTO.IdStatusPedido == 6) {
+                    await _pedidoNotificacaoService.AguardandoPagamento(pedido);
                 }
                 return Ok();
             } catch (Exception ex) {
                 return BadRequest(ex.Message);
             }
         }
+
+        [HttpGet("{idPedido}")]
+        [Authorize]
+        public async Task<IActionResult> SelecionarPedidoPorId(int idPedido) {
+            try {
+                var pedido = await _facadePedido.SelecionarPeloId(idPedido);
+                return Ok(pedido);
+            } catch (Exception ex) {
+                return BadRequest(ex.ToString());
+            }
+        } 
     }
 }

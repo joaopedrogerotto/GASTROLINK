@@ -95,6 +95,24 @@ builder.Services.AddHttpClient<GarcomClient>((name, client) => {
         .Value;
     client.BaseAddress = new Uri(settings.BaseUrl);
 }).AddHttpMessageHandler<JwtAuthHandler>();
+builder.Services.AddHttpClient<CaixaClient>((name, client) => {
+    var settings = name
+        .GetRequiredService<IOptions<ApiGastroLinkSettings>>()
+        .Value;
+    client.BaseAddress = new Uri(settings.BaseUrl);
+}).AddHttpMessageHandler<JwtAuthHandler>();
+builder.Services.AddHttpClient<FormaPagamentoClient>((name, client) => {
+    var settings = name
+        .GetRequiredService<IOptions<ApiGastroLinkSettings>>()
+        .Value;
+    client.BaseAddress = new Uri(settings.BaseUrl);
+}).AddHttpMessageHandler<JwtAuthHandler>();
+builder.Services.AddHttpClient<PagamentoClient>((name, client) => {
+    var settings = name
+        .GetRequiredService<IOptions<ApiGastroLinkSettings>>()
+        .Value;
+    client.BaseAddress = new Uri(settings.BaseUrl);
+}).AddHttpMessageHandler<JwtAuthHandler>();
 
 
 
@@ -112,6 +130,7 @@ builder.Services.AddScoped<IFacadeCategoriaPrato, FacadeCategoriaPrato>();
 builder.Services.AddScoped<IFacadeUsuario, FacadeUsuario>();
 builder.Services.AddScoped<IFacadePrato, FacadePrato>();
 builder.Services.AddScoped<IFacadePedido, FacadePedido>();
+builder.Services.AddScoped<IFacadePagamento, FacadePagamento>();
 
 builder.Services.AddScoped<IRascunhoPedidoService, RascunhoPedidoService>();
 

@@ -93,6 +93,21 @@ namespace APIGastroLink.DAO {
             return pedidoMap.Values.ToList();
         }
 
+        public async Task<List<Pedido>> SelectAllCaixa() {
+            var pedidoMap = new Dictionary<int, Pedido>();
+
+            using (SqlConnection conn = _database.OpenConnection()) {
+                using (SqlCommand cmd = new SqlCommand("PR_S_PEDIDOS_CAIXA", conn)) {
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    using (SqlDataReader reader = await cmd.ExecuteReaderAsync()) {
+                        pedidoMap = GerarMapPedido(reader);
+                    }
+                }
+            }
+
+            return pedidoMap.Values.ToList();
+        }
+
         private Dictionary<int, Pedido> GerarMapPedido(SqlDataReader reader) {
             var pedidosMap = new Dictionary<int, Pedido>();
 
@@ -154,6 +169,6 @@ namespace APIGastroLink.DAO {
             return table;
         }
 
-       
+
     }
 }

@@ -18,5 +18,10 @@ namespace APIGastroLink.Services {
         public async Task PedidoPronto(Pedido pedido) {
             await _hubContext.Clients.Group("GARCOM").SendAsync("PedidoPronto", pedido);
         }
+
+        public async Task AguardandoPagamento(Pedido Pedido) {
+            await _hubContext.Clients.Group("CAIXA").SendAsync("AguardandoPagamento", Pedido);
+        }
+
     }
 }
