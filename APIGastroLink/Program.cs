@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.AspNetCore.Authorization;
 using System.Text;
+using APIGastroLink.Settings;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -53,6 +54,8 @@ builder.Services.AddScoped<IPedidoService, PedidoService>();
 builder.Services.AddScoped<IPedidoNotificacaoService, PedidoNotificacaoService>();
 
 builder.Services.AddSignalR();
+
+builder.Services.Configure<MercadoPagoOptions>(builder.Configuration.GetSection("MercadoPago"));
 
 builder.Services.AddCors(options => {
     options.AddPolicy("PermitirMVC", policy => {
@@ -112,6 +115,10 @@ builder.Services.AddAuthorization(options => {
     //Caixa (Caixa, Admin e Gerente)
     options.AddPolicy("Caixa", policy => policy.RequireRole("ADMINISTRADOR", "GERENTE", "CAIXA"));
 
+});
+
+builder.Services.AddHttpClient<IMercadoPagoService, MercadoPagoService>(client => {
+    client.BaseAddress = new Uri("https://api.mercadopago.com/");
 });
 
 var app = builder.Build();

@@ -18,6 +18,8 @@ namespace GastroLink.Facade {
             return await _pagamentoClient.RegistrarPagamento(pagamentoRequest);
         }
 
+        public async Task<PixQrCodeResponseDTO> GerarQrCodePix(PagamentoRequestDTO pagamentoRequest) => await _pagamentoClient.GerarQRCodePix(pagamentoRequest);
+
         public async Task<DadosPagamentoDTO> ObterDadosParaPagamento(int idPedido) {
             var pedido  = await _pedidoClient.ObterPedidoPorId(idPedido);
             var formasPagamento = await _formaPagamentoClient.ObterFormasPagamento();

@@ -34,5 +34,15 @@ namespace GastroLink.Controllers {
                 return BadRequest(new { msg = ex.Message });
             }
         }
+
+        [HttpPost]
+        public async Task<IActionResult> GerarQrCodePix([FromBody] PagamentoRequestDTO pagamentoRequest) {
+            try {
+                var qrCode = await _facadePagamento.GerarQrCodePix(pagamentoRequest);
+                return Ok(qrCode);
+            } catch (Exception ex) {
+                return BadRequest(new { msg = ex.Message });
+            }
+        }
     }
 }

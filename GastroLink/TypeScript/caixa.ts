@@ -324,6 +324,8 @@ function montarModalPagamento(dadosPagamento: DadosPagamento) {
     btnGerarPagamento.addEventListener("click", () => {
         const formaPagamentoSelect = document.getElementById("formaPagamento") as HTMLSelectElement;
 
+        const IdFormaPagamento = Number(formaPagamentoSelect.value);
+
         const desconto = Number(inputDesconto.value);
 
         const valorTotal = pedido.valorTotal;
@@ -335,55 +337,108 @@ function montarModalPagamento(dadosPagamento: DadosPagamento) {
             ValorPago: valorPago,
             ValorTotal: valorTotal,
             IdPedido: pedido.id,
-            IdFormaPagamento: Number(formaPagamentoSelect.value),
+            IdFormaPagamento: IdFormaPagamento,
             IdUsuario: 0
         };
 
-        $.ajax({
-            url: '/Pagamento/RegistrarPagamento',
-            method: 'POST',
-            data: JSON.stringify(pagamento),
-            contentType: 'application/json',
-            success: function (response) {
-                const modalDetalhes = document.getElementById("modalDetalhesPedido")!;
-                if (modalDetalhes) {
-                    bootstrap.Modal.getOrCreateInstance(modalDetalhes).hide();
-                }
+        if (IdFormaPagamento == 4) {
+            GerarQrCodePix(pagamento);
+        } else {
+            registrarPagamentoNaoPix(pagamento);
+        }
 
-                const modal = document.getElementById("modalSucessoPagamento")!;
-                if (modal) {
+        function GerarQrCodePix(pagamento: Pagamento) {
+            $.ajax({
+                url: '/Pagamento/GerarQrCodePix',
+                method: 'POST',
+                data: JSON.stringify(pagamento),
+                contentType: 'application/json',
+                success: function (response) {
+                    const img = document.getElementById("imgQrCode") as HTMLImageElement;
+
+                    img.src = `data:image/png;base64,${response.qrCodeBase64}`;
+
+                    const txtPix = document.getElementById("txtPix") as HTMLTextAreaElement;
+
+                    txtPix.value = response.codigoPix;
+
+                    const modal = document.getElementById("modalQrCodePix")!;
+
                     bootstrap.Modal.getOrCreateInstance(modal).show();
-                }
 
-                const cardPedido = document.getElementById(`pedido-${pedido.id}`);
 
-                if (cardPedido) {
-                    cardPedido.remove();
-                }
-                
-            },
-            error: function (xhr, status, error) {
-                const modalErro = document.getElementById("modalFalhaPagamento")!;
-                if (modalErro) {
-                    const mensagemErro = document.getElementById("txtFalhaPag")!;
-                    let mensagem = "Ocorreu um erro ao processar o pagamento.";
+                },
+                error: function (xhr, status, error) {
+                    const modalErro = document.getElementById("modalFalhaPagamento")!;
+                    if (modalErro) {
+                        const mensagemErro = document.getElementById("txtFalhaPag")!;
+                        let mensagem = "Ocorreu um erro ao processar o pagamento.";
 
-                    if (xhr.responseText) {
-                        try {
-                            const erro = JSON.parse(xhr.responseText);
-                            mensagem = erro.msg ?? mensagem;
-                        } catch {
-                            mensagem = xhr.responseText;
+                        if (xhr.responseText) {
+                            try {
+                                const erro = JSON.parse(xhr.responseText);
+                                mensagem = erro.msg ?? mensagem;
+                            } catch {
+                                mensagem = xhr.responseText;
+                            }
                         }
+
+                        mensagemErro.textContent = mensagem;
+                        bootstrap.Modal.getOrCreateInstance(modalErro).show();
+                    }
+                    console.log("Erro:" + error)
+                }
+            });
+        }
+
+        function registrarPagamentoNaoPix(pagamento: Pagamento) {
+            $.ajax({
+                url: '/Pagamento/RegistrarPagamento',
+                method: 'POST',
+                data: JSON.stringify(pagamento),
+                contentType: 'application/json',
+                success: function (response) {
+                    const modalDetalhes = document.getElementById("modalDetalhesPedido")!;
+                    if (modalDetalhes) {
+                        bootstrap.Modal.getOrCreateInstance(modalDetalhes).hide();
                     }
 
-                    mensagemErro.textContent = mensagem;
-                    bootstrap.Modal.getOrCreateInstance(modalErro).show();
+                    const modal = document.getElementById("modalSucessoPagamento")!;
+                    if (modal) {
+                        bootstrap.Modal.getOrCreateInstance(modal).show();
+                    }
+
+                    const cardPedido = document.getElementById(`pedido-${pedido.id}`);
+
+                    if (cardPedido) {
+                        cardPedido.remove();
+                    }
+
+                },
+                error: function (xhr, status, error) {
+                    const modalErro = document.getElementById("modalFalhaPagamento")!;
+                    if (modalErro) {
+                        const mensagemErro = document.getElementById("txtFalhaPag")!;
+                        let mensagem = "Ocorreu um erro ao processar o pagamento.";
+
+                        if (xhr.responseText) {
+                            try {
+                                const erro = JSON.parse(xhr.responseText);
+                                mensagem = erro.msg ?? mensagem;
+                            } catch {
+                                mensagem = xhr.responseText;
+                            }
+                        }
+
+                        mensagemErro.textContent = mensagem;
+                        bootstrap.Modal.getOrCreateInstance(modalErro).show();
+                    }
+                    console.log("Erro:" + error)
                 }
-                console.log("Erro:" + error)    
-            }
-        });
+            });
+        }
     });
+
 }
 
 
