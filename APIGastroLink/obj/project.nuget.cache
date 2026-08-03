@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "Cb0bx8nHKB8=",
+  "dgSpecHash": "kUvnwEILbe0=",
   "success": true,
   "projectFilePath": "C:\\Projetos\\GastroLink\\APIGastroLink\\APIGastroLink.csproj",
   "expectedPackageFiles": [
@@ -22,8 +22,11 @@
     "C:\\Users\\jp120\\.nuget\\packages\\microsoft.openapi\\1.6.17\\microsoft.openapi.1.6.17.nupkg.sha512",
     "C:\\Users\\jp120\\.nuget\\packages\\microsoft.sqlserver.server\\1.0.0\\microsoft.sqlserver.server.1.0.0.nupkg.sha512",
     "C:\\Users\\jp120\\.nuget\\packages\\portable.bouncycastle\\1.9.0\\portable.bouncycastle.1.9.0.nupkg.sha512",
+    "C:\\Users\\jp120\\.nuget\\packages\\respite\\3.0.11\\respite.3.0.11.nupkg.sha512",
+    "C:\\Users\\jp120\\.nuget\\packages\\stackexchange.redis\\3.0.11\\stackexchange.redis.3.0.11.nupkg.sha512",
     "C:\\Users\\jp120\\.nuget\\packages\\system.configuration.configurationmanager\\9.0.13\\system.configuration.configurationmanager.9.0.13.nupkg.sha512",
     "C:\\Users\\jp120\\.nuget\\packages\\system.identitymodel.tokens.jwt\\8.19.2\\system.identitymodel.tokens.jwt.8.19.2.nupkg.sha512",
+    "C:\\Users\\jp120\\.nuget\\packages\\system.io.hashing\\10.0.5\\system.io.hashing.10.0.5.nupkg.sha512",
     "C:\\Users\\jp120\\.nuget\\packages\\system.security.cryptography.pkcs\\9.0.13\\system.security.cryptography.pkcs.9.0.13.nupkg.sha512",
     "C:\\Users\\jp120\\.nuget\\packages\\system.security.cryptography.protecteddata\\9.0.13\\system.security.cryptography.protecteddata.9.0.13.nupkg.sha512"
   ],

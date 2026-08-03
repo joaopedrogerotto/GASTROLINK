@@ -20,5 +20,13 @@ namespace GastroLink.Client {
             }
             throw new Exception("Erro ao gerar QR Code Pix");
         }
+
+        public async Task<int> VerificarQrCode(PedidoPixDTO pedidoPixDTO) {
+            var response = await _httpClient.PostAsJsonAsync($"Pagamento/VerificarQrCode", pedidoPixDTO);
+            if (response.IsSuccessStatusCode) {
+                return await response.Content.ReadFromJsonAsync<int>();
+            }
+            throw new Exception("Erro ao verificar QR Code Pix");
+        }
     }
 }

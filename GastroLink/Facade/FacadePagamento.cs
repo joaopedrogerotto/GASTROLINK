@@ -29,5 +29,9 @@ namespace GastroLink.Facade {
             };
             return dadosPagamento;
         }
+
+        public async Task<int> VerificarStatusPagamentoQrCode(PedidoPixDTO pedidoPix) {
+            return await _pagamentoClient.VerificarQrCode(pedidoPix);
+        }
     }
 }

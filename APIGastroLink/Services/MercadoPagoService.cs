@@ -2,22 +2,25 @@
 using APIGastroLink.Services.Interfaces;
 using APIGastroLink.Settings;
 using Microsoft.Extensions.Options;
+using StackExchange.Redis;
 using System.Globalization;
 using System.Net.Http.Headers;
+using System.Text.Json;
 
 namespace APIGastroLink.Services {
-    public class MercadoPagoService : IMercadoPagoService {
+    public class MercadoPagoService : IMercadoPagoService, IPedidoPixService {
         private readonly HttpClient _httpClient;
         private readonly MercadoPagoOptions _mercadoPagoOptions;
+        private readonly IDatabase _redisDatabase;
 
-        public MercadoPagoService(HttpClient httpClient, IOptions<MercadoPagoOptions> mercadoPagoOptions) {
+        public MercadoPagoService(HttpClient httpClient, IOptions<MercadoPagoOptions> mercadoPagoOptions, IConnectionMultiplexer redis) {
             _httpClient = httpClient;
             _mercadoPagoOptions = mercadoPagoOptions.Value;
+            _redisDatabase = redis.GetDatabase();
         }
 
 
         public async Task<PixQrCodeResponseDTO> GerarQRCodePix(PagamentoRequestDTO pagamentoRequestDTO) {
-            Console.WriteLine(_mercadoPagoOptions.AccessToken);
             _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", _mercadoPagoOptions.AccessToken);
 
             var idempotencyKey = Guid.NewGuid().ToString();
@@ -55,12 +58,39 @@ namespace APIGastroLink.Services {
             var resultado = await response.Content.ReadFromJsonAsync<MercadoPagoOrderResponseDTO>();
 
             var pagamento = resultado!.Transactions.Payments.First();
+            
+            var pedidoPix = new PedidoPixDTO {
+                IdPedido = pagamentoRequestDTO.IdPedido,
+                IdOrderMercadoPago = resultado!.Id,
+                ValorPago = pagamentoRequestDTO.ValorPago
+            };
+
+            if (!await SalvarPedidoPix(pedidoPix)) {
+                throw new Exception("Erro ao salvar pedido PIX");
+            }
 
             return new PixQrCodeResponseDTO {
+                IdOrderMercadoPago = resultado!.Id,
                 CodigoPix = pagamento.PaymentMethod.QrCode,
                 QrCodeBase64 = pagamento.PaymentMethod.QrCodeBase64
             };
 
+        }
+
+        public async Task<bool> VerificarQrCode(PedidoPixDTO pedidoPixDTO) {
+            await _redisDatabase.KeyDeleteAsync($"pedido_pix:{pedidoPixDTO.IdPedido}-{pedidoPixDTO.IdOrderMercadoPago}");
+            return true;//Para fins didaticos e de testes ele sempre retorna true, mas poderia ser implementado uma verificação real do status do pagamento no MercadoPago
+        }
+
+        public async Task<bool> SalvarPedidoPix(PedidoPixDTO pedidoPix) {
+            try {
+                var jsonPedidoPix = JsonSerializer.Serialize(pedidoPix);
+
+                await _redisDatabase.StringSetAsync($"pedido_pix:{pedidoPix.IdPedido}-{pedidoPix.IdOrderMercadoPago}", jsonPedidoPix);
+                return true;
+            } catch (Exception ex) {
+                return false;
+            }
         }
     }
 }

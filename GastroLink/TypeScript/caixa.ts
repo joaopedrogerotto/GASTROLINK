@@ -321,6 +321,9 @@ function montarModalPagamento(dadosPagamento: DadosPagamento) {
 
     const btnGerarPagamento = document.getElementById("btnGerarPagamento") as HTMLButtonElement;
 
+    let idOrderGateway = "GATEWAY_ID";
+    let intervaloVerificacao: number | undefined;
+
     btnGerarPagamento.addEventListener("click", () => {
         const formaPagamentoSelect = document.getElementById("formaPagamento") as HTMLSelectElement;
 
@@ -354,6 +357,7 @@ function montarModalPagamento(dadosPagamento: DadosPagamento) {
                 data: JSON.stringify(pagamento),
                 contentType: 'application/json',
                 success: function (response) {
+                    console.log(response);
                     const img = document.getElementById("imgQrCode") as HTMLImageElement;
 
                     img.src = `data:image/png;base64,${response.qrCodeBase64}`;
@@ -364,7 +368,10 @@ function montarModalPagamento(dadosPagamento: DadosPagamento) {
 
                     const modal = document.getElementById("modalQrCodePix")!;
 
+                    idOrderGateway = response.idOrderMercadoPago;
+
                     bootstrap.Modal.getOrCreateInstance(modal).show();
+                    iniciarVerificacaoPagamento(pedido.id, idOrderGateway, valorPago);
 
 
                 },
@@ -434,6 +441,56 @@ function montarModalPagamento(dadosPagamento: DadosPagamento) {
                         bootstrap.Modal.getOrCreateInstance(modalErro).show();
                     }
                     console.log("Erro:" + error)
+                }
+            });
+        }
+
+        function iniciarVerificacaoPagamento(idPedido: number, idOrderMercadoPago: string, valorPago: number) {
+            if (intervaloVerificacao) {
+                clearInterval(intervaloVerificacao);
+            }
+
+            intervaloVerificacao = window.setInterval(() => {
+                $.ajax({
+                    url: '/Pagamento/VerificarQrCode',
+                    method: 'POST',
+                    data: JSON.stringify({
+                        IdPedido: idPedido,
+                        IdOrderMercadoPago: idOrderMercadoPago,
+                        valorPago: valorPago
+                    }),
+                    contentType: 'application/json',
+                    success: function (data) {
+                        if (data === 1) {
+                            clearInterval(intervaloVerificacao);
+                            intervaloVerificacao = undefined;
+
+                            const modal = document.getElementById("modalQrCodePix")!;
+                            bootstrap.Modal.getOrCreateInstance(modal).hide();
+
+                            const modalSucesso = document.getElementById("modalSucessoPagamento")!;
+                            if (modalSucesso) {
+                                bootstrap.Modal.getOrCreateInstance(modalSucesso).show();
+                            }
+
+                            const cardPedido = document.getElementById(`pedido-${idPedido}`);
+                            if (cardPedido) {
+                                cardPedido.remove();
+                            }
+                        }
+                    },
+                    error: function (xhr, status, error) {
+                        console.log("Erro ao verificar pagamento:", error);
+                    }
+                });
+            }, 20000);
+        }
+        const modalQrCode = document.getElementById("modalQrCodePix");
+        if (modalQrCode) {
+            modalQrCode.addEventListener("hidden.bs.modal", () => {
+                if (intervaloVerificacao) {
+                    clearInterval(intervaloVerificacao);
+                    intervaloVerificacao = undefined;
                 }
             });
         }

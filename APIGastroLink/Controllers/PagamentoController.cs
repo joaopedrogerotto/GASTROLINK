@@ -36,5 +36,18 @@ namespace APIGastroLink.Controllers {
                 return BadRequest();
             }
         }
+
+        [HttpPost("VerificarQrCode")]
+        public async Task<IActionResult> VerificarQrCode([FromBody] PedidoPixDTO pedidoPixDTO) {
+            try {
+                var result = await _facadePagamento.VerificarQrCode(pedidoPixDTO);
+                if (result) {
+                    return Ok(1);
+                }
+                return Ok(0);
+            } catch (Exception ex) {
+                return BadRequest();
+            }
+        }
     }
 }

@@ -5,5 +5,6 @@ namespace GastroLink.Facade.Interface {
         public Task<DadosPagamentoDTO> ObterDadosParaPagamento(int idPedido);
         public Task<bool> EfetuarPagamento(PagamentoRequestDTO pagamentoRequest);
         public Task<PixQrCodeResponseDTO> GerarQrCodePix(PagamentoRequestDTO pagamentoRequest);
+        public Task<int> VerificarStatusPagamentoQrCode(PedidoPixDTO pedidoPix);
     }
 }

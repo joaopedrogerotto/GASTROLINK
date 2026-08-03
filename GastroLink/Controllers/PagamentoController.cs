@@ -12,12 +12,12 @@ namespace GastroLink.Controllers {
         }
 
         [HttpGet]
-        public async Task<IActionResult> CarregarPagamento (int id) {
+        public async Task<IActionResult> CarregarPagamento(int id) {
             try {
                 var dadosPagamento = await _facadePagamento.ObterDadosParaPagamento(id);
                 return Ok(dadosPagamento);
             } catch (Exception ex) {
-                return BadRequest(new { msg = ex.Message});
+                return BadRequest(new { msg = ex.Message });
             }
         }
 
@@ -40,6 +40,16 @@ namespace GastroLink.Controllers {
             try {
                 var qrCode = await _facadePagamento.GerarQrCodePix(pagamentoRequest);
                 return Ok(qrCode);
+            } catch (Exception ex) {
+                return BadRequest(new { msg = ex.Message });
+            }
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> VerificarQrCode([FromBody] PedidoPixDTO pedidoPix) {
+            try {
+                var resultado = await _facadePagamento.VerificarStatusPagamentoQrCode(pedidoPix);
+                return Ok(resultado);
             } catch (Exception ex) {
                 return BadRequest(new { msg = ex.Message });
             }
