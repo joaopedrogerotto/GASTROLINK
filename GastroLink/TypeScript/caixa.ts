@@ -347,7 +347,7 @@ function montarModalPagamento(dadosPagamento: DadosPagamento) {
         if (IdFormaPagamento == 4) {
             GerarQrCodePix(pagamento);
         } else {
-            registrarPagamentoNaoPix(pagamento);
+            registrarPagamento(pagamento);
         }
 
         function GerarQrCodePix(pagamento: Pagamento) {
@@ -398,7 +398,7 @@ function montarModalPagamento(dadosPagamento: DadosPagamento) {
             });
         }
 
-        function registrarPagamentoNaoPix(pagamento: Pagamento) {
+        function registrarPagamento(pagamento: Pagamento) {
             $.ajax({
                 url: '/Pagamento/RegistrarPagamento',
                 method: 'POST',
@@ -468,15 +468,8 @@ function montarModalPagamento(dadosPagamento: DadosPagamento) {
                             const modal = document.getElementById("modalQrCodePix")!;
                             bootstrap.Modal.getOrCreateInstance(modal).hide();
 
-                            const modalSucesso = document.getElementById("modalSucessoPagamento")!;
-                            if (modalSucesso) {
-                                bootstrap.Modal.getOrCreateInstance(modalSucesso).show();
-                            }
+                            registrarPagamento(pagamento);
 
-                            const cardPedido = document.getElementById(`pedido-${idPedido}`);
-                            if (cardPedido) {
-                                cardPedido.remove();
-                            }
                         }
                     },
                     error: function (xhr, status, error) {
