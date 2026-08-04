@@ -274,7 +274,6 @@ function montarModalPagamento(dadosPagamento) {
                 data: JSON.stringify(pagamento),
                 contentType: 'application/json',
                 success: function (response) {
-                    console.log(response);
                     const img = document.getElementById("imgQrCode");
                     img.src = `data:image/png;base64,${response.qrCodeBase64}`;
                     const txtPix = document.getElementById("txtPix");
