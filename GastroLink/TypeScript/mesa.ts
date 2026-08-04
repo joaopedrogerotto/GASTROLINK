@@ -1,11 +1,4 @@
-﻿interface StatusMesa {
-    status: string;
-}
-
-interface Mesa {
-    numero: number;
-    status: StatusMesa;
-}
+﻿import { Mesa, StatusMesa } from "./Models/mesaModel"; 
 
 async function criarMesa(): Promise<void> {
     const numeroMesa = $("#numeroMesaInput").val() as string;

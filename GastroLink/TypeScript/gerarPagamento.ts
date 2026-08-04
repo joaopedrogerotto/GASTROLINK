@@ -1,4 +1,5 @@
 import { DadosPagamento, FormaPagamento, Pagamento, Pedido } from "./Models/pagamentoModel";
+import { StatusPedido } from "./Models/statusPedidoModel";
 
 
 export function montarModalPagamento(dadosPagamento: DadosPagamento) {

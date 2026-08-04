@@ -21,11 +21,6 @@ export interface Pedido {
     dataCriacao: Date;
 }
 
-export interface StatusPedido {
-    IdPedido: Number,
-    IdStatusPedido: Number
-}
-
 export interface FormaPagamento {
     id: number;
     forma: string;

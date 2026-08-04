@@ -1,8 +1,4 @@
-﻿interface MesaLayout {
-    Id: number;
-    PosicaoX: number;
-    PosicaoY: number;
-}
+﻿import { MesaLayout } from "./Models/mesaModel.js";
 
 let mesaSelecionada: HTMLElement | null = null;
 let offsetX: number = 0;

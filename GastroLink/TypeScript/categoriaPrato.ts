@@ -1,7 +1,4 @@
-interface CategoriaPrato {
-    id: number;
-    categoria: string;
-}
+import { CategoriaPrato } from "./Models/categoriaPratoModel";
 
 async function criarCategoriaPrato(): Promise<void> {
     const categoriaInput = $("#categoriaPratoInput").val() as string;

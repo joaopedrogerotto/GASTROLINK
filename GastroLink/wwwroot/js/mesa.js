@@ -1,4 +1,3 @@
-"use strict";
 async function criarMesa() {
     const numeroMesa = $("#numeroMesaInput").val();
     const response = await fetch('/Mesa/SalvarMesa', {
@@ -50,4 +49,5 @@ async function carregarMesas() {
 document.addEventListener("DOMContentLoaded", () => {
     carregarMesas();
 });
+export {};
 //# sourceMappingURL=mesa.js.map

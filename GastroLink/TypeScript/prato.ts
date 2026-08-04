@@ -1,17 +1,5 @@
-interface PratoStatus {
-    Id: Number;
-    Status: boolean;
-    Justificativa: String;
-    IdUsuario: Number;
-};
-
-interface FiltroBusca {
-    Nome: String,
-    Descricao: String,
-    Preco: Number,
-    IdCategoria: Number,
-    Disponibilidade: Boolean
-};
+import { PratoStatus } from "./Models/pratoModel.js";
+import { FiltroBusca } from "./Models/filtroBuscaModel.js";
 
 document.addEventListener("click", (e) => {
     const alterarStatus = (e.target as HTMLElement).closest(".alterar-status-prato");

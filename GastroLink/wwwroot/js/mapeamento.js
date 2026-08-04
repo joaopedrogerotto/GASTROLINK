@@ -1,4 +1,3 @@
-"use strict";
 let mesaSelecionada = null;
 let offsetX = 0;
 let offsetY = 0;
@@ -89,4 +88,5 @@ document.addEventListener("click", (e) => {
         return;
     window.location.href = `/Pedido/CriarPedido?idMesa=${mesa.getAttribute("data-id")}`;
 });
+export {};
 //# sourceMappingURL=mapeamento.js.map

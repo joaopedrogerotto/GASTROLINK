@@ -1,6 +1,3 @@
-"use strict";
-;
-;
 document.addEventListener("click", (e) => {
     const alterarStatus = e.target.closest(".alterar-status-prato");
     if (alterarStatus) {
@@ -222,4 +219,5 @@ document.addEventListener("click", (e) => {
     const id = Number(prato.getAttribute("data-id-prato"));
     window.location.href = `/Prato/EditarPrato?id=${id}`;
 });
+export {};
 //# sourceMappingURL=prato.js.map

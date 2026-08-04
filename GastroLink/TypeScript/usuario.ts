@@ -1,9 +1,4 @@
-﻿interface Usuario {
-    Id: number;
-    Nome: string;
-    Login: string;
-    TipoUsuarioId: number;
-}
+﻿import { Usuario } from "./Models/usuarioModel.js";
 
 import { recarregarTabelaUsuarios } from "./tabelaUsuario.js";
 

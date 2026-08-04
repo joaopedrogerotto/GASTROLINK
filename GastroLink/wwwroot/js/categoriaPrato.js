@@ -1,4 +1,3 @@
-"use strict";
 async function criarCategoriaPrato() {
     const categoriaInput = $("#categoriaPratoInput").val();
     const categoriaPrato = { id: 0, categoria: categoriaInput };
@@ -53,4 +52,5 @@ async function carregarCategoriasPrato() {
 document.addEventListener("DOMContentLoaded", () => {
     carregarCategoriasPrato();
 });
+export {};
 //# sourceMappingURL=categoriaPrato.js.map

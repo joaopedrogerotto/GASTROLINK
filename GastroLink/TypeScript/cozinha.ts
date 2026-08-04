@@ -1,21 +1,15 @@
 import { PedidoHub } from "./Hubs/pedidoHub.js";
-
-interface StatusPedido{
-    IdPedido: Number,
-    IdStatusPedido: Number
-}
+import { StatusPedido } from "./Models/statusPedidoModel.js";
 
 const hub = new PedidoHub("pedidoHub");
 
 await hub.startConnection();
 
 hub.onNovoPedido(pedido => {
-    console.log(pedido);
     adicionarNovoPedidoNaTela(pedido);
 });
 
 function adicionarNovoPedidoNaTela(pedido: any): void {
-    console.log(pedido);
     const container = document.getElementById("containerPedidos");
 
     const itensPedido = pedido.itens.map((item: any) => `

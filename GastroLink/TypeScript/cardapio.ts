@@ -1,17 +1,4 @@
-interface RascunhoItemPedido{
-    Prato: Prato;
-    Observacao: string | null;
-    Quantidade: number;
-}
-
-interface AdicionarItemRascunhoDTO {
-    mesaId: number;
-    rascunhoItemPedido: RascunhoItemPedido;
-}
-
-interface Prato {
-    Id: number;
-}
+import { AdicionarItemRascunhoDTO, RascunhoItemPedido } from "./Models/pedidoModel.js";
 
 document.addEventListener("click", (e) => {
     const prato = (e.target as HTMLElement).closest(".add-prato-pedido");

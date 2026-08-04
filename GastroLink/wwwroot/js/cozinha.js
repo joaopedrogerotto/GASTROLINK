@@ -2,11 +2,9 @@ import { PedidoHub } from "./Hubs/pedidoHub.js";
 const hub = new PedidoHub("pedidoHub");
 await hub.startConnection();
 hub.onNovoPedido(pedido => {
-    console.log(pedido);
     adicionarNovoPedidoNaTela(pedido);
 });
 function adicionarNovoPedidoNaTela(pedido) {
-    console.log(pedido);
     const container = document.getElementById("containerPedidos");
     const itensPedido = pedido.itens.map((item) => `
         <p class="card-text">Prato: ${item.prato.nome}</p>
