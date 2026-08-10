@@ -20,7 +20,7 @@ namespace APIGastroLink.Services {
         }
 
 
-        public async Task<PixQrCodeResponseDTO> GerarQRCodePix(PagamentoRequestDTO pagamentoRequestDTO) {
+        public async Task<PixQrCodeResponseDTO> GerarQRCodePix(PagamentoPixDTO pagamentoRequestDTO) {
             _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", _mercadoPagoOptions.AccessToken);
 
             var idempotencyKey = Guid.NewGuid().ToString();
@@ -29,13 +29,13 @@ namespace APIGastroLink.Services {
 
             var body = new {
                 type = "online",
-                total_amount = pagamentoRequestDTO.ValorPago.ToString("F2", CultureInfo.InvariantCulture),
+                total_amount = pagamentoRequestDTO.ValorPagoPix.ToString("F2", CultureInfo.InvariantCulture),
                 external_reference = pagamentoRequestDTO.IdPedido.ToString(),
                 processing_mode = "automatic",
                 transactions = new {
                     payments = new[] {
                 new {
-                    amount = pagamentoRequestDTO.ValorTotal.ToString("F2", CultureInfo.InvariantCulture),
+                    amount = pagamentoRequestDTO.ValorPagoPix.ToString("F2", CultureInfo.InvariantCulture),
                     payment_method = new {
                         id = "pix",
                         type = "bank_transfer"
@@ -62,7 +62,7 @@ namespace APIGastroLink.Services {
             var pedidoPix = new PedidoPixDTO {
                 IdPedido = pagamentoRequestDTO.IdPedido,
                 IdOrderMercadoPago = resultado!.Id,
-                ValorPago = pagamentoRequestDTO.ValorPago
+                ValorPago = pagamentoRequestDTO.ValorPagoPix
             };
 
             if (!await SalvarPedidoPix(pedidoPix)) {

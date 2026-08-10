@@ -32,10 +32,20 @@ export interface DadosPagamento {
 }
 
 export interface Pagamento {
-    Desconto: number;
+    IdFormaPagamento: number;
     ValorPago: number;
+}
+
+
+export interface PagamentoPix {
+    IdPedido: number;
+    ValorPagoPix: number;
+}
+
+export interface RegistrarPagamento {
+    Desconto: number;
     ValorTotal: number;
     IdPedido: number;
-    IdFormaPagamento: number;
     IdUsuario: number;
+    Pagamentos: Pagamento[];
 }

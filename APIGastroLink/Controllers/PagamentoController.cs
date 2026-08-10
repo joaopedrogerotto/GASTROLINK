@@ -15,7 +15,7 @@ namespace APIGastroLink.Controllers {
         }
 
         [HttpPost]
-        public async Task<IActionResult> RegistrarPagamento([FromBody] PagamentoRequestDTO pagamentoRequestDTO) {
+        public async Task<IActionResult> RegistrarPagamento([FromBody] RegistrarPagamentoDTO pagamentoRequestDTO) {
             try {
                 var result = await _facadePagamento.RegistrarPagamento(pagamentoRequestDTO);
                 if (result) {
@@ -28,7 +28,7 @@ namespace APIGastroLink.Controllers {
         }
 
         [HttpPost("GerarQrCodePix")]
-        public async Task<IActionResult> GerarQRCodePix([FromBody] PagamentoRequestDTO pagamentoRequestDTO) {
+        public async Task<IActionResult> GerarQRCodePix([FromBody] PagamentoPixDTO pagamentoRequestDTO) {
             try {
                 var qrCodeResponse = await _facadePagamento.GerarQRCodePix(pagamentoRequestDTO);
                 return Ok(qrCodeResponse);

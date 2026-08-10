@@ -14,11 +14,11 @@ namespace GastroLink.Facade {
             _pagamentoClient = pagamentoClient;
         }
 
-        public async Task<bool> EfetuarPagamento(PagamentoRequestDTO pagamentoRequest) {
+        public async Task<bool> EfetuarPagamento(RegistrarPagamentoDTO pagamentoRequest) {
             return await _pagamentoClient.RegistrarPagamento(pagamentoRequest);
         }
 
-        public async Task<PixQrCodeResponseDTO> GerarQrCodePix(PagamentoRequestDTO pagamentoRequest) => await _pagamentoClient.GerarQRCodePix(pagamentoRequest);
+        public async Task<PixQrCodeResponseDTO> GerarQrCodePix(PagamentoPixDTO pagamentoRequest) => await _pagamentoClient.GerarQRCodePix(pagamentoRequest);
 
         public async Task<DadosPagamentoDTO> ObterDadosParaPagamento(int idPedido) {
             var pedido  = await _pedidoClient.ObterPedidoPorId(idPedido);

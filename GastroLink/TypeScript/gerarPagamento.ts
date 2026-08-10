@@ -1,4 +1,4 @@
-import { DadosPagamento, FormaPagamento, Pagamento, Pedido } from "./Models/pagamentoModel";
+import { DadosPagamento, FormaPagamento, Pagamento, Pedido, RegistrarPagamento, PagamentoPix } from "./Models/pagamentoModel";
 import { StatusPedido } from "./Models/statusPedidoModel";
 
 
@@ -69,19 +69,30 @@ export function montarModalPagamento(dadosPagamento: DadosPagamento) {
                 <hr>
 
                 <div class="mb-3">
-                    <label for="formaPagamento" class="form-label">
-                        Forma de pagamento
-                    </label>
 
-                    <select class="form-select" id="formaPagamento">
-                        <option value="">Selecione...</option>
+                    <div class="form-check form-switch">
+                        <input class="form-check-input" type="checkbox" id="checkboxDividirConta">
+                        <label class="form-check-label" for="checkboxDividirConta">Dividir pagamento</label>
+                    </div>
 
-                        ${formasPagamento.map(fp => `
-                            <option value="${fp.id}">
-                                ${fp.forma}
-                            </option>
-                        `).join("")}
-                    </select>
+                    <br/>
+
+                    <div id="divFormaPagamento">
+                        <label for="formaPagamento" class="form-label">
+                            Forma de pagamento
+                        </label>
+
+                        <select class="form-select" id="formaPagamento">
+                            <option value="">Selecione...</option>
+
+                            ${formasPagamento.map(fp => `
+                                <option value="${fp.id}">
+                                    ${fp.forma}
+                                </option>
+                            `).join("")}
+                        </select>
+                    </div>
+
                 </div>
 
 
@@ -98,13 +109,13 @@ export function montarModalPagamento(dadosPagamento: DadosPagamento) {
 
                     <h4 class="fw-bold" id="valorTotal">
                         ${pedido.valorTotal.toLocaleString("pt-BR", {
-        style: "currency",
-        currency: "BRL"
-    })}
+                            style: "currency",
+                            currency: "BRL"
+                        })}
                     </h4>
                 </div>
 
-                <div class="text-end">
+                <div class="text-end" id="divBtnPagamento">
                     <button type="button" class="btn btn-success" id="btnGerarPagamento">Gerar Pagamento</button>
                 </div>
 
@@ -145,143 +156,189 @@ export function montarModalPagamento(dadosPagamento: DadosPagamento) {
     let idOrderGateway = "GATEWAY_ID";
     let intervaloVerificacao: number | undefined;
 
+    const pagamento: RegistrarPagamento = {
+        Desconto: 0,
+        ValorTotal: 0,
+        IdPedido: pedido.id,
+        IdUsuario: 0,
+        Pagamentos: []
+    };
+
     btnGerarPagamento.addEventListener("click", () => {
-        const formaPagamentoSelect = document.getElementById("formaPagamento") as HTMLSelectElement;
-
-        const IdFormaPagamento = Number(formaPagamentoSelect.value);
-
         const desconto = Number(inputDesconto.value);
 
-        const valorTotal = pedido.valorTotal;
+        const formaPagamentoSelect = document.getElementById("formaPagamento") as HTMLSelectElement;
+
+        const valorTotal = Number(pedido.valorTotal);
 
         const valorPago = valorTotal - desconto;
 
-        const pagamento: Pagamento = {
-            Desconto: desconto,
-            ValorPago: valorPago,
-            ValorTotal: valorTotal,
-            IdPedido: pedido.id,
-            IdFormaPagamento: IdFormaPagamento,
-            IdUsuario: 0
-        };
+        pagamento.Desconto = desconto;
+        pagamento.ValorTotal = valorPago;
+        pagamento.Pagamentos = construirPagamentos();
 
-        if (IdFormaPagamento == 4) {
-            GerarQrCodePix(pagamento);
-        } else {
-            registrarPagamento(pagamento);
-        }
-
-        function GerarQrCodePix(pagamento: Pagamento) {
-            $.ajax({
-                url: '/Pagamento/GerarQrCodePix',
-                method: 'POST',
-                data: JSON.stringify(pagamento),
-                contentType: 'application/json',
-                success: function (response) {
-                    const img = document.getElementById("imgQrCode") as HTMLImageElement;
-
-                    img.src = `data:image/png;base64,${response.qrCodeBase64}`;
-
-                    const txtPix = document.getElementById("txtPix") as HTMLTextAreaElement;
-
-                    txtPix.value = response.codigoPix;
-
-                    const modal = document.getElementById("modalQrCodePix")!;
-
-                    idOrderGateway = response.idOrderMercadoPago;
-
-                    bootstrap.Modal.getOrCreateInstance(modal).show();
-                    iniciarVerificacaoPagamento(pedido.id, idOrderGateway, valorPago);
-
-
-                },
-                error: function (xhr, status, error) {
-                    const modalErro = document.getElementById("modalFalhaPagamento")!;
-                    if (modalErro) {
-                        const mensagemErro = document.getElementById("txtFalhaPag")!;
-                        let mensagem = "Ocorreu um erro ao processar o pagamento.";
-
-                        if (xhr.responseText) {
-                            try {
-                                const erro = JSON.parse(xhr.responseText);
-                                mensagem = erro.msg ?? mensagem;
-                            } catch {
-                                mensagem = xhr.responseText;
-                            }
-                        }
-
-                        mensagemErro.textContent = mensagem;
-                        bootstrap.Modal.getOrCreateInstance(modalErro).show();
-                    }
-                    console.log("Erro:" + error)
+        if (verificaPagamentosPix()) {
+            if (!checkboxDividirConta.checked && Number(formaPagamentoSelect.value) === 4) {
+                const pagamentoPix: PagamentoPix = {
+                    IdPedido: pedido.id,
+                    ValorPagoPix: valorPago
                 }
-            });
-        }
-
-        function registrarPagamento(pagamento: Pagamento) {
-            $.ajax({
-                url: '/Pagamento/RegistrarPagamento',
-                method: 'POST',
-                data: JSON.stringify(pagamento),
-                contentType: 'application/json',
-                success: function (response) {
-                    const modalDetalhes = document.getElementById("modalDetalhesPedido")!;
-                    if (modalDetalhes) {
-                        bootstrap.Modal.getOrCreateInstance(modalDetalhes).hide();
-                    }
-
-                    const modal = document.getElementById("modalSucessoPagamento")!;
-                    if (modal) {
-                        bootstrap.Modal.getOrCreateInstance(modal).show();
-                    }
-
-                    const cardPedido = document.getElementById(`pedido-${pedido.id}`);
-
-                    if (cardPedido) {
-                        cardPedido.remove();
-                    }
-
-                },
-                error: function (xhr, status, error) {
-                    const modalErro = document.getElementById("modalFalhaPagamento")!;
-                    if (modalErro) {
-                        const mensagemErro = document.getElementById("txtFalhaPag")!;
-                        let mensagem = "Ocorreu um erro ao processar o pagamento.";
-
-                        if (xhr.responseText) {
-                            try {
-                                const erro = JSON.parse(xhr.responseText);
-                                mensagem = erro.msg ?? mensagem;
-                            } catch {
-                                mensagem = xhr.responseText;
-                            }
-                        }
-
-                        mensagemErro.textContent = mensagem;
-                        bootstrap.Modal.getOrCreateInstance(modalErro).show();
-                    }
-                    console.log("Erro:" + error)
-                }
-            });
-        }
-
-        function iniciarVerificacaoPagamento(idPedido: number, idOrderMercadoPago: string, valorPago: number) {
-            if (intervaloVerificacao) {
-                clearInterval(intervaloVerificacao);
+                GerarQrCodePix(pagamentoPix);
+            } else {
+                registrarPagamento(pagamento);
             }
+        } else {
+            modalErro("Aguarde a confirmação de todos os pagamentos via PIX antes de finalizar o pedido.");
+        }
+     
+    });
 
-            intervaloVerificacao = window.setInterval(() => {
-                $.ajax({
-                    url: '/Pagamento/VerificarQrCode',
-                    method: 'POST',
-                    data: JSON.stringify({
-                        IdPedido: idPedido,
-                        IdOrderMercadoPago: idOrderMercadoPago,
-                        valorPago: valorPago
-                    }),
-                    contentType: 'application/json',
-                    success: function (data) {
-                        if (data === 1) {
+    function GerarQrCodePix(pagamentoPix: PagamentoPix, row?: HTMLElement) {
+        if (pagamentoPix.ValorPagoPix > pedido.valorTotal) {
+            modalErro("O valor do pagamento via PIX não pode ser maior que o valor total do pedido.");
+            return;
+        } else if (checkboxDividirConta.checked && pagamentoPix.ValorPagoPix === pedido.valorTotal) {
+            modalErro("O valor do pagamento via PIX não pode ser igual ao valor total do pedido quando a conta está dividida.");
+            return;
+        }
+
+        $.ajax({
+            url: '/Pagamento/GerarQrCodePix',
+            method: 'POST',
+            data: JSON.stringify(pagamentoPix),
+            contentType: 'application/json',
+            success: function (response) {
+                const img = document.getElementById("imgQrCode") as HTMLImageElement;
+
+                img.src = `data:image/png;base64,${response.qrCodeBase64}`;
+
+                const txtPix = document.getElementById("txtPix") as HTMLTextAreaElement;
+
+                txtPix.value = response.codigoPix;
+
+                const modal = document.getElementById("modalQrCodePix")!;
+
+                idOrderGateway = response.idOrderMercadoPago;
+
+                bootstrap.Modal.getOrCreateInstance(modal).show();
+                iniciarVerificacaoPagamento(pedido.id, idOrderGateway, pagamentoPix.ValorPagoPix, row);
+
+
+            },
+            error: function (xhr, status, error) {
+                const modalErro = document.getElementById("modalFalhaPagamento")!;
+                if (modalErro) {
+                    const mensagemErro = document.getElementById("txtFalhaPag")!;
+                    let mensagem = "Ocorreu um erro ao processar o pagamento.";
+
+                    if (xhr.responseText) {
+                        try {
+                            const erro = JSON.parse(xhr.responseText);
+                            mensagem = erro.msg ?? mensagem;
+                        } catch {
+                            mensagem = xhr.responseText;
+                        }
+                    }
+
+                    mensagemErro.textContent = mensagem;
+                    bootstrap.Modal.getOrCreateInstance(modalErro).show();
+                }
+                console.log("Erro:" + error)
+            }
+        });
+    }
+
+    function registrarPagamento(pagamento: RegistrarPagamento) {
+
+        $.ajax({
+            url: '/Pagamento/RegistrarPagamento',
+            method: 'POST',
+            data: JSON.stringify(pagamento),
+            contentType: 'application/json',
+            success: function (response) {
+                const modalDetalhes = document.getElementById("modalDetalhesPedido")!;
+                if (modalDetalhes) {
+                    bootstrap.Modal.getOrCreateInstance(modalDetalhes).hide();
+                }
+
+                const modal = document.getElementById("modalSucessoPagamento")!;
+                if (modal) {
+                    bootstrap.Modal.getOrCreateInstance(modal).show();
+                }
+
+                const cardPedido = document.getElementById(`pedido-${pedido.id}`);
+
+                if (cardPedido) {
+                    cardPedido.remove();
+                }
+
+            },
+            error: function (xhr, status, error) {
+                const modalErro = document.getElementById("modalFalhaPagamento")!;
+                if (modalErro) {
+                    const mensagemErro = document.getElementById("txtFalhaPag")!;
+                    let mensagem = "Ocorreu um erro ao processar o pagamento.";
+
+                    if (xhr.responseText) {
+                        try {
+                            const erro = JSON.parse(xhr.responseText);
+                            mensagem = erro.msg ?? mensagem;
+                        } catch {
+                            mensagem = xhr.responseText;
+                        }
+                    }
+
+                    mensagemErro.textContent = mensagem;
+                    bootstrap.Modal.getOrCreateInstance(modalErro).show();
+                }
+                console.log("Erro:" + error)
+            }
+        });
+    }
+
+    function iniciarVerificacaoPagamento(idPedido: number, idOrderMercadoPago: string, valorPago: number, row?: HTMLElement) {
+        if (intervaloVerificacao) {
+            clearInterval(intervaloVerificacao);
+        }
+
+        intervaloVerificacao = window.setInterval(() => {
+            $.ajax({
+                url: '/Pagamento/VerificarQrCode',
+                method: 'POST',
+                data: JSON.stringify({
+                    IdPedido: idPedido,
+                    IdOrderMercadoPago: idOrderMercadoPago,
+                    valorPago: valorPago
+                }),
+                contentType: 'application/json',
+                success: function (data) {
+                    if (data === 1) {
+                        if (checkboxDividirConta.checked) {
+                            const selectFormaPagamento = row?.querySelector<HTMLSelectElement>("#formaPagamento")!;
+                            const inputValor = row?.querySelector<HTMLSelectElement>(".valor-pagamento")!;
+                            const btnQrCode = row?.querySelector<HTMLSelectElement>(".btn-qrcode");
+
+                            selectFormaPagamento?.setAttribute("disabled", "true");
+                            inputValor?.setAttribute("disabled", "true");
+                            inputValor?.setAttribute("aria-readonly", "true");
+                            btnQrCode?.setAttribute("disabled", "true");
+
+                            const check = document.createElement("span");
+
+                            check.classList.add("text-success", "ms-2");
+                            check.innerHTML = `
+                                <i class="bi bi-check-circle-fill"></i>
+                                Pago
+                            `;
+
+                            inputValor.parentElement?.appendChild(check);
+
+                            const valorPagoPix = Number(inputValor.value);
+
+                            const modal = document.getElementById("modalQrCodePix")!;
+                            bootstrap.Modal.getOrCreateInstance(modal).hide();
+                            
+                        } else {
                             clearInterval(intervaloVerificacao);
                             intervaloVerificacao = undefined;
 
@@ -289,24 +346,203 @@ export function montarModalPagamento(dadosPagamento: DadosPagamento) {
                             bootstrap.Modal.getOrCreateInstance(modal).hide();
 
                             registrarPagamento(pagamento);
-
                         }
-                    },
-                    error: function (xhr, status, error) {
-                        console.log("Erro ao verificar pagamento:", error);
+
                     }
-                });
-            }, 20000);
-        }
-        const modalQrCode = document.getElementById("modalQrCodePix");
-        if (modalQrCode) {
-            modalQrCode.addEventListener("hidden.bs.modal", () => {
-                if (intervaloVerificacao) {
-                    clearInterval(intervaloVerificacao);
-                    intervaloVerificacao = undefined;
+                },
+                error: function (xhr, status, error) {
+                    console.log("Erro ao verificar pagamento:", error);
                 }
             });
+        }, 20000);
+    }
+    const modalQrCode = document.getElementById("modalQrCodePix");
+    if (modalQrCode) {
+        modalQrCode.addEventListener("hidden.bs.modal", () => {
+            if (intervaloVerificacao) {
+                clearInterval(intervaloVerificacao);
+                intervaloVerificacao = undefined;
+            }
+        });
+    }
+
+    const checkboxDividirConta = document.getElementById("checkboxDividirConta") as HTMLInputElement;
+
+    checkboxDividirConta.addEventListener("change", function () {
+        const divFormaPagamento = document.getElementById("divFormaPagamento");
+        const divBtnPagamento = document.getElementById("divBtnPagamento");
+
+        if ((this as HTMLInputElement).checked) {
+            divFormaPagamento!.innerHTML = ""
+            for (let i = 0; i <= 1; i++) {
+                divFormaPagamento?.insertAdjacentHTML("beforeend",adicionarInputPagamento());
+            }
+            divBtnPagamento?.insertAdjacentHTML("afterbegin", `
+                <button type="button" class="btn btn-primary" id="btnAddPagamento">
+                    Adicionar pagamento
+                </button>
+            `);
+        } else {
+            divFormaPagamento!.innerHTML = ""
+            const btnAddPagamento = document.getElementById("btnAddPagamento");
+            btnAddPagamento?.remove();
+            divFormaPagamento?.insertAdjacentHTML("beforeend",
+                `
+                <label for="formaPagamento" class="form-label">
+                    Forma de pagamento
+                </label>
+
+                <select class="form-select" id="formaPagamento">
+                    <option value="">Selecione...</option>
+                        ${formasPagamento.map(fp => `
+                                <option value="${fp.id}">
+                                    ${fp.forma}
+                                </option>
+                            `).join("")}
+                </select>
+            `);
+        }
+
+        document.getElementById("btnAddPagamento")?.addEventListener("click", function () {
+            const divFormaPagamento = document.getElementById("divFormaPagamento");
+            divFormaPagamento?.insertAdjacentHTML("beforeend",adicionarInputPagamento());
+        });
+    });
+
+    function adicionarInputPagamento() {
+        return `
+                <div class="row g-2">
+                    <div class="col-md-6">
+                        <label for="formaPagamento" class="form-label">
+                            Forma de pagamento
+                        </label>
+
+                        <select class="form-select forma-pagamento" id="formaPagamento">
+                            <option value="">Selecione...</option>
+                            ${formasPagamento.map(fp => `
+                                <option value="${fp.id}">
+                                    ${fp.forma}
+                                </option>
+                            `).join("")}
+                        </select>
+                    </div>
+
+                    <div class="col-md-6">
+                        <label for="valorPagamento" class="form-label">
+                            Valor
+                        </label>
+
+
+                        <div class="input-group">
+                            <input type="number" class="form-control valor-pagamento" id="valorPagamento" step="0.01" min="0" placeholder="0,00">
+
+                            <button  type="button" class="btn btn-outline-secondary btn-qrcode d-none" title="Gerar QR Code PIX"><i class="bi bi-qr-code"></i></button>
+                        </div>
+                    </div>
+                </div>
+                `;
+    }
+
+    function construirPagamentos(): Pagamento[] {
+        let pagamentos: Pagamento[] = [];
+        const divFormaPagamento = document.getElementById("divFormaPagamento");
+
+        if (checkboxDividirConta.checked) {
+            divFormaPagamento?.querySelectorAll(".row.g-2").forEach((row) => {
+                let pagamento: Pagamento = {
+                    IdFormaPagamento: Number((row.querySelector("#formaPagamento") as HTMLSelectElement).value),
+                    ValorPago: Number((row.querySelector("#valorPagamento") as HTMLInputElement).value)
+                }
+                pagamentos.push(pagamento);
+            });
+        } else {
+            const formaPagamentoSelect = document.getElementById("formaPagamento") as HTMLSelectElement;
+            let pagamento: Pagamento = {
+                IdFormaPagamento: Number(formaPagamentoSelect.value),
+                ValorPago: Number(inputDesconto.value) > 0 ? pedido.valorTotal - Number(inputDesconto.value) : pedido.valorTotal
+            }
+            pagamentos.push(pagamento);
+        }
+
+        return pagamentos;
+    }
+
+    document.addEventListener("change", function (e) {
+
+        const target = e.target as HTMLSelectElement;
+
+        if (!target.classList.contains("forma-pagamento")) {
+            return;
+        }
+
+        const rowPagamento = target.closest(".row")!;
+
+        const btnQrCode = rowPagamento.querySelector<HTMLButtonElement>(
+            ".btn-qrcode"
+        );
+
+        if (!btnQrCode) {
+            return;
+        }
+
+        if (Number(target.value) === 4) {
+            btnQrCode.classList.remove("d-none");
+        } else {
+            btnQrCode.classList.add("d-none");
         }
     });
 
+    document.addEventListener("click", function (e) {
+        const target = e.target as HTMLElement;
+
+        const btnQrCode = target.closest(".btn-qrcode") as HTMLButtonElement | null;
+
+        if (!btnQrCode) {
+            return;
+        }
+
+        const row = btnQrCode.closest(".row") as HTMLElement;
+
+        const valor = Number((target.closest(".row")!.querySelector("#valorPagamento") as HTMLInputElement).value);
+
+        const pagamentoPix: PagamentoPix = {
+            IdPedido: pedido.id,
+            ValorPagoPix: valor
+        }
+
+        GerarQrCodePix(pagamentoPix, row);
+    })
+
+    function verificaPagamentosPix(): boolean {
+        const divFormaPagamento = document.getElementById("divFormaPagamento");
+
+        const rows = divFormaPagamento?.querySelectorAll(".row.g-2");
+
+        if (!rows || rows.length === 0) {
+            return true;
+        }
+
+        return Array.from(rows).every(row => {
+            const btnQrCode = row.querySelector(".btn-qrcode");
+
+            if (!btnQrCode || btnQrCode.classList.contains("d-none")) {
+                return true;
+            }
+
+            return row.querySelector(".bi-check-circle-fill") !== null;
+        });
+    }
+
+    function modalErro(mensagem: string) {
+        const modalErro = document.getElementById("modalFalhaPagamento")!;
+
+        if (!modalErro) {
+            return;
+        }
+
+        const mensagemErro = document.getElementById("txtFalhaPag")!;
+        mensagemErro.textContent = mensagem;
+
+        bootstrap.Modal.getOrCreateInstance(modalErro).show();
+    }
 }

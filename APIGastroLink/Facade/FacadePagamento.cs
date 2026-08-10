@@ -13,9 +13,9 @@ namespace APIGastroLink.Facade {
             _mercadoPagoService = mercadoPagoService;
         }
 
-        public async Task<PixQrCodeResponseDTO> GerarQRCodePix(PagamentoRequestDTO pagamentoRequestDTO) => await _mercadoPagoService.GerarQRCodePix(pagamentoRequestDTO);
+        public async Task<PixQrCodeResponseDTO> GerarQRCodePix(PagamentoPixDTO pagamentoRequestDTO) => await _mercadoPagoService.GerarQRCodePix(pagamentoRequestDTO);
 
-        public async Task<bool> RegistrarPagamento(PagamentoRequestDTO pagamentoRequestDTO) => await _daoPagamento.Insert(pagamentoRequestDTO);
+        public async Task<bool> RegistrarPagamento(RegistrarPagamentoDTO pagamentoRequestDTO) => await _daoPagamento.Insert(pagamentoRequestDTO);
 
         public async Task<bool> VerificarQrCode(PedidoPixDTO pedidoPixDTO) => await _mercadoPagoService.VerificarQrCode(pedidoPixDTO);
     }

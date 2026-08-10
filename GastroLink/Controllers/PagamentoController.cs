@@ -22,8 +22,14 @@ namespace GastroLink.Controllers {
         }
 
         [HttpPost]
-        public async Task<IActionResult> RegistrarPagamento([FromBody] PagamentoRequestDTO pagamentoRequest) {
+        public async Task<IActionResult> RegistrarPagamento([FromBody] RegistrarPagamentoDTO pagamentoRequest) {
             try {
+                var valorTotalPago = pagamentoRequest.Pagamentos.Sum(p => p.ValorPago);
+
+                if(valorTotalPago != (pagamentoRequest.ValorTotal - pagamentoRequest.Desconto)) {
+                    return BadRequest(new { msg = "Valor total dos pagamentos não corresponde ao valor total do pedido" });
+                }
+
                 pagamentoRequest.IdUsuario = HttpContext.Session.GetInt32("IdUsuario") ?? 0;
                 var resultado = await _facadePagamento.EfetuarPagamento(pagamentoRequest);
                 if (resultado) {
@@ -35,8 +41,9 @@ namespace GastroLink.Controllers {
             }
         }
 
+
         [HttpPost]
-        public async Task<IActionResult> GerarQrCodePix([FromBody] PagamentoRequestDTO pagamentoRequest) {
+        public async Task<IActionResult> GerarQrCodePix([FromBody] PagamentoPixDTO pagamentoRequest) {
             try {
                 var qrCode = await _facadePagamento.GerarQrCodePix(pagamentoRequest);
                 return Ok(qrCode);

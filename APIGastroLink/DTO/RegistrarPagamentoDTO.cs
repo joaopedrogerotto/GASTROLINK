@@ -1,10 +1,9 @@
 ﻿namespace APIGastroLink.DTO {
-    public class PagamentoRequestDTO {
+    public class RegistrarPagamentoDTO {
         public decimal Desconto { get; set; }
-        public decimal ValorPago { get; set; }
         public decimal ValorTotal { get; set; }
         public int IdPedido { get; set; }
-        public int IdFormaPagamento { get; set; }
+        public List<PagamentoDTO> Pagamentos { get; set; } = new List<PagamentoDTO>();
         public int IdUsuario { get; set; }
     }
 }

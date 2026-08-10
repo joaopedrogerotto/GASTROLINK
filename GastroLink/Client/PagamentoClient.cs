@@ -8,12 +8,12 @@ namespace GastroLink.Client {
             _httpClient = httpClient;
         }
 
-        public async Task<bool> RegistrarPagamento(PagamentoRequestDTO pagamentoRequestDTO) {
+        public async Task<bool> RegistrarPagamento(RegistrarPagamentoDTO pagamentoRequestDTO) {
             var response = await _httpClient.PostAsJsonAsync("Pagamento", pagamentoRequestDTO);
             return response.IsSuccessStatusCode;
         }
 
-        public async Task<PixQrCodeResponseDTO> GerarQRCodePix(PagamentoRequestDTO pagamentoRequestDTO) {
+        public async Task<PixQrCodeResponseDTO> GerarQRCodePix(PagamentoPixDTO pagamentoRequestDTO) {
             var response = await _httpClient.PostAsJsonAsync($"Pagamento/GerarQrCodePix", pagamentoRequestDTO);
             if (response.IsSuccessStatusCode) {
                 return await response.Content.ReadFromJsonAsync<PixQrCodeResponseDTO>();
