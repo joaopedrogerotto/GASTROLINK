@@ -463,5 +463,19 @@ export function montarModalPagamento(dadosPagamento) {
         mensagemErro.textContent = mensagem;
         bootstrap.Modal.getOrCreateInstance(modalErro).show();
     }
+    document.addEventListener("input", function (e) {
+        const inputAtual = e.target;
+        if (!inputAtual.classList.contains("valor-pagamento")) {
+            return;
+        }
+        const inputs = [...document.querySelectorAll(".valor-pagamento")];
+        const outrosInputs = inputs.filter(input => input !== inputAtual);
+        const valorUsado = outrosInputs.reduce((total, input) => total + Number(input.value || 0), 0);
+        const valorRestante = pedido.valorTotal - valorUsado;
+        inputAtual.max = valorRestante.toString();
+        if (Number(inputAtual.value) > valorRestante) {
+            inputAtual.value = valorRestante.toString();
+        }
+    });
 }
 //# sourceMappingURL=gerarPagamento.js.map
