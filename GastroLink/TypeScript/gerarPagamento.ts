@@ -410,8 +410,50 @@ export function montarModalPagamento(dadosPagamento: DadosPagamento) {
     });
 
     function adicionarInputPagamento() {
+        const divFormaPagamento = document.getElementById("divFormaPagamento");
+        const divBtnPagamento = document.getElementById("divBtnPagamento");
+        let quantidadePagamentos = Number(divFormaPagamento?.querySelectorAll(".row").length);
+        let botaoRemoverPagamento = "";
+        const btnRemoverPagamento = document.getElementById("btnRemoverPagamento");
+
+        if (quantidadePagamentos > 1 && !btnRemoverPagamento) {
+            divBtnPagamento?.insertAdjacentHTML("afterbegin", `
+                <button type="button" class="btn btn-danger" id="btnRemoverPagamento">
+                    Remover pagamento
+                </button>
+            `);
+
+            document.getElementById("btnRemoverPagamento")?.addEventListener("click", function () {
+                const divFormaPagamento = document.getElementById("divFormaPagamento");
+                const pagamentos = divFormaPagamento!.querySelectorAll<HTMLElement>(".row");
+                let quantidadePagamentos = Number(divFormaPagamento?.querySelectorAll(".row").length);
+
+                if (quantidadePagamentos < 2) {
+                    return;
+                }
+                
+                const indicePagamentoRemover = quantidadePagamentos - 1;
+                const formaPagamento = pagamentos[indicePagamentoRemover];
+
+                if (Number(formaPagamento.querySelector<HTMLSelectElement>("#formaPagamento")?.value) === 4) {
+                    modalErro("O pagamento a ser removido não pode estar selecionado em PIX");
+                    return;
+                }
+
+                if (quantidadePagamentos === 3) {
+                    const btnRemoverPagamento = this;
+                    divBtnPagamento?.removeChild(btnRemoverPagamento);
+                }
+
+                divFormaPagamento?.removeChild(formaPagamento);
+            });
+
+        }
+
+        
         return `
                 <div class="row g-2">
+                    ${botaoRemoverPagamento}
                     <div class="col-md-6">
                         <label for="formaPagamento" class="form-label">
                             Forma de pagamento

@@ -1,10 +1,9 @@
-import { PedidoHub } from "./Hubs/pedidoHub.js";
 import * as GerarPagamento from "./gerarPagamento.js";
-const hub = new PedidoHub("pedidoHub");
-await hub.startConnection();
-hub.onPedidoAguarndandoPag((pedido) => {
-    adicionarNovoPedidoNaTela(pedido);
-});
+// const hub = new PedidoHub("pedidoHub");
+// await hub.startConnection();
+// hub.onPedidoAguarndandoPag((pedido: Pedido) => {
+//     adicionarNovoPedidoNaTela(pedido);
+// });
 document.addEventListener("click", (e) => {
     const btnPedido = e.target.closest("#detalhesPedido");
     if (!btnPedido) {

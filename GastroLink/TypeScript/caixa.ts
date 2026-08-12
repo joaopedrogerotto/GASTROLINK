@@ -5,13 +5,13 @@ import * as GerarPagamento from "./gerarPagamento.js"
 import { Pedido } from "./Models/pagamentoModel.js";
 
 
-const hub = new PedidoHub("pedidoHub");
+// const hub = new PedidoHub("pedidoHub");
 
-await hub.startConnection();
+// await hub.startConnection();
 
-hub.onPedidoAguarndandoPag((pedido: Pedido) => {
-    adicionarNovoPedidoNaTela(pedido);
-});
+// hub.onPedidoAguarndandoPag((pedido: Pedido) => {
+//     adicionarNovoPedidoNaTela(pedido);
+// });
 
 document.addEventListener("click", (e) => {
     const btnPedido = (e.target as HTMLElement).closest("#detalhesPedido") as HTMLElement | null;
