@@ -40,6 +40,7 @@
                         @{
                             if (tipo == "ADMINISTRADOR" || tipo == "GERENTE") {
                                 <li class="nav-item dropdown">
+
                                     <a class="nav-link dropdown-toggle" href="#" id="mesasDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                                         Mesas
                                     </a>
@@ -54,6 +55,22 @@
                                         </li>
                                         <li>
                                             <a class="dropdown-item" asp-action="Mapeamento" asp-controller="Mesa">Mapear</a>
+                                        </li>
+                                    </ul>
+
+                                    
+                                </li>
+
+
+                                <li class="nav-item dropdown">
+                                    <a class="nav-link dropdown-toggle" href="#" id="mesasDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                        Caixa
+                                    </a>
+
+
+                                    <ul class="dropdown-menu" aria-labelledby="mesasDropdown">
+                                        <li>
+                                            <a class="dropdown-item" asp-action="TodosPedidos" asp-controller="Caixa">Pedidos</a>
                                         </li>
                                     </ul>
                                 </li>
@@ -129,11 +146,10 @@
                                             </a>
                                             <ul class="dropdown-menu">
                                                 <li>
-                                                    <a class="dropdown-item" asp-action="CriarPedido" asp-controller="Pedido">Abrir Pedido</a>
-                                                </li>
-
-                                                <li>
                                                     <a class="dropdown-item" asp-action="PedidosProntos" asp-controller="Garcom">Pedidos Prontos</a>
+                                                </li>
+                                                <li>
+                                                    <a class="dropdown-item" asp-action="TodasMesas" asp-controller="Mesas">Mesas</a>
                                                 </li>
                                             </ul>
                                         </li>
@@ -146,11 +162,7 @@
                                             </a>
                                             <ul class="dropdown-menu">
                                                 <li>
-                                                    <a class="dropdown-item" asp-action="Cadastrar" asp-controller="Prato">Cadastrar</a>
-                                                </li>
-
-                                                <li>
-                                                    <a class="dropdown-item" asp-action="TodosPratos" asp-controller="Prato">Todos Pratos</a>
+                                                    <a class="dropdown-item" asp-action="TodosPedidos" asp-controller="Cozinha">Pedidos</a>
                                                 </li>
                                             </ul>
                                         </li>

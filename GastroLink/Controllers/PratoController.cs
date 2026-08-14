@@ -41,7 +41,7 @@ namespace GastroLink.Controllers {
         public async Task<IActionResult> TodosPratos() {
             var listCategorias = await _facadeCategoriaPrato.SelecionarCategorias();
             return View(listCategorias);
-        }
+        }  
 
         public async Task<IActionResult> ListaPratos([FromBody] FiltroPesquisaDTO? filtroPesquisaDTO) {
             try {
@@ -52,6 +52,7 @@ namespace GastroLink.Controllers {
                 return PartialView("_ListaPratos", listPratos);
             } catch (InvalidOperationException iEx) {
                 TempData["Falha"] = iEx.Message;
+                Console.WriteLine(iEx.Message);
                 return PartialView("_ListaPratos", new List<Prato>());
             }
         }
