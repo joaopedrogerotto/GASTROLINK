@@ -21,7 +21,8 @@
     <script>
             window.APP_CONFIG = {
                 apiBaseUrl: "@Configuration["ApiGastroLink:BaseUrl"]",
-                apiSignalR: "@Configuration["ApiGastroLink:BaseUrlSignalR"]"
+                apiSignalR: "@Configuration["ApiGastroLink:BaseUrlSignalR"]",
+                apiDashboard: "@Configuration["ApiGastroLink:BaseUrlDashboard"]"
             };
     </script>
 </head>
@@ -169,6 +170,10 @@
                                     }
                                 </ul>
                             </li>
+
+                            if(tipo == "ADMINISTRADOR"){
+                                <a class="nav-link" id="mesasDropdown" role="button" asp-action="Index" asp-controller="Dashboard">Dashboard</a>
+                            }
 
                         }
                     </ul>

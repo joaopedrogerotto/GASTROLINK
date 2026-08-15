@@ -4,6 +4,7 @@ declare const signalR: any;
 interface Window {
     APP_CONFIG: {
         apiBaseUrl: string;
-        apiSignalR: string
+        apiSignalR: string;
+        apiDashboard: string;
     };
 }

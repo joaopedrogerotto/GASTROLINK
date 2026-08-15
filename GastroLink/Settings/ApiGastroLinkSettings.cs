@@ -3,5 +3,6 @@
         public string BaseUrl { get; set; }
         public string BaseUrlImagem { get; set; }
         public string BaseUrlSignalR { get; set; }
+        public string BaseUrlDashboard { get; set; }
     }
 }

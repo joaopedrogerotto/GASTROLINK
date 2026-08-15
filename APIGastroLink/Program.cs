@@ -37,6 +37,7 @@ builder.Services.AddScoped<IDAOHistoricoDisponibilidade, DAOHistoricoDisponibili
 builder.Services.AddScoped<IDAOPedido, DAOPedido>();
 builder.Services.AddScoped<IDAOFormaPagamento, DAOFormaPagamento>();
 builder.Services.AddScoped<IDAOPagamento, DAOPagamento>();
+builder.Services.AddScoped<IDAODashboard, DAODashboard>();
 
 builder.Services.AddScoped<IFacadeLogin, FacadeLogin>();
 builder.Services.AddScoped<IFacadeMesa, FacadeMesa>();
@@ -47,7 +48,8 @@ builder.Services.AddScoped<IFacadePrato, FacadePrato>();
 builder.Services.AddScoped<IFacadeCardapio, FacadeCardapio>();
 builder.Services.AddScoped<IFacadePedido, FacadePedido>();
 builder.Services.AddScoped<IFacadeFormaPagamento, FacadeFormaPagamento>();
-builder.Services.AddScoped<IFacadePagamento, FacadePagamento>();
+builder.Services.AddScoped<IFacadeDashboard, FacadeDashboard>();
+
 
 builder.Services.AddScoped<PasswordService>();
 builder.Services.AddScoped<TokenJwtService>();

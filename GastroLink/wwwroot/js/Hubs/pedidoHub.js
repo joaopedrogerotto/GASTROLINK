@@ -1,11 +1,4 @@
-async function buscarToken() {
-    const response = await fetch("/Token/ObterToken", { credentials: "include" });
-    if (!response.ok) {
-        throw new Error("Não foi possível obter o token");
-    }
-    const data = await response.json();
-    return data.token;
-}
+import { buscarToken } from "../token.js";
 export class PedidoHub {
     constructor(hubNome) {
         this.connection = new signalR.HubConnectionBuilder().withUrl(`${window.APP_CONFIG.apiSignalR}/${hubNome}`, { accessTokenFactory: () => buscarToken() }).withAutomaticReconnect().build();
