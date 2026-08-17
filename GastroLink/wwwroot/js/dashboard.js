@@ -1,5 +1,5 @@
 import { buscarToken } from "./token.js";
-async function gerarDashboard(filtro) {
+async function gerarIndicadores(filtro) {
     const token = await buscarToken();
     const response = await fetch(`${window.APP_CONFIG.apiDashboard}/Dashboard`, {
         method: "POST",
@@ -14,26 +14,56 @@ async function gerarDashboard(filtro) {
     }
     return await response.json();
 }
-const canvas = document.getElementById("chart");
-const ctx = canvas.getContext("2d");
-let filtro = {
-    indicador: "vendas-categoria"
-};
-if (!ctx) {
-    throw new Error("Falha ao gerar grafico");
-}
-const dados = await gerarDashboard(filtro);
-console.log(dados);
-new Chart(ctx, {
-    type: dados.tipo,
-    data: {
-        labels: dados.dados.map(x => x.label),
-        datasets: [
-            {
-                label: dados.nome,
-                data: dados.dados.map(x => x.valor)
-            }
-        ]
+async function gerarDashboard() {
+    const canvas = document.getElementById("chart");
+    const ctx = canvas.getContext("2d");
+    let filtro = {
+        indicador: document.getElementById("selectDashboard").value,
+        dataInicio: new Date(document.getElementById("dataInicio").value),
+        dataFim: new Date(document.getElementById("dataFim").value)
+    };
+    if (!ctx) {
+        throw new Error("Falha ao gerar grafico");
     }
+    const graficoExistente = Chart.getChart("chart");
+    if (graficoExistente) {
+        graficoExistente.destroy();
+    }
+    const dados = await gerarIndicadores(filtro);
+    if (dados.tipo === "line") {
+        const datas = [...new Set(dados.dados.map(x => x.data))];
+        const mapLabel = [...new Set(dados.dados.map(x => x.label))];
+        const datasets = mapLabel.map(label => ({
+            label: label,
+            data: datas.map(data => {
+                const registro = dados.dados.find(x => x.data === data && x.label === label);
+                return registro?.valor ?? 0;
+            })
+        }));
+        new Chart(ctx, {
+            type: dados.tipo,
+            data: {
+                labels: datas.map(data => data ? new Date(data).toLocaleDateString("pt-BR") : ""),
+                datasets: datasets
+            }
+        });
+    }
+    else {
+        new Chart(ctx, {
+            type: dados.tipo,
+            data: {
+                labels: dados.dados.map(x => x.label),
+                datasets: [
+                    {
+                        label: dados.nome,
+                        data: dados.dados.map(x => x.valor)
+                    }
+                ]
+            }
+        });
+    }
+}
+document.getElementById("gerarDashboard")?.addEventListener("click", function () {
+    gerarDashboard();
 });
 //# sourceMappingURL=dashboard.js.map

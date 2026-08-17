@@ -11,7 +11,8 @@ namespace APIGastroLink.Facade {
         }
         public IndicadorDashboardDTO GerarIndicadores(DashboardFiltroDTO DashboardFiltroDTO) {
             return DashboardFiltroDTO.Indicador switch {
-                "vendas-categoria" => _daoDashboard.DashboardVendasCategoria(DashboardFiltroDTO)
+                "vendas-categoria" => _daoDashboard.DashboardVendasCategoria(DashboardFiltroDTO),
+                "vendas-forma-pagamento" => _daoDashboard.DashboardVendasFormaPagamento(DashboardFiltroDTO)
             };
         }
     }

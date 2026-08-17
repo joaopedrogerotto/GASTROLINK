@@ -7,6 +7,7 @@ export interface DashboardFiltro {
 export interface DadoDashboard {
     label: string;
     valor: number;
+    data?: Date;
 }
 
 export interface IndicadorDashboard {

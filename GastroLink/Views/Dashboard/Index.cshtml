@@ -2,6 +2,32 @@
     ViewData["Title"] = "Dashboard";
 }
 
+<div class="d-flex gap-2 align-items-end">
+
+    <div style="flex: 1;">
+        <label for="selectDashboard" class="form-label">Indicador</label>
+        <select class="form-select" id="selectDashboard">
+            <option selected>Selecione uma opção...</option>
+            <option value="vendas-categoria">Vendas por categoria (barras)</option>
+            <option value="vendas-forma-pagamento">Vendas por forma de pagamento (linhas)</option>
+        </select>
+    </div>
+
+    <div style="flex: 1;">
+        <label for="dataInicio" class="form-label">Data inicial</label>
+        <input type="date" class="form-control" id="dataInicio" />
+    </div>
+
+    <div style="flex: 1;">
+        <label for="dataFim" class="form-label">Data final</label>
+        <input type="date" class="form-control" id="dataFim" />
+    </div>
+
+    <button type="button" class="btn btn-primary" id="gerarDashboard">
+        Gerar
+    </button>
+
+</div>
 <div>
     <canvas id="chart"></canvas>
 </div>

@@ -43,5 +43,39 @@ namespace APIGastroLink.DAO {
                 throw new Exception("Falha ao gerar dashboard de vendas por cateogoria: " + ex.Message);
             }
         }
+
+        public IndicadorDashboardDTO DashboardVendasFormaPagamento(DashboardFiltroDTO DashboardFiltroDTO) {
+            try {
+                var indicadorDashboard = new IndicadorDashboardDTO();
+                using (SqlConnection conn = _database.OpenConnection()) {
+                    using (SqlCommand cmd = new SqlCommand("PR_S_DASHBOARD_FORMA_PAGAMENTO", conn)) {
+                        cmd.CommandType = CommandType.StoredProcedure;
+
+                        if (DashboardFiltroDTO.DataInicio != null) {
+                            cmd.Parameters.AddWithValue("@DATA_INICIO", DashboardFiltroDTO.DataInicio);
+                        }
+
+                        if (DashboardFiltroDTO.DataFim != null) {
+                            cmd.Parameters.AddWithValue("@DATA_FIM", DashboardFiltroDTO.DataFim);
+                        }
+
+                        using (SqlDataReader reader = cmd.ExecuteReader()) {
+                            indicadorDashboard.Nome = "Vendas por categoria";
+                            indicadorDashboard.Tipo = "line";
+                            while (reader.Read()) {
+                                indicadorDashboard.Dados.Add(new DadosDashboardDTO {
+                                    Label = reader.GetString(reader.GetOrdinal("FORMA_PAGAMENTO")),
+                                    Valor = reader.GetDecimal(reader.GetOrdinal("VALOR_TOTAL")),
+                                    Data = reader.GetDateTime(reader.GetOrdinal("DATA"))
+                                });
+                            }
+                        }
+                    }
+                }
+                return indicadorDashboard;
+            } catch (Exception ex) {
+                throw new Exception("Falha ao gerar dashboard de vendas por cateogoria: " + ex.Message);
+            }
+        }
     }
 }
