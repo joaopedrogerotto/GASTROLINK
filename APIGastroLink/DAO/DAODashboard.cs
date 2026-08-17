@@ -77,5 +77,49 @@ namespace APIGastroLink.DAO {
                 throw new Exception("Falha ao gerar dashboard de vendas por cateogoria: " + ex.Message);
             }
         }
+
+        public async Task<List<VendasPratosDTO>> PratosMaisVendidos() {
+            try {
+                var listVendas = new List<VendasPratosDTO>();
+                using (SqlConnection conn = _database.OpenConnection()) {
+                    using (SqlCommand cmd = new SqlCommand("PR_S_PRODUTOS_MAIS_VENDIDOS", conn)) {
+                        cmd.CommandType = CommandType.StoredProcedure;
+
+                        using (SqlDataReader reader = await cmd.ExecuteReaderAsync()) {
+                            while (await reader.ReadAsync()) {
+                                listVendas.Add(new VendasPratosDTO {
+                                    Nome = reader.GetString(reader.GetOrdinal("NOME")),
+                                    Quantidade = reader.GetInt32(reader.GetOrdinal("QUANTIDADE"))
+                                });
+                            }
+                        }
+                    }
+                }
+                return listVendas;
+            }catch (Exception ex) { 
+                throw new Exception(ex.Message); 
+            }
+        }
+
+        public async Task<ResumoFaturamentoDTO> ResumoFaturamento() {
+            try {
+                var resumoFat = new ResumoFaturamentoDTO();
+                using (SqlConnection conn = _database.OpenConnection()) {
+                    using (SqlCommand cmd = new SqlCommand("PR_S_RESUMO_FATURAMENTO", conn)) {
+                        cmd.CommandType = CommandType.StoredProcedure;
+
+                        using (SqlDataReader reader = await cmd.ExecuteReaderAsync()) {
+                            while (await reader.ReadAsync()) {
+                                resumoFat.TotalVendidos = reader.GetInt32(reader.GetOrdinal("TOTAL_VENDIDOS"));
+                                resumoFat.Faturamento = reader.GetDecimal(reader.GetOrdinal("FATURAMENTO"));
+                            }
+                        }
+                    }
+                }
+                return resumoFat;
+            }catch (Exception ex) {
+                throw new Exception(ex.Message);
+            }
+        }
     }
 }

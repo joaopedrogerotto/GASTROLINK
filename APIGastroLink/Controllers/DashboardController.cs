@@ -21,5 +21,15 @@ namespace APIGastroLink.Controllers {
                 return BadRequest(ex.Message);
             }
         }
+
+        [HttpGet]
+        public async Task<IActionResult> ResumoVenda() {
+            try {
+                var listVendas = await _facadeDashboad.GerarResumoVenda();
+                return Ok(listVendas);
+            }catch (Exception ex) {
+                return BadRequest(ex.Message);
+            }
+        }
     }
 }

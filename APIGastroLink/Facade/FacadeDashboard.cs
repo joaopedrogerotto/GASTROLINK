@@ -15,5 +15,12 @@ namespace APIGastroLink.Facade {
                 "vendas-forma-pagamento" => _daoDashboard.DashboardVendasFormaPagamento(DashboardFiltroDTO)
             };
         }
+
+        public async Task<ResumoVendasDTO> GerarResumoVenda() {
+            return new ResumoVendasDTO {
+                VendasPratos = await _daoDashboard.PratosMaisVendidos(),
+                ResumoFaturamento = await _daoDashboard.ResumoFaturamento()
+            };
+        }
     }
 }
