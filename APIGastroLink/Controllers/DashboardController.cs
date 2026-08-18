@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace APIGastroLink.Controllers {
     [ApiController]
     [Route("api-gastrolink/[controller]")]
-    [Authorize(Roles = "SomenteAdmin")]
+    [Authorize(Policy = "SomenteAdmin")]
     public class DashboardController : ControllerBase {
         public IFacadeDashboard _facadeDashboad;
 
