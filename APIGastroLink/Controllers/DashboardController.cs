@@ -1,10 +1,12 @@
 ﻿using APIGastroLink.DTO;
 using APIGastroLink.Facade.Interface;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace APIGastroLink.Controllers {
     [ApiController]
     [Route("api-gastrolink/[controller]")]
+    [Authorize(Roles = "SomenteAdmin")]
     public class DashboardController : ControllerBase {
         public IFacadeDashboard _facadeDashboad;
 
