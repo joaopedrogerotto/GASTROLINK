@@ -122,6 +122,27 @@ builder.Services.AddHttpClient<DashboardClient>((name, client) => {
 
 
 
+builder.Services.AddAuthorization(options => {
+    options.FallbackPolicy = new AuthorizationPolicyBuilder().RequireAuthenticatedUser().Build();
+
+    //Somente admins
+    options.AddPolicy("SomenteAdmin", policy => policy.RequireRole("ADMINISTRADOR"));
+
+    //Admin ou Gerente
+    options.AddPolicy("AdminGerente", policy => policy.RequireRole("ADMINISTRADOR", "GERENTE"));
+
+    //Atendimento (Garçom, Admin e Gerente)
+    options.AddPolicy("Atendimento", policy => policy.RequireRole("ADMINISTRADOR", "GERENTE", "GARÇOM"));
+
+    //Cozinha (Cozinha, Admin e Gerente)
+    options.AddPolicy("Cozinha", policy => policy.RequireRole("ADMINISTRADOR", "GERENTE", "COZINHA"));
+
+    //Caixa (Caixa, Admin e Gerente)
+    options.AddPolicy("Caixa", policy => policy.RequireRole("ADMINISTRADOR", "GERENTE", "CAIXA"));
+
+});
+
+
 
 builder.Services.AddDistributedMemoryCache();
 builder.Services.AddSession();

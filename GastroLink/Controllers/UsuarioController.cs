@@ -2,9 +2,11 @@
 using GastroLink.Facade.Interface;
 using GastroLink.Models;
 using GastroLink.ViewModel;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace GastroLink.Controllers {
+    [Authorize(Policy = "AdminGerente")]
     public class UsuarioController : Controller {
         private readonly IFacadeTipoUsuario _facadeTipoUsuario;
         private readonly IFacadeUsuario _facadeUsuario;

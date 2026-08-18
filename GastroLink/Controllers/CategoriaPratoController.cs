@@ -1,6 +1,7 @@
 ﻿using GastroLink.Exceptions;
 using GastroLink.Facade.Interface;
 using GastroLink.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace GastroLink.Controllers {
@@ -15,6 +16,7 @@ namespace GastroLink.Controllers {
             return View();
         }
 
+        [Authorize]
         public async Task<IActionResult> TodasCategorias() {
             var categorias = await _facadeCategoria.SelecionarCategoriasComQuantiadadePratos();
             return View(categorias);

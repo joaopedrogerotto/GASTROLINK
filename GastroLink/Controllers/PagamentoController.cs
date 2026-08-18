@@ -1,9 +1,11 @@
 ﻿using GastroLink.DTO;
 using GastroLink.Facade.Interface;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 
 namespace GastroLink.Controllers {
+    [Authorize(Policy = "Caixa")]
     public class PagamentoController : Controller {
         private readonly IFacadePagamento _facadePagamento;
 

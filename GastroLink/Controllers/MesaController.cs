@@ -1,9 +1,11 @@
 ﻿using GastroLink.DTO;
 using GastroLink.Exceptions;
 using GastroLink.Facade.Interface;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace GastroLink.Controllers {
+    [Authorize(Policy = "Atendimento")]
     public class MesaController : Controller {
         private readonly IFacadeMesa _facadeMesa;
 

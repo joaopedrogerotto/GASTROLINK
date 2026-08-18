@@ -5,10 +5,12 @@ using GastroLink.Models;
 using GastroLink.Service.Interfaces;
 using GastroLink.Settings;
 using GastroLink.ViewModel;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 
 namespace GastroLink.Controllers {
+    [Authorize(Policy = "Atendimento")]
     public class PedidoController : Controller {
         private readonly IFacadeCardapio _facadeCardapio;
         private readonly IRascunhoPedidoService _rascunhoPedidoService;

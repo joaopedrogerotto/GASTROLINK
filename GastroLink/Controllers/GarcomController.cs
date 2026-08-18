@@ -1,7 +1,9 @@
 ﻿using GastroLink.Facade.Interface;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace GastroLink.Controllers {
+    [Authorize(Policy = "Atendimento")]
     public class GarcomController : Controller{
         private readonly IFacadePedido _facadePedido;
 

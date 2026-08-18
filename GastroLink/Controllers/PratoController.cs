@@ -5,10 +5,12 @@ using GastroLink.Mapper;
 using GastroLink.Models;
 using GastroLink.Settings;
 using GastroLink.ViewModel;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 
 namespace GastroLink.Controllers {
+    
     public class PratoController : Controller {
         private readonly IFacadeCategoriaPrato _facadeCategoriaPrato;
         private readonly IFacadePrato _facadePrato;
@@ -20,6 +22,7 @@ namespace GastroLink.Controllers {
             _apiSettings = apiSettings.Value;
         }
 
+        [Authorize(Policy = "AdminGerente")]
         public async Task<IActionResult> Cadastrar() {
             var viewModel = new CadastroPratoViewModel {
                 ListCategorias = await _facadeCategoriaPrato.SelecionarCategorias()
@@ -27,6 +30,7 @@ namespace GastroLink.Controllers {
             return View(viewModel);
         }
 
+        [Authorize(Policy = "AdminGerente")]
         public async Task<IActionResult> EditarPrato(int id) {
             var prato = await _facadePrato.BuscarPratoPorId(id);
             DefinirCaminhoImagem(prato);
@@ -38,11 +42,13 @@ namespace GastroLink.Controllers {
             return View(viewModel);
         }
 
+        [Authorize]
         public async Task<IActionResult> TodosPratos() {
             var listCategorias = await _facadeCategoriaPrato.SelecionarCategorias();
             return View(listCategorias);
-        }  
+        }
 
+        [Authorize]
         public async Task<IActionResult> ListaPratos([FromBody] FiltroPesquisaDTO? filtroPesquisaDTO) {
             try {
                 var listPratos = filtroPesquisaDTO == null ? await _facadePrato.SelecionarTodosPratos() : await PesquisarPrato(filtroPesquisaDTO);
@@ -58,6 +64,7 @@ namespace GastroLink.Controllers {
         }
 
         [HttpPost]
+        [Authorize(Policy = "AdminGerente")]
         public async Task<IActionResult> SalvarPrato(CadastroPratoViewModel viewModel) {
             if (!ModelState.IsValid) {
                 viewModel.ListCategorias = await _facadeCategoriaPrato.SelecionarCategorias();
@@ -80,6 +87,7 @@ namespace GastroLink.Controllers {
         }
 
         [HttpPost]
+        [Authorize(Policy = "AdminGerente")]
         public async Task<IActionResult> AtualizarPrato(EditarPratoViewModel viewModel) {
             if (!ModelState.IsValid) {
                 viewModel.ListCategorias = await _facadeCategoriaPrato.SelecionarCategorias();
@@ -100,6 +108,7 @@ namespace GastroLink.Controllers {
             return RedirectToAction("EditarPrato", new { id = viewModel.Prato.Id });
         }
 
+        [Authorize]
         public async Task<IActionResult> VisualizarPrato(int idPrato) {
             var prato = new Prato();
             try {
@@ -112,6 +121,7 @@ namespace GastroLink.Controllers {
         }
 
         [HttpPost]
+        [Authorize(Policy = "AdminGerente")]
         public async Task<IActionResult> AtualizarDisponibilidade([FromBody] PratoStatusUpdateDTO pratoStatusUpdateDTO) {
             pratoStatusUpdateDTO.IdUsuario = HttpContext.Session.GetInt32("IdUsuario") ?? 0;
             await _facadePrato.AtualizarDisponibilidade(pratoStatusUpdateDTO);

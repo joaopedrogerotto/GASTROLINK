@@ -1,7 +1,9 @@
 ﻿using GastroLink.Facade.Interface;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace GastroLink.Controllers {
+    [Authorize(Policy = "SomenteAdmin")]
     public class DashboardController : Controller{
         private IFacadeDashboard _facadeDashboard;
 
