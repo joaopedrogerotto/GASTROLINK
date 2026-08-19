@@ -100,7 +100,7 @@ namespace GastroLink.Controllers {
                 PedidoRascunho.Itens.Add(item);
             }
 
-            return View(PedidoRascunho);
+            return PartialView("_ResumoPedido",PedidoRascunho);
         }
 
         [HttpPost]
