@@ -1,4 +1,5 @@
 ﻿using GastroLink.DTO;
+using Microsoft.AspNetCore.Authorization;
 
 namespace GastroLink.Client {
     public class PagamentoClient {

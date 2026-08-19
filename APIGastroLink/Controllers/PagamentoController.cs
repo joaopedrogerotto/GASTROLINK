@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace APIGastroLink.Controllers {
     [ApiController]
     [Route("api-gastrolink/[controller]")]
-    [Authorize("Caixa")]
+    [Authorize(Policy = "Caixa")]
     public class PagamentoController : ControllerBase {
         private readonly IFacadePagamento _facadePagamento;
 

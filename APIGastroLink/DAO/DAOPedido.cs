@@ -143,7 +143,7 @@ namespace APIGastroLink.DAO {
                 pedido.Itens.Add(
                     new ItemPedido {
                         Quantidade = reader.GetInt32(reader.GetOrdinal("QUANTIDADE")),
-                        Observacao = reader.GetString(reader.GetOrdinal("OBSERVACAO")),
+                        Observacao = reader.IsDBNull(reader.GetOrdinal("OBSERVACAO")) ? null : reader.GetString(reader.GetOrdinal("OBSERVACAO")),
                         Prato = new Prato() {
                             Id = reader.GetInt32(reader.GetOrdinal("ID_PRATO")),
                             Nome = reader.GetString(reader.GetOrdinal("NOME_PRATO"))

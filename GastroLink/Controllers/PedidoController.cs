@@ -10,7 +10,6 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 
 namespace GastroLink.Controllers {
-    [Authorize(Policy = "Atendimento")]
     public class PedidoController : Controller {
         private readonly IFacadeCardapio _facadeCardapio;
         private readonly IRascunhoPedidoService _rascunhoPedidoService;
@@ -28,6 +27,8 @@ namespace GastroLink.Controllers {
             _facadeMesa = facadeMesa;
         }
 
+        [Authorize(Policy = "Atendimento")]
+
         public async Task<IActionResult> CriarPedido(int idMesa) {
             var cardapio = await _facadeCardapio.SelecionarCardapio();
 
@@ -43,7 +44,10 @@ namespace GastroLink.Controllers {
             return View(criarPedidoViewModel);
         }
 
+
         [HttpPost]
+        [Authorize(Policy = "Atendimento")]
+
         public async Task<IActionResult> AdicionarItemRascunho([FromBody] AdicionarItemRascunhoDTO dto) {
             var pedidoRascunho = await _rascunhoPedidoService.ObterRascunhoPedido(dto.mesaId);
 
@@ -66,6 +70,8 @@ namespace GastroLink.Controllers {
         }
 
         [HttpGet]
+        [Authorize(Policy = "Atendimento")]
+
         public async Task<IActionResult> ObterQuantidadeItensRascunhoPedido(int idMesa) {
             var pedidoRascunho = await _rascunhoPedidoService.ObterRascunhoPedido(idMesa);
             if (pedidoRascunho == null) {
@@ -75,6 +81,8 @@ namespace GastroLink.Controllers {
         }
 
         [HttpGet]
+        [Authorize(Policy = "Atendimento")]
+
         public async Task<IActionResult> ResumoPedido(int idMesa) {
             var pedidoCacheRedis = await _rascunhoPedidoService.ObterRascunhoPedido(idMesa);
             if (pedidoCacheRedis == null) {
@@ -96,6 +104,8 @@ namespace GastroLink.Controllers {
         }
 
         [HttpPost]
+        [Authorize(Policy = "Atendimento")]
+
         public async Task<IActionResult> GerarPedido([FromBody] int idMesa) {
             try {
                 var pedidoRascunho = await _rascunhoPedidoService.ObterRascunhoPedido(idMesa);
@@ -117,6 +127,8 @@ namespace GastroLink.Controllers {
         }
 
         [HttpPost]
+        [Authorize]
+
         public async Task<IActionResult> AtualizarStatusPedido([FromBody]StatusPedidoUpdateDTO StatusPedidoUpdateDTO) {
             try {
                 bool resultado = await _facadePedido.AtualizarPedido(StatusPedidoUpdateDTO);
@@ -130,6 +142,7 @@ namespace GastroLink.Controllers {
         }
 
         [HttpGet]
+        [Authorize]
         public async Task<IActionResult> SelecionarPedidoPeloId(int id) {
             try {
                 var pedido = await _facadePedido.SelecionaPedidoPeloId(id);

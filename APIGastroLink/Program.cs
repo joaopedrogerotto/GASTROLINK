@@ -48,6 +48,7 @@ builder.Services.AddScoped<IFacadePrato, FacadePrato>();
 builder.Services.AddScoped<IFacadeCardapio, FacadeCardapio>();
 builder.Services.AddScoped<IFacadePedido, FacadePedido>();
 builder.Services.AddScoped<IFacadeFormaPagamento, FacadeFormaPagamento>();
+builder.Services.AddScoped<IFacadePagamento, FacadePagamento>();
 builder.Services.AddScoped<IFacadeDashboard, FacadeDashboard>();
 
 
