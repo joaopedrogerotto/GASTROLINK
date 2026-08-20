@@ -28,6 +28,7 @@ builder.Services.AddHttpContextAccessor();
 builder.Services.AddTransient<JwtAuthHandler>();
 
 builder.Services.Configure<ApiGastroLinkSettings>(builder.Configuration.GetSection("ApiGastroLink"));
+builder.Services.Configure<ApiGeminiSettings>(builder.Configuration.GetSection("ApiGemini"));
 builder.Services.AddHttpClient<LoginClient>((name, client) => {
     var settings = name
         .GetRequiredService<IOptions<ApiGastroLinkSettings>>()

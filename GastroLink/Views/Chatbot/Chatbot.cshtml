@@ -1,0 +1,56 @@
+﻿@{
+    ViewData["Title"] = "Chatbot";
+}
+
+<link rel="stylesheet" href="~/css/chatbot.css" />
+
+
+<div class="chat-page">
+    <div class="chat-container">
+        <div class="chat-card">
+            <div class="chat-header">
+                <div class="chat-avatar">
+                    🤖
+                </div>
+                <div class="chat-header-info">
+                    <span class="chat-title">
+                        GastroBot
+                    </span>
+                    <span class="chat-subtitle">
+                        Assistente de recomendações
+                    </span>
+                </div>
+            </div>
+
+
+            <div id="chat-box">
+                <div class="align-self-start bg-white text-dark rounded-3 px-3 py-2 border" style="max-width: 80%; white-space: pre-line;">
+
+                    Olá! 👋<br />
+                    Sou o <strong>GastroBot</strong>.
+
+                    <br /><br />
+
+                    Posso te ajudar a encontrar um prato
+                    que combine com o que você está procurando. 🍽️
+
+                    <br /><br />
+
+                    Me conte: o que você está com vontade de comer hoje?
+
+                </div>
+            </div>
+
+
+            <div class="chat-footer">
+                <form id="chat-form">
+                    <input id="chat-input" type="text" class="form-control" placeholder="Ex: quero algo leve..." autocomplete="off" />
+                    <button type="submit" class="send-button" title="Enviar mensagem">➤</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script type="module" src="~/js/chatbot.js"></script>

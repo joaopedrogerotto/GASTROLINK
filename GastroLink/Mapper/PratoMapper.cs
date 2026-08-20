@@ -14,5 +14,18 @@ namespace GastroLink.Mapper {
                 UrlImagem = prato.UrlImagem
             };
         }
+
+        public static List<PratoChatbotDTO> ToListPratoChatbotDTO(List<Prato> listPrato) {
+            var list = new List<PratoChatbotDTO>();
+            foreach (var prato in listPrato) {
+                list.Add(new PratoChatbotDTO {
+                    Id = prato.Id,
+                    Nome = prato.Nome,
+                    Descricao = prato.Descricao,
+                });
+            }
+
+            return list;
+        }
     }
 }

@@ -58,7 +58,7 @@ namespace GastroLink.Controllers {
                 return PartialView("_ListaPratos", listPratos);
             } catch (InvalidOperationException iEx) {
                 TempData["Falha"] = iEx.Message;
-                Console.WriteLine(iEx.Message);
+
                 return PartialView("_ListaPratos", new List<Prato>());
             }
         }

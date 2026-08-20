@@ -492,3 +492,4 @@ $RECYCLE.BIN/
 **/appsettings.Development.json
 /APIGastroLink/appsettings.Development.json
 /GastroLink/GastroLink.csproj
+/GastroLink/appsettings.json

@@ -4,3 +4,9 @@ export interface PratoStatus {
     Justificativa: String;
     IdUsuario: Number;
 };
+
+export interface Prato {
+    id: number;
+    nome: string;
+    descricao: string;
+}

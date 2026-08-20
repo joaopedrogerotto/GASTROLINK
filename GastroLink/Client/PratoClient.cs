@@ -79,6 +79,20 @@ namespace GastroLink.Client {
             throw new InvalidOperationException("Falha ao buscar pratos pelo filtro");
         }
 
+        public async Task<List<Prato>> TodosPrato(FiltroPesquisaDTO filtroPesquisaDTO) {
+
+            var parametrosPesquisa = new Dictionary<string, string>();
+            var url = QueryHelpers.AddQueryString("Prato/TodosPratos", parametrosPesquisa);
+
+            var response = await _httpClient.GetAsync(url);
+            if (response.IsSuccessStatusCode) {
+                var listPratos = await response.Content.ReadFromJsonAsync<List<Prato>>();
+                return listPratos ?? new List<Prato>();
+            }
+
+            throw new InvalidOperationException("Falha ao buscar pratos pelo filtro");
+        }
+
         public async Task<bool> AtualizarPrato(PratoEditarDTO pratoEditarDTO) {
             using (var content = new MultipartFormDataContent()) {
                 content.Add(new StringContent(pratoEditarDTO.Id.ToString()), nameof(pratoEditarDTO.Id));

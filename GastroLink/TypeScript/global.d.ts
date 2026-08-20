@@ -6,5 +6,6 @@ interface Window {
         apiBaseUrl: string;
         apiSignalR: string;
         apiDashboard: string;
+        apiGemini: string;
     };
 }
