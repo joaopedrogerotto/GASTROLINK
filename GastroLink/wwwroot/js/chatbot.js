@@ -20,6 +20,7 @@ export async function recomendarPrato(pratos, textoUsuario, historico) {
     Primeiro, avalie a intenção da mensagem:
     - Se o usuário está pedindo uma recomendação (diretamente ou confirmando que quer uma sugestão que você ofereceu), use o tipo "recomendacao".
     - Se for pergunta geral ou conversa, use o tipo "conversa".
+    - No tipo recomendação, não precisa sempre recomendar uma bebida ou acompanhamento, só caso você veja que é necessário. Pois não se faz necessário bebiba para doce na concepção do negócio.
 
     Retorne APENAS um JSON válido, sem markdown, em um dos formatos:
 
