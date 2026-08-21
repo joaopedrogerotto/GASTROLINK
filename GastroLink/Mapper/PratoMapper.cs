@@ -22,6 +22,7 @@ namespace GastroLink.Mapper {
                     Id = prato.Id,
                     Nome = prato.Nome,
                     Descricao = prato.Descricao,
+                    Preco = prato.Preco
                 });
             }
 

@@ -141,6 +141,22 @@ namespace GastroLink.Controllers {
             }
         }
 
+        [HttpPost]
+        [Authorize(Policy = "Chatbot")]
+        public async Task<IActionResult> GerarPedidoChatbot([FromBody]PedidoCreateDTO PedidoCreateDTO) {
+            try {
+                PedidoCreateDTO.IdUsuario = HttpContext.Session.GetInt32("IdUsuario") ?? 0;
+                PedidoCreateDTO.IdMesa = 1;
+                var resultado = await _facadePedido.CadastrarPedido(PedidoCreateDTO);
+                if (!resultado) {
+                    return BadRequest("Falha ao adicionar pedido");
+                }
+                return Ok();
+            }catch (Exception ex) {
+                return BadRequest(ex.Message);
+            }
+        }
+
         [HttpGet]
         [Authorize]
         public async Task<IActionResult> SelecionarPedidoPeloId(int id) {

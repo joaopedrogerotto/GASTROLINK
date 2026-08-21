@@ -1,12 +1,13 @@
-import { GeminiApiResponse, RecomendacaoResponse, MensagemHistorico} from "./Models/gemini.js";
-import { Prato } from "./Models/pratoModel.js";
+import { GeminiApiResponse } from "./Models/geminiModel.js";
+import { Prato } from "./Models/pratoModel.js"
+import { RecomendacaoResponse, MensagemHistorico, ItemPedido, Pedido } from "./Models/chatbotModel.js"
 
 const GEMINI_API_KEY = window.APP_CONFIG.apiGemini;
 const GEMINI_MODEL = "gemini-3.5-flash-lite";
 const GEMINI_URL = `https://generativelanguage.googleapis.com/v1beta/models/${GEMINI_MODEL}:generateContent`;
 
 let historico: MensagemHistorico[] =[];
-
+let carrinho: ItemPedido[] = [];
 export async function recomendarPrato(pratos: Prato[],textoUsuario: string,historico: MensagemHistorico[]): Promise<RecomendacaoResponse> {
     const historicoTexto = historico.map(m => `${m.autor === "usuario" ? "Usuário" : "Assistente"}: ${m.texto}`).join("\n");
     const prompt = `
@@ -22,10 +23,14 @@ export async function recomendarPrato(pratos: Prato[],textoUsuario: string,histo
 
     Leve em conta o histórico para entender o contexto. Por exemplo, se você perguntou algo e o usuário respondeu "sim" ou algo curto, isso se refere à sua última pergunta.
 
+    O usuário também pode pedir para que o prato que você recomendou seja finalizado como pedido. Caso seja solicitado tal, usar o modelo de pedido no final do prompt.
+
     Primeiro, avalie a intenção da mensagem:
     - Se o usuário está pedindo uma recomendação (diretamente ou confirmando que quer uma sugestão que você ofereceu), use o tipo "recomendacao".
     - Se for pergunta geral ou conversa, use o tipo "conversa".
     - No tipo recomendação, não precisa sempre recomendar uma bebida ou acompanhamento, só caso você veja que é necessário. Pois não se faz necessário bebiba para doce na concepção do negócio.
+    - Atenção: o usuario pode querer adicionar mais de um item no seu pedido, com base na leitura do histórico adicione todos no array de itens. Faça esse loop de sempre perguntar se o usuario que adicionar mais algum item até ele dizer ao contrario (Ou seja, que deseja finalizar o pedido ou coisas semelhantes dependendo do contexto)
+    - Quando for para FINALIZAR o pedido, você deverá ler o carrinho: ${carrinho}. Se não tiver nenhum item, informar ao usuario.
 
     Retorne APENAS um JSON válido, sem markdown, em um dos formatos:
 
@@ -43,6 +48,33 @@ export async function recomendarPrato(pratos: Prato[],textoUsuario: string,histo
       "tipo": "conversa",
       "resposta": "<resposta natural, considerando o histórico>"
     }
+
+    Se for para adicionar o item ao carrinho/pedido:{
+        "tipo":"carrinho",
+        "resposta": "<confirmação natural pro usuário, ex: 'Show! Adicionei o X ao seu pedido.'>",
+        "item": {
+              "idPrato": <id exato do prato, igual ao da lista>,
+              "quantidade": <número, padrão 1 se não informado>,
+              "observacao": "<opcional, null se não informado>",
+              "preco": <preço unitário do prato multiplicado pela quantidade>
+            } 
+    }
+
+    Se for finalizar pedido, retorne o pedido já no formato abaixo, usando o idPrato e preco EXATOS da lista de pratos fornecida (nunca invente ou aproxime valores). Reforço ainda que todos o itens é um array onde pode ter mais de um prazo:
+        {
+          "tipo": "pedido",
+          "resposta": "<confirmação natural pro usuário, ex: 'Perfeito, irei finalizar seu pedido e enviar para a cozinha'>",
+          "idMesa": 1,
+          "itens": [
+            {
+              "idPrato": <id exato do prato, igual ao da lista>,
+              "quantidade": <número, padrão 1 se não informado>,
+              "observacao": "<opcional, null se não informado>",
+              "preco": <preço unitário do prato multiplicado pela quantidade>
+            } 
+          ]
+        }
+    
     `;
     const response = await fetch(`${GEMINI_URL}?key=${GEMINI_API_KEY}`, {
         method: "POST",
@@ -150,8 +182,36 @@ form.addEventListener("submit", async (event) => {
                 `🍽️ Recomendo: ${resultado.prato_recomendado}\n\n${resultado.motivo}\n\n${destaquesTexto}\n\n🥂 ${resultado.harmonizacao}`,
                 "bot"
             );
+            historico.push({ autor: "bot", texto: `Recomendei o prato "${resultado.prato_recomendado}".` });
+        } else if (resultado.tipo === "pedido") {
+            console.log(resultado);
+
+            const idValidos = new Set(pratos.map(p => p.id));
+            const itensValidos = resultado.itens.filter(i => !idValidos.has(i.idPrato));
+
+            if (itensValidos.length > 0) {
+                const msg = "Não consegui confirmar um dos itens do pedido, pode tentar de novo?";
+                adicionarMensagem(msg, "bot");
+                historico.push({ autor: "bot", texto: msg });
+            } else {
+                adicionarMensagem(resultado.resposta, "bot");
+                historico.push({ autor: "bot", texto: resultado.resposta });
+                await finalizarPedido(resultado.idMesa, resultado.itens);
+            }
+        } else if (resultado.tipo == "carrinho") {
+            const idValido = pratos.some(p => p.id === resultado.item.idPrato);
+            if (!idValido) {
+                const msg = "Não consegui confirmar um dos itens do pedido, pode tentar de novo?";
+                adicionarMensagem(msg, "bot");
+                historico.push({ autor: "bot", texto: msg });
+            } else {
+                adicionarMensagem(resultado.resposta, "bot");
+                historico.push({ autor: "bot", texto: resultado.resposta });
+                adicionarItemCarrinho(resultado.item);
+            }
         } else {
             adicionarMensagem(resultado.resposta, "bot");
+            historico.push({ autor: "bot", texto: resultado.resposta });
         }
     } catch (error) {
         loadingEl.remove();
@@ -163,3 +223,31 @@ form.addEventListener("submit", async (event) => {
         input.focus();
     }
 });
+
+async function finalizarPedido(idMesa: number, itens: ItemPedido[]): Promise<void> {
+    const pedidoPayload: Pedido = { idMesa, itens };
+
+    const response = await fetch("/Pedido/GerarPedidoChatbot", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(pedidoPayload),
+    })
+
+    if (!response.ok) {
+        adicionarMensagem(`Erro ao finalizar pedido: ${response.status}`, "bot");
+    } else {
+        adicionarMensagem("Pedido criado com sucesso", "bot");
+    }
+}
+
+function adicionarItemCarrinho(item: ItemPedido) {
+    const itemExistente = carrinho.find(
+        i => i.idPrato === item.idPrato
+    );
+
+    if (itemExistente) {
+        itemExistente.quantidade += item.quantidade;
+    } else {
+        carrinho.push(item);
+    }
+}

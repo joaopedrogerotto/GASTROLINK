@@ -20,7 +20,9 @@
                 @foreach (var itemPedido in pedido.Itens) {
                     <p class="card-text">Prato: @itemPedido.Prato.Nome</p>
                     <p class="card-text">Quantidade: @itemPedido.Quantidade</p>
-                    <p class="card-text">Observação: @itemPedido.Observacao</p>
+                    @if (!string.IsNullOrEmpty(itemPedido.Observacao)){
+                        <p class="card-text">Observação: @itemPedido.Observacao</p>
+                    }
                     <hr />
                 }
                 @switch(pedido.Status.Id){

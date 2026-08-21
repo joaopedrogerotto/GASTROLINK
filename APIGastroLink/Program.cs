@@ -122,6 +122,8 @@ builder.Services.AddAuthorization(options => {
     //Caixa (Caixa, Admin e Gerente)
     options.AddPolicy("Caixa", policy => policy.RequireRole("ADMINISTRADOR", "GERENTE", "CAIXA"));
 
+    //Criar Pedido (Garçom, Admin, Gerente, Chatbot)
+    options.AddPolicy("CriarPedido", policy => policy.RequireRole("ADMINISTRADOR", "GERENTE", "GARÇOM", "CHATBOT"));
 });
 
 builder.Services.AddHttpClient<IMercadoPagoService, MercadoPagoService>(client => {

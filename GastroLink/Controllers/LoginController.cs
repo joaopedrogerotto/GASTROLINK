@@ -28,7 +28,6 @@ namespace GastroLink.Controllers {
                 TempData["FalhaLogin"] = "Login e/ou Senha incorretos.";
                 return View("Index");
             }
-
             var claims = new List<Claim> {
                 new Claim(ClaimTypes.Name, usuarioToken.Usuario.Login),
                 new Claim(ClaimTypes.Role, usuarioToken.Usuario.Tipo.Tipo),
@@ -50,8 +49,10 @@ namespace GastroLink.Controllers {
 
             if (usuarioToken.Usuario.Tipo.Tipo == "COZINHA") {
                 return RedirectToAction("TodosPedidos", "Cozinha");
-            }else if(usuarioToken.Usuario.Tipo.Tipo == "CAIXA") {
+            } else if (usuarioToken.Usuario.Tipo.Tipo == "CAIXA") {
                 return RedirectToAction("TodosPedidos", "Caixa");
+            } else if (usuarioToken.Usuario.Tipo.Tipo == "CHATBOT") {
+                return RedirectToAction("Chatbot", "Chatbot");
             }
 
             return RedirectToAction("TodasMesas", "Mesa");

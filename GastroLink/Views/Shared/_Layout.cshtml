@@ -136,49 +136,51 @@
                                 </li>
                             }
 
-                            <li class="nav-item dropdown">
-                                <a class="nav-link dropdown-toggle" href="#" id="mesasDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                    Pedidos
-                                </a>
-                                <ul class="dropdown-menu" aria-labelledby="mesasDropdown">
-                                    @if (tipo == "GARÇOM" || tipo == "ADMINISTRADOR" || tipo == "GERENTE") {
-                                        <li class="dropdown-submenu">
-                                            <a class="dropdown-item dropdown-toggle" href="#">
-                                                Garcom
-                                            </a>
-                                            <ul class="dropdown-menu">
-                                                <li>
-                                                    <a class="dropdown-item" asp-action="PedidosProntos" asp-controller="Garcom">Pedidos Prontos</a>
+                            @if (tipo == "GARÇOM" || tipo == "ADMINISTRADOR" || tipo == "GERENTE" || tipo == "COZINHA") {
+                                    <li class="nav-item dropdown">
+                                        <a class="nav-link dropdown-toggle" href="#" id="mesasDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                            Pedidos
+                                        </a>
+                                        <ul class="dropdown-menu" aria-labelledby="mesasDropdown">
+                                            @if (tipo == "GARÇOM" || tipo == "ADMINISTRADOR" || tipo == "GERENTE") {
+                                                <li class="dropdown-submenu">
+                                                    <a class="dropdown-item dropdown-toggle" href="#">
+                                                        Garcom
+                                                    </a>
+                                                    <ul class="dropdown-menu">
+                                                        <li>
+                                                            <a class="dropdown-item" asp-action="PedidosProntos" asp-controller="Garcom">Pedidos Prontos</a>
+                                                        </li>
+                                                        <li>
+                                                            <a class="dropdown-item" asp-action="TodasMesas" asp-controller="Mesa">Mesas</a>
+                                                        </li>
+                                                    </ul>
                                                 </li>
-                                                <li>
-                                                    <a class="dropdown-item" asp-action="TodasMesas" asp-controller="Mesa">Mesas</a>
-                                                </li>
-                                            </ul>
-                                        </li>
-                                    }
+                                            }
 
-                                    @if (tipo == "COZINHA" || tipo == "ADMINISTRADOR" || tipo == "GERENTE") {
-                                        <li class="dropdown-submenu">
-                                            <a class="dropdown-item dropdown-toggle" href="#">
-                                                Cozinha
-                                            </a>
-                                            <ul class="dropdown-menu">
-                                                <li>
-                                                    <a class="dropdown-item" asp-action="TodosPedidos" asp-controller="Cozinha">Pedidos</a>
+                                            @if (tipo == "COZINHA" || tipo == "ADMINISTRADOR" || tipo == "GERENTE") {
+                                                <li class="dropdown-submenu">
+                                                    <a class="dropdown-item dropdown-toggle" href="#">
+                                                        Cozinha
+                                                    </a>
+                                                    <ul class="dropdown-menu">
+                                                        <li>
+                                                            <a class="dropdown-item" asp-action="TodosPedidos" asp-controller="Cozinha">Pedidos</a>
+                                                        </li>
+                                                    </ul>
                                                 </li>
-                                            </ul>
-                                        </li>
-                                    }
-                                </ul>
-                            </li>
+                                            }
+                                        </ul>
+                                    </li>
+                                }
 
-                            if(tipo == "ADMINISTRADOR"){
+                            if (tipo == "ADMINISTRADOR") {
                                 <a class="nav-link" id="mesasDropdown" role="button" asp-action="Index" asp-controller="Dashboard">Dashboard</a>
                             }
 
-                            
-                            <a class="nav-link" id="mesasDropdown" role="button" asp-action="Chatbot" asp-controller="Chatbot">Chatbot</a>
-
+                            if (tipo == "ADMINISTRADOR" || tipo == "GERENTE" || tipo == "CHATBOT") {
+                                <a class="nav-link" id="mesasDropdown" role="button" asp-action="Chatbot" asp-controller="Chatbot">Chatbot</a>
+                            }
                         }
                     </ul>
 

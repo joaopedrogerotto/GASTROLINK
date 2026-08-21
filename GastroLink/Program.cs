@@ -141,6 +141,9 @@ builder.Services.AddAuthorization(options => {
     //Caixa (Caixa, Admin e Gerente)
     options.AddPolicy("Caixa", policy => policy.RequireRole("ADMINISTRADOR", "GERENTE", "CAIXA"));
 
+    //CHATBOT
+    options.AddPolicy("Chatbot", policy => policy.RequireRole("ADMINISTRADOR", "GERENTE", "CHATBOT"));
+
 });
 
 
