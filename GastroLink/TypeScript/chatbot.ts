@@ -1,6 +1,7 @@
 import { GeminiApiResponse } from "./Models/geminiModel.js";
 import { Prato } from "./Models/pratoModel.js"
 import { RecomendacaoResponse, MensagemHistorico, ItemPedido, Pedido } from "./Models/chatbotModel.js"
+import { montarModalPagamento } from "./gerarPagamento.js";
 
 const GEMINI_API_KEY = window.APP_CONFIG.apiGemini;
 const GEMINI_MODEL = "gemini-3.5-flash-lite";
@@ -8,6 +9,8 @@ const GEMINI_URL = `https://generativelanguage.googleapis.com/v1beta/models/${GE
 
 let historico: MensagemHistorico[] =[];
 let carrinho: ItemPedido[] = [];
+let aguardandoConfirmacao = false;
+
 export async function recomendarPrato(pratos: Prato[],textoUsuario: string,historico: MensagemHistorico[]): Promise<RecomendacaoResponse> {
     const historicoTexto = historico.map(m => `${m.autor === "usuario" ? "Usuário" : "Assistente"}: ${m.texto}`).join("\n");
     const prompt = `
@@ -21,18 +24,32 @@ export async function recomendarPrato(pratos: Prato[],textoUsuario: string,histo
 
     Nova mensagem do usuário: "${textoUsuario}"
 
-    Leve em conta o histórico para entender o contexto. Por exemplo, se você perguntou algo e o usuário respondeu "sim" ou algo curto, isso se refere à sua última pergunta.
+    Carrinho atual do usuário (JSON):
+    ${JSON.stringify(carrinho)}
 
-    O usuário também pode pedir para que o prato que você recomendou seja finalizado como pedido. Caso seja solicitado tal, usar o modelo de pedido no final do prompt.
+    Leve em conta o histórico para entender o contexto. Se você perguntou algo e o usuário respondeu "sim" ou algo curto, isso se refere à sua última pergunta.
 
-    Primeiro, avalie a intenção da mensagem:
-    - Se o usuário está pedindo uma recomendação (diretamente ou confirmando que quer uma sugestão que você ofereceu), use o tipo "recomendacao".
-    - Se for pergunta geral ou conversa, use o tipo "conversa".
-    - No tipo recomendação, não precisa sempre recomendar uma bebida ou acompanhamento, só caso você veja que é necessário. Pois não se faz necessário bebiba para doce na concepção do negócio.
-    - Atenção: o usuario pode querer adicionar mais de um item no seu pedido, com base na leitura do histórico adicione todos no array de itens. Faça esse loop de sempre perguntar se o usuario que adicionar mais algum item até ele dizer ao contrario (Ou seja, que deseja finalizar o pedido ou coisas semelhantes dependendo do contexto)
-    - Quando for para FINALIZAR o pedido, você deverá ler o carrinho: ${carrinho}. Se não tiver nenhum item, informar ao usuario.
+    ### Como identificar a intenção da mensagem
 
-    Retorne APENAS um JSON válido, sem markdown, em um dos formatos:
+    - Recomendação: o usuário pede uma sugestão de prato, diretamente ou confirmando que quer uma sugestão que você ofereceu → tipo "recomendacao".
+      - Só inclua bebida/acompanhamento em "harmonizacao" quando fizer sentido (ex: não sugerir bebida para doce).
+    - Adicionar item ao pedido: o usuário confirma que quer pedir um prato específico → tipo "carrinho".
+      - O usuário pode querer adicionar vários itens ao longo da conversa; use o histórico para saber o que já foi confirmado.
+      - Depois de adicionar um item, sempre pergunte se ele quer incluir mais alguma coisa, até que ele diga que quer finalizar o pedido.
+    - Pergunta geral ou conversa que não se encaixa nos outros casos → tipo "conversa".
+
+    ### Fluxo de finalização do pedido (siga esta ordem, sem pular etapas)
+
+    Esse fluxo só começa quando o usuário sinaliza que quer finalizar o pedido (ex: "finalizar", "fechar a conta", "só isso mesmo").
+
+    1. **Carrinho vazio**: se o carrinho estiver vazio, informe isso ao usuário (tipo "conversa") e não avance no fluxo.
+    2. **Número da mesa**: se ainda não souber o número da mesa, pergunte antes de qualquer outra coisa (tipo "conversa").
+    3. **Confirmação obrigatória**: assim que você tiver carrinho + número da mesa, SEMPRE retorne o tipo "confirmacao" com uma frase curta pedindo para o usuário revisar o pedido. NÃO liste os itens, quantidades ou preços na resposta — a lista será exibida separadamente pelo sistema.
+    4. **Finalização**: só retorne o tipo "pedido" na mensagem seguinte, e apenas se a última mensagem do usuário for uma resposta afirmativa explícita (ex: "sim", "confirmo", "pode finalizar") à pergunta de confirmação feita no passo anterior. Use os valores de idPrato e preco EXATOS da lista de pratos fornecida (nunca invente ou aproxime valores). "itens" é sempre um array, podendo conter mais de um prato.
+
+    Nunca combine os passos 2, 3 e 4 na mesma resposta. Cada um deve ser uma troca de mensagem separada com o usuário.
+
+    Retorne APENAS um JSON válido, sem markdown, em um dos formatos abaixo:
 
     Se for recomendação:
     {
@@ -60,11 +77,16 @@ export async function recomendarPrato(pratos: Prato[],textoUsuario: string,histo
             } 
     }
 
-    Se for finalizar pedido, retorne o pedido já no formato abaixo, usando o idPrato e preco EXATOS da lista de pratos fornecida (nunca invente ou aproxime valores). Reforço ainda que todos o itens é um array onde pode ter mais de um prazo:
+    Se for confirmação antes de finalizar:{
+        "tipo":"confirmacao",
+        "resposta": "<frase curta e natural convidando a revisar o pedido, SEM listar os itens nem valores, ex: 'Antes de finalizar, poderia confirmar os itens do seu pedido abaixo?'>",
+    }
+
+    Se for finalizar pedido após confirmação do usuario, retorne o pedido já no formato abaixo, usando o idPrato e preco EXATOS da lista de pratos fornecida (nunca invente ou aproxime valores). Reforço ainda que todos o itens é um array onde pode ter mais de um prazo:
         {
           "tipo": "pedido",
           "resposta": "<confirmação natural pro usuário, ex: 'Perfeito, irei finalizar seu pedido e enviar para a cozinha'>",
-          "idMesa": 1,
+          "numeroMesa": <de acordo com o que o usuário informar> ,
           "itens": [
             {
               "idPrato": <id exato do prato, igual ao da lista>,
@@ -184,7 +206,13 @@ form.addEventListener("submit", async (event) => {
             );
             historico.push({ autor: "bot", texto: `Recomendei o prato "${resultado.prato_recomendado}".` });
         } else if (resultado.tipo === "pedido") {
-            console.log(resultado);
+            if (!aguardandoConfirmacao) {
+                let msg = "Antes de finaliaar, preciso confimar o seu pedido";
+                adicionarMensagem(msg, "bot");
+                historico.push({ autor: "bot", texto: msg });
+            }
+
+            aguardandoConfirmacao = false;
 
             const idValidos = new Set(pratos.map(p => p.id));
             const itensValidos = resultado.itens.filter(i => !idValidos.has(i.idPrato));
@@ -196,7 +224,7 @@ form.addEventListener("submit", async (event) => {
             } else {
                 adicionarMensagem(resultado.resposta, "bot");
                 historico.push({ autor: "bot", texto: resultado.resposta });
-                await finalizarPedido(resultado.idMesa, resultado.itens);
+                await finalizarPedido(resultado.numeroMesa, resultado.itens);
             }
         } else if (resultado.tipo == "carrinho") {
             const idValido = pratos.some(p => p.id === resultado.item.idPrato);
@@ -209,7 +237,12 @@ form.addEventListener("submit", async (event) => {
                 historico.push({ autor: "bot", texto: resultado.resposta });
                 adicionarItemCarrinho(resultado.item);
             }
-        } else {
+        } else if (resultado.tipo === "confirmacao") {
+            aguardandoConfirmacao = true;
+            resultado.resposta += mensagemConfirmacaoPedido();
+            adicionarMensagem(resultado.resposta, "bot");
+            historico.push({ autor: "bot", texto: resultado.resposta });
+        }else {
             adicionarMensagem(resultado.resposta, "bot");
             historico.push({ autor: "bot", texto: resultado.resposta });
         }
@@ -224,8 +257,8 @@ form.addEventListener("submit", async (event) => {
     }
 });
 
-async function finalizarPedido(idMesa: number, itens: ItemPedido[]): Promise<void> {
-    const pedidoPayload: Pedido = { idMesa, itens };
+async function finalizarPedido(numeroMesa: string, itens: ItemPedido[]): Promise<void> {
+    const pedidoPayload: Pedido = {numeroMesa: numeroMesa.toString(), itens: itens };
 
     const response = await fetch("/Pedido/GerarPedidoChatbot", {
         method: "POST",
@@ -238,6 +271,16 @@ async function finalizarPedido(idMesa: number, itens: ItemPedido[]): Promise<voi
     } else {
         adicionarMensagem("Pedido criado com sucesso", "bot");
     }
+}
+
+function mensagemConfirmacaoPedido(): string {
+    const itens = carrinho.map(item => {
+        const prato = pratos.find(p => p.id === item.idPrato);
+        const nome = prato ? prato.nome : "Item desconhecido";
+        return `${item.quantidade}x ${nome}`;
+    }).join("\n");
+
+    return `\n\n${itens}\n\nDeseja confirmar?`;
 }
 
 function adicionarItemCarrinho(item: ItemPedido) {

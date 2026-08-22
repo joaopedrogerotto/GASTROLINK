@@ -14,5 +14,11 @@ namespace GastroLink.Mapper {
                 }).ToList()
             };
         }
+
+        public static PedidoCreateDTO PedidoChatbotToPedicoCreate(PedidoCreateChatbotDTO PedidoCreateChatbotDTO) {
+            return new PedidoCreateDTO {
+                Itens = PedidoCreateChatbotDTO.itens
+            };
+        }
     }
 }

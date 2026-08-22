@@ -143,11 +143,13 @@ namespace GastroLink.Controllers {
 
         [HttpPost]
         [Authorize(Policy = "Chatbot")]
-        public async Task<IActionResult> GerarPedidoChatbot([FromBody]PedidoCreateDTO PedidoCreateDTO) {
+        public async Task<IActionResult> GerarPedidoChatbot([FromBody]PedidoCreateChatbotDTO PedidoCreateChatbotDTO) {
             try {
-                PedidoCreateDTO.IdUsuario = HttpContext.Session.GetInt32("IdUsuario") ?? 0;
-                PedidoCreateDTO.IdMesa = 1;
-                var resultado = await _facadePedido.CadastrarPedido(PedidoCreateDTO);
+                PedidoCreateDTO pedidoChatbot = PedidoMapper.PedidoChatbotToPedicoCreate(PedidoCreateChatbotDTO);
+                pedidoChatbot.IdMesa = (await _facadeMesa.BuscarMesasMapeamento()).FirstOrDefault(mesa => mesa.Numero == PedidoCreateChatbotDTO.numeroMesa).Id;
+                pedidoChatbot.IdUsuario = HttpContext.Session.GetInt32("IdUsuario") ?? 0;
+                
+                var resultado = await _facadePedido.CadastrarPedido(pedidoChatbot);
                 if (!resultado) {
                     return BadRequest("Falha ao adicionar pedido");
                 }

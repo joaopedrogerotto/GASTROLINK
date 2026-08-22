@@ -17,7 +17,7 @@ namespace APIGastroLink.Controllers {
         }
 
         [HttpPost]
-        [Authorize(Policy = "CriarPedido")]
+        [Authorize(Policy = "AtendimentoComChatbot")]
         public async Task<IActionResult> CadastrarPedido([FromBody] PedidoCreateDTO pedido) {
             try {
                 var novoPedido = await _facadePedido.CadastrarPedido(pedido);

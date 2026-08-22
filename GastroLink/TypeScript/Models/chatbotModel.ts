@@ -21,11 +21,11 @@ export interface ItemCarrinhoChatBot {
 export interface PedidoChatbot {
     tipo: "pedido";
     resposta: string;
-    idMesa: number;
+    numeroMesa: string;
     itens: ItemPedido[]
 };
 
-export type RecomendacaoResponse = RecomendacaoDePrato | RespostaConversa | PedidoChatbot | ItemCarrinhoChatBot;
+export type RecomendacaoResponse = RecomendacaoDePrato | RespostaConversa | PedidoChatbot | ItemCarrinhoChatBot | MesangemConfirmacaoPedido;
 
 export interface MensagemHistorico {
     autor: "usuario" | "bot";
@@ -40,6 +40,11 @@ export interface ItemPedido {
 }
 
 export interface Pedido {
-    idMesa: number;
+    numeroMesa: string;
     itens: ItemPedido[];
+}
+
+export interface MesangemConfirmacaoPedido {
+    tipo: "confirmacao";
+    resposta: string;
 }

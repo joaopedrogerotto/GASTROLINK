@@ -30,7 +30,7 @@ namespace APIGastroLink.Controllers {
         }
 
         [HttpGet]
-        [Authorize(Policy = "Atendimento")]
+        [Authorize(Policy = "AtendimentoComChatbot")]
         public IActionResult SelecionarMesas() {
             try {
                 return Ok(_facadeMesa.SelecionarTodasMesas());
