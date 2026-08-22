@@ -6,7 +6,7 @@ Inicialmente, o sistema será uma aplicação Web MVC, com possibilidade de expa
 
 ## 🛠️ Tecnologias
 ### Backend
-- ASP.NET Core MVC(.NET 9)
+- ASP.NET Core MVC (.NET 10.0)
 - ADO.NET
 - SignalR
 
