@@ -2,6 +2,8 @@ using APIGastroLink.DAO;
 using APIGastroLink.DAO.Interfaces;
 using APIGastroLink.Facade;
 using APIGastroLink.Facade.Interface;
+using APIGastroLink.Factory;
+using APIGastroLink.Factory.Interfaces;
 using APIGastroLink.Hubs;
 using APIGastroLink.Services;
 using APIGastroLink.Services.Interfaces;
@@ -38,6 +40,7 @@ builder.Services.AddScoped<IDAOPedido, DAOPedido>();
 builder.Services.AddScoped<IDAOFormaPagamento, DAOFormaPagamento>();
 builder.Services.AddScoped<IDAOPagamento, DAOPagamento>();
 builder.Services.AddScoped<IDAODashboard, DAODashboard>();
+builder.Services.AddScoped<IDAOAuditoria, DAOAuditoria>();
 
 builder.Services.AddScoped<IFacadeLogin, FacadeLogin>();
 builder.Services.AddScoped<IFacadeMesa, FacadeMesa>();
@@ -50,6 +53,7 @@ builder.Services.AddScoped<IFacadePedido, FacadePedido>();
 builder.Services.AddScoped<IFacadeFormaPagamento, FacadeFormaPagamento>();
 builder.Services.AddScoped<IFacadePagamento, FacadePagamento>();
 builder.Services.AddScoped<IFacadeDashboard, FacadeDashboard>();
+builder.Services.AddScoped<IFacadeAuditoria, FacadeAuditoria>();
 
 
 builder.Services.AddScoped<PasswordService>();
@@ -57,8 +61,10 @@ builder.Services.AddScoped<TokenJwtService>();
 
 builder.Services.AddScoped<IImagemService, ImagemService>();
 builder.Services.AddScoped<IPedidoService, PedidoService>();
-
 builder.Services.AddScoped<IPedidoNotificacaoService, PedidoNotificacaoService>();
+
+builder.Services.AddScoped<IAuditoriaFactory, AuditoriaFactory>();
+builder.Services.AddScoped<IUsuarioFactory, UsuarioFactory>();
 
 builder.Services.AddSignalR();
 

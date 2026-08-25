@@ -17,8 +17,8 @@ namespace APIGastroLink.Services {
             var credentials = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
 
             var claims = new List<Claim> {
-                new(JwtRegisteredClaimNames.Sub, idUsuario),
-                new(JwtRegisteredClaimNames.UniqueName, loginUsuario),
+                new(ClaimTypes.NameIdentifier, idUsuario),
+                new(ClaimTypes.Name, loginUsuario),
                 new(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())
             };
 

@@ -1,4 +1,5 @@
 ﻿using APIGastroLink.DTO;
+using APIGastroLink.Enums;
 using APIGastroLink.Facade.Interface;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -8,16 +9,19 @@ namespace APIGastroLink.Controllers {
     [Route("api-gastrolink/[controller]")]
     [Authorize(Policy = "SomenteAdmin")]
     public class DashboardController : ControllerBase {
-        public IFacadeDashboard _facadeDashboad;
+        private readonly IFacadeDashboard _facadeDashboad;
+        private readonly IFacadeAuditoria _facadeAuditoria;
 
-        public DashboardController(IFacadeDashboard facadeDashboard) {
+        public DashboardController(IFacadeDashboard facadeDashboard, IFacadeAuditoria facadeAuditoria) {
             _facadeDashboad = facadeDashboard;
+            _facadeAuditoria = facadeAuditoria;
         }
 
         [HttpPost]
-        public IActionResult Dashboard([FromBody]DashboardFiltroDTO DashboardFiltroDTO) {
+        public async Task<IActionResult> Dashboard([FromBody]DashboardFiltroDTO DashboardFiltroDTO) {
             try {
                 var indicadores = _facadeDashboad.GerarIndicadores(DashboardFiltroDTO);
+                await _facadeAuditoria.RegistrarAuditoria(AcaoAuditoriaEnum.Consulta, "Consulta o dashboard", User);
                 return Ok(indicadores);
             } catch (Exception ex) {
                 return BadRequest(ex.Message);
