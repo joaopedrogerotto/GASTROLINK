@@ -27,12 +27,14 @@ namespace APIGastroLink.Controllers {
         [HttpPost]
         public async Task<ActionResult> Login(Login Login) {
             if (Login == null) {
+                await _facadeAuditoria.RegistrarAuditoria(AcaoAuditoriaEnum.Login, $"Tentativa de login nulo.");
                 return BadRequest("Login não pode ser nulo");
             }
 
             var usuario = _facade.ValidarLogin(Login);
 
             if (usuario == null) {
+                await _facadeAuditoria.RegistrarAuditoria(AcaoAuditoriaEnum.Login, $"Tentativa de login com os usuarios {Login.LoginStr} e senha {Login.Senha}. Login e/ou Senha inválido");
                 return BadRequest("Login e/ou Senha inválido");
             }
 

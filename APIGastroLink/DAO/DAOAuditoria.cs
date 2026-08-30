@@ -19,7 +19,10 @@ namespace APIGastroLink.DAO {
 
                         cmd.Parameters.AddWithValue("@ACAO", Auditoria.Acao);
                         cmd.Parameters.AddWithValue("@DESCRICAO", Auditoria.Descricao);
-                        cmd.Parameters.AddWithValue("@ID_USUARIO", Auditoria.Usuario.Id);
+
+                        if (Auditoria.Usuario.Id != 0) {
+                            cmd.Parameters.AddWithValue("@ID_USUARIO", Auditoria.Usuario.Id);
+                        }
 
                         await cmd.ExecuteNonQueryAsync();
                     }

@@ -17,8 +17,11 @@ namespace APIGastroLink.Facade {
             _usuarioFactory = usuarioFactory;
         }
 
-        public async Task RegistrarAuditoria(AcaoAuditoriaEnum acao, string descicao, ClaimsPrincipal claim) {
-            var usuario = _usuarioFactory.CriarUsuarioLogado(claim);
+        public async Task RegistrarAuditoria(AcaoAuditoriaEnum acao, string descicao, ClaimsPrincipal? claim = null) {
+            var usuario = new Usuario();
+            if (claim != null) {
+                usuario = _usuarioFactory.CriarUsuarioLogado(claim);
+            }
             var auditoria = _auditoriaFactory.Criar(acao, descicao, usuario);
             await _daoAuditoria.RegisterAudit(auditoria); 
         }
