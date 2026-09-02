@@ -1,14 +1,17 @@
 ﻿using APIGastroLink.DAO.Interfaces;
 using APIGastroLink.Models;
+using APIGastroLink.Services.Interfaces;
 using Microsoft.Data.SqlClient;
 using System.Data;
 
 namespace APIGastroLink.DAO {
     public class DAOTipoUsuario : IDAOTipoUsuario {
         private readonly IDAODatabase _database;
+        private readonly ILogService _logService;
 
-        public DAOTipoUsuario(IDAODatabase database) {
+        public DAOTipoUsuario(IDAODatabase database, ILogService logService) {
             _database = database;
+            _logService = logService;
         }
 
         public List<TipoUsuario> SelectAll() {
@@ -30,6 +33,7 @@ namespace APIGastroLink.DAO {
                 }
                 return listTiposUsuarios;
             } catch (Exception ex) {
+                _logService.Error(ex, "Erro ao selecionar tipos de usuários: " + ex.Message);
                 throw new Exception(ex.Message);
             }
         }

@@ -1,14 +1,17 @@
 ﻿using APIGastroLink.DAO.Interfaces;
 using APIGastroLink.DTO;
+using APIGastroLink.Services.Interfaces;
 using Microsoft.Data.SqlClient;
 using System.Text.Json;
 
 namespace APIGastroLink.DAO {
     public class DAOPagamento : IDAOPagamento {
         private readonly IDAODatabase _database;
+        private readonly ILogService _logService;
 
-        public DAOPagamento(IDAODatabase database) {
+        public DAOPagamento(IDAODatabase database, ILogService logService) {
             _database = database;
+            _logService = logService;
         }
 
         public async Task<bool> Insert(RegistrarPagamentoDTO PagamentoRequestDTO) {
@@ -26,6 +29,7 @@ namespace APIGastroLink.DAO {
                 }
                 return true;
             } catch (Exception ex) {
+                _logService.Error(ex, "Falha ao inserir o pagamento: " + ex.Message);
                 throw new Exception("Falha ao inserir o pagamento.", ex);
             }
         }

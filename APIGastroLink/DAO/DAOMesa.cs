@@ -1,15 +1,18 @@
 ﻿using APIGastroLink.DAO.Interfaces;
 using APIGastroLink.Exceptions;
 using APIGastroLink.Models;
+using APIGastroLink.Services.Interfaces;
 using Microsoft.Data.SqlClient;
 using System.Data;
 
 namespace APIGastroLink.DAO {
     public class DAOMesa : IDAOMesa {
         private readonly IDAODatabase _database;
+        private readonly ILogService _logService;
 
-        public DAOMesa(IDAODatabase database) {
+        public DAOMesa(IDAODatabase database, ILogService logService) {
             _database = database;
+            _logService = logService;
         }
 
         public void Delete(Mesa Mesa) {
@@ -26,8 +29,10 @@ namespace APIGastroLink.DAO {
                     }
                 }
             } catch (SqlException ex) when (ex.Number == 2627 || ex.Number == 2601) {
+                _logService.Error(ex,"Mesa já cadastrada: " + ex.Message);
                 throw new EntityAlreadyExistsException("Mesa já cadastrada");
             } catch (Exception ex) {
+                _logService.Error(ex, "Erro ao cadastrar mesa: " + ex.Message);
                 Console.WriteLine(ex.ToString());
             }
         }
@@ -60,7 +65,8 @@ namespace APIGastroLink.DAO {
                 }
                 return listMesa;
             } catch (Exception ex) {
-                throw new Exception(ex.ToString());
+                _logService.Error(ex, "Erro ao selecionar mesas: " + ex.Message);
+                throw new Exception(ex.Message);
             }
         }
 

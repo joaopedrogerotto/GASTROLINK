@@ -1,61 +1,84 @@
 ﻿using APIGastroLink.DAO.Interfaces;
 using APIGastroLink.DTO;
 using APIGastroLink.Models;
+using APIGastroLink.Services.Interfaces;
 using Microsoft.Data.SqlClient;
 using System.Data;
 
 namespace APIGastroLink.DAO {
     public class DAOPedido : IDAOPedido {
         private readonly IDAODatabase _database;
+        private readonly ILogService _logService;
 
-        public DAOPedido(IDAODatabase database) {
+        public DAOPedido(IDAODatabase database, ILogService logService) {
             _database = database;
+            _logService = logService;
         }
 
         public async Task<int> InsertPedido(PedidoCreateDTO pedido) {
             int idPedido = 0;
-            using (SqlConnection conn = _database.OpenConnection()) {
-                using (SqlCommand cmd = new SqlCommand("PR_I_PEDIDO", conn)) {
-                    cmd.CommandType = CommandType.StoredProcedure;
-                    cmd.Parameters.AddWithValue("@MESA_ID", pedido.IdMesa);
-                    cmd.Parameters.AddWithValue("@USUARIO_ID", pedido.IdUsuario);
-                    cmd.Parameters.AddWithValue("@VALOR_TOTAL", pedido.ValorTotal);
-                    cmd.Parameters.AddWithValue("@ITENS_PEDIDO", ConvertForDataTable(pedido.Itens));
-                    using (SqlDataReader reader = await cmd.ExecuteReaderAsync()) {
-                        while (reader.Read()) {
-                            idPedido = reader.GetInt32(reader.GetOrdinal("ID_PEDIDO"));
+            try {
+                using (SqlConnection conn = _database.OpenConnection()) {
+                    using (SqlCommand cmd = new SqlCommand("PR_I_PEDIDO", conn)) {
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        cmd.Parameters.AddWithValue("@MESA_ID", pedido.IdMesa);
+                        cmd.Parameters.AddWithValue("@USUARIO_ID", pedido.IdUsuario);
+                        cmd.Parameters.AddWithValue("@VALOR_TOTAL", pedido.ValorTotal);
+                        cmd.Parameters.AddWithValue("@ITENS_PEDIDO", ConvertForDataTable(pedido.Itens));
+                        using (SqlDataReader reader = await cmd.ExecuteReaderAsync()) {
+                            while (reader.Read()) {
+                                idPedido = reader.GetInt32(reader.GetOrdinal("ID_PEDIDO"));
+                            }
                         }
                     }
                 }
+                return idPedido;
+            }catch (Exception ex) {
+                _logService.Error(ex, "Falha ao inserir o pedido: " + ex.Message);
+                throw new Exception("Falha ao inserir o pedido.", ex);
             }
-            return idPedido;
         }
 
         public async Task<Pedido> SelectPedidoById(int idPedido) {
-            using (SqlConnection conn = _database.OpenConnection()) {
-                using (SqlCommand cmd = new SqlCommand("PR_S_PEDIDO_POR_ID", conn)) {
-                    cmd.CommandType = CommandType.StoredProcedure;
-                    cmd.Parameters.AddWithValue("@PEDIDO_ID", idPedido);
-                    var pedidosMap = new Dictionary<int, Pedido>();
+            if (idPedido == 0) { 
+                _logService.Error(new ArgumentException("O ID do pedido não pode ser zero.", nameof(idPedido)), "Falha ao selecionar o pedido por ID.");
+                throw new ArgumentException("O ID do pedido não pode ser zero.", nameof(idPedido));
+            }
 
-                    using (SqlDataReader reader = cmd.ExecuteReader()) {
-                        pedidosMap = GerarMapPedido(reader);
+            try {
+                using (SqlConnection conn = _database.OpenConnection()) {
+                    using (SqlCommand cmd = new SqlCommand("PR_S_PEDIDO_POR_ID", conn)) {
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        cmd.Parameters.AddWithValue("@PEDIDO_ID", idPedido);
+                        var pedidosMap = new Dictionary<int, Pedido>();
+
+                        using (SqlDataReader reader = cmd.ExecuteReader()) {
+                            pedidosMap = GerarMapPedido(reader);
+                        }
+                        return pedidosMap[idPedido];
                     }
-                    return pedidosMap[idPedido];
                 }
+            } catch (Exception ex) {
+                _logService.Error(ex, $"Falha ao selecionar o pedido por ID {idPedido} : " + ex.Message);
+                throw new Exception("Falha ao selecionar o pedido por ID.", ex);
             }
         }
 
         public async Task<List<Pedido>> SelectPedidosEmPreparo() {
             var pedidoMap = new Dictionary<int, Pedido>();
 
-            using (SqlConnection conn = _database.OpenConnection()) {
-                using (SqlCommand cmd = new SqlCommand("PR_S_TODOS_PEDIDOS_COZINHA", conn)) {
-                    cmd.CommandType = CommandType.StoredProcedure;
-                    using (SqlDataReader reader = await cmd.ExecuteReaderAsync()) {
-                        pedidoMap = GerarMapPedido(reader);
+            try {
+                using (SqlConnection conn = _database.OpenConnection()) {
+                    using (SqlCommand cmd = new SqlCommand("PR_S_TODOS_PEDIDOS_COZINHA", conn)) {
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        using (SqlDataReader reader = await cmd.ExecuteReaderAsync()) {
+                            pedidoMap = GerarMapPedido(reader);
+                        }
                     }
                 }
+            } catch (Exception ex) {
+                _logService.Error(ex, "Falha ao selecionar pedidos em preparo: " + ex.Message);
+                throw new Exception("Falha ao selecionar pedidos em preparo.", ex);
             }
 
             return pedidoMap.Values.ToList();
@@ -73,6 +96,7 @@ namespace APIGastroLink.DAO {
                     }
                 }
             } catch (Exception ex) {
+                _logService.Error(ex, "Falha ao atualizar o status do pedido: " + ex.Message);
                 throw new Exception(ex.Message);
             }
 
@@ -81,31 +105,42 @@ namespace APIGastroLink.DAO {
         public async Task<List<Pedido>> SelectAllPronto() {
             var pedidoMap = new Dictionary<int, Pedido>();
 
-            using (SqlConnection conn = _database.OpenConnection()) {
-                using (SqlCommand cmd = new SqlCommand("PR_S_PEDIDOS_PRONTOS", conn)) {
-                    cmd.CommandType = CommandType.StoredProcedure;
-                    using (SqlDataReader reader = await cmd.ExecuteReaderAsync()) {
-                        pedidoMap = GerarMapPedido(reader);
+
+            try {
+                using (SqlConnection conn = _database.OpenConnection()) {
+                    using (SqlCommand cmd = new SqlCommand("PR_S_PEDIDOS_PRONTOS", conn)) {
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        using (SqlDataReader reader = await cmd.ExecuteReaderAsync()) {
+                            pedidoMap = GerarMapPedido(reader);
+                        }
                     }
                 }
-            }
 
-            return pedidoMap.Values.ToList();
+                return pedidoMap.Values.ToList();
+            } catch (Exception ex) {
+                _logService.Error(ex, "Falha ao selecionar pedidos prontos: " + ex.Message);
+                throw new Exception("Falha ao selecionar pedidos prontos.", ex);
+            }
         }
 
         public async Task<List<Pedido>> SelectAllCaixa() {
             var pedidoMap = new Dictionary<int, Pedido>();
 
-            using (SqlConnection conn = _database.OpenConnection()) {
-                using (SqlCommand cmd = new SqlCommand("PR_S_PEDIDOS_CAIXA", conn)) {
-                    cmd.CommandType = CommandType.StoredProcedure;
-                    using (SqlDataReader reader = await cmd.ExecuteReaderAsync()) {
-                        pedidoMap = GerarMapPedido(reader);
+            try {
+                using (SqlConnection conn = _database.OpenConnection()) {
+                    using (SqlCommand cmd = new SqlCommand("PR_S_PEDIDOS_CAIXA", conn)) {
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        using (SqlDataReader reader = await cmd.ExecuteReaderAsync()) {
+                            pedidoMap = GerarMapPedido(reader);
+                        }
                     }
                 }
-            }
 
-            return pedidoMap.Values.ToList();
+                return pedidoMap.Values.ToList();
+            } catch (Exception ex) {
+                _logService.Error(ex, "Falha ao selecionar pedidos para o caixa: " + ex.Message);
+                throw new Exception("Falha ao selecionar pedidos para o caixa.", ex);
+            }
         }
 
         private Dictionary<int, Pedido> GerarMapPedido(SqlDataReader reader) {

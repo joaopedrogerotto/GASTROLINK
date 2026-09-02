@@ -1,14 +1,17 @@
 ﻿using APIGastroLink.DAO.Interfaces;
 using APIGastroLink.DTO;
 using APIGastroLink.Models;
+using APIGastroLink.Services.Interfaces;
 using Microsoft.Data.SqlClient;
 
 namespace APIGastroLink.DAO {
     public class DAOPrato : IDAOPrato {
         private readonly IDAODatabase _database;
+        private readonly ILogService _logService;
 
-        public DAOPrato(IDAODatabase database) {
+        public DAOPrato(IDAODatabase database, ILogService logService) {
             _database = database;
+            _logService = logService;
         }
 
         public void Insert(Prato Prato) {
@@ -27,6 +30,7 @@ namespace APIGastroLink.DAO {
                     }
                 }
             } catch (Exception ex) {
+                _logService.Error(ex, "Erro ao inserir prato: " + ex.Message);
                 throw new Exception("Erro ao inserir prato: " + ex.Message);
             }
         }
@@ -43,6 +47,7 @@ namespace APIGastroLink.DAO {
                     }
                 }
             } catch (Exception ex) {
+                _logService.Error(ex, "Erro ao buscar todos os pratos: " + ex.Message);
                 throw new Exception("Falha ao buscar todos os pratos: " + ex.Message);
             }
         }
@@ -51,6 +56,7 @@ namespace APIGastroLink.DAO {
             var prato = new Prato();
 
             if (id == 0) {
+                _logService.Error(new ArgumentException("Id informado não pode ser 0", nameof(id)), "Falha ao buscar prato por ID.");
                 throw new ArgumentException("Id informado não pode ser 0");
             }
 
@@ -81,6 +87,7 @@ namespace APIGastroLink.DAO {
                 }
                 return prato;
             } catch (Exception ex) {
+                _logService.Error(ex, "Falha ao buscar o prato: " + ex.Message);
                 throw new Exception("Falha ao buscar o prato: " + ex.Message);
             }
         }
@@ -97,6 +104,7 @@ namespace APIGastroLink.DAO {
                     }
                 }
             } catch (Exception ex) {
+                _logService.Error(ex, "Falha em atualizar a disponibilidade do prato: " + ex.Message);
                 throw new Exception("Falha em atualizar a disponibilidade do prato: " + ex.Message);
             }
         }
@@ -133,6 +141,7 @@ namespace APIGastroLink.DAO {
                     }
                 }
             } catch (Exception ex) {
+                _logService.Error(ex, "Falha ao buscar todos os pratos: " + ex.Message);
                 throw new Exception("Falha ao buscar todos os pratos: " + ex.Message);
             }
         }
@@ -153,7 +162,8 @@ namespace APIGastroLink.DAO {
                     }
                 }
             } catch (Exception ex) {
-                throw new Exception("Erro ao inserir prato: " + ex.Message);
+                _logService.Error(ex, "Erro ao atualizar prato: " + ex.Message);
+                throw new Exception("Erro ao atualizar prato: " + ex.Message);
             }
         }
 

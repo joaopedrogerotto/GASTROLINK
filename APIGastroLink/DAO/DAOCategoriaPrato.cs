@@ -2,15 +2,18 @@
 using APIGastroLink.DTO;
 using APIGastroLink.Exceptions;
 using APIGastroLink.Models;
+using APIGastroLink.Services.Interfaces;
 using Microsoft.Data.SqlClient;
 using System.Data;
 
 namespace APIGastroLink.DAO {
     public class DAOCategoriaPrato : IDAOCategoriaPrato {
         private readonly IDAODatabase _database;
+        private readonly ILogService _logService;
 
-        public DAOCategoriaPrato(IDAODatabase database) {
+        public DAOCategoriaPrato(IDAODatabase database, ILogService logService) {
             _database = database;
+            _logService = logService;
         }
 
         public void Insert(CategoriaPrato categoriaPrato) {
@@ -23,8 +26,10 @@ namespace APIGastroLink.DAO {
                     }
                 }
             } catch (SqlException ex) when (ex.Number == 2627 || ex.Number == 2601) {
+                _logService.Error(ex, "Categoria já cadastrada");
                 throw new EntityAlreadyExistsException("Categoria já cadastrada");
             } catch (SqlException ex) {
+                _logService.Error(ex, "Erro ao inserir categoria de prato: " + ex.Message);
                 throw new Exception("Erro ao inserir categoria de prato: " + ex.Message);
             }
         }
@@ -46,6 +51,7 @@ namespace APIGastroLink.DAO {
                     }
                 }
             } catch (SqlException ex) {
+                _logService.Error(ex, "Erro ao selecionar categorias de prato: " + ex.Message);
                 throw new Exception("Erro ao selecionar categorias de prato: " + ex.Message);
             }
             return categorias;
@@ -69,6 +75,7 @@ namespace APIGastroLink.DAO {
                     }
                 }
             } catch (SqlException ex) {
+                _logService.Error(ex, "Erro ao selecionar categorias de prato com quantidade: " + ex.Message);
                 throw new Exception("Erro ao selecionar categorias de prato com quantidade: " + ex.Message);
             }
             return categorias;
@@ -115,6 +122,7 @@ namespace APIGastroLink.DAO {
                 }
                 return categorias;
             } catch (SqlException ex) {
+                _logService.Error(ex, "Erro ao selecionar cardápio: " + ex.Message);
                 throw new Exception("Erro ao selecionar cardápio: " + ex.Message);
             }
         }

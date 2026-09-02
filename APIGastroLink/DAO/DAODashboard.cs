@@ -1,14 +1,17 @@
 ﻿using APIGastroLink.DAO.Interfaces;
 using APIGastroLink.DTO;
+using APIGastroLink.Services.Interfaces;
 using Microsoft.Data.SqlClient;
 using System.Data;
 
 namespace APIGastroLink.DAO {
     public class DAODashboard : IDAODashboard {
         private readonly IDAODatabase _database;
+        private readonly ILogService _logService;
 
-        public DAODashboard(IDAODatabase database) {
+        public DAODashboard(IDAODatabase database, ILogService logService) {
             _database = database;
+            _logService = logService;
         }
 
         public IndicadorDashboardDTO DashboardVendasCategoria(DashboardFiltroDTO DashboardFiltroDTO) {
@@ -40,6 +43,7 @@ namespace APIGastroLink.DAO {
                 }
                 return indicadorDashboard;
             } catch (Exception ex) {
+                _logService.Error(ex,"Falha ao gerar dashboard de vendas por categoria: " + ex.Message);
                 throw new Exception("Falha ao gerar dashboard de vendas por cateogoria: " + ex.Message);
             }
         }
@@ -74,6 +78,7 @@ namespace APIGastroLink.DAO {
                 }
                 return indicadorDashboard;
             } catch (Exception ex) {
+                _logService.Error(ex, "Falha ao gerar dashboard de vendas por categoria: " + ex.Message);
                 throw new Exception("Falha ao gerar dashboard de vendas por cateogoria: " + ex.Message);
             }
         }
@@ -97,6 +102,7 @@ namespace APIGastroLink.DAO {
                 }
                 return listVendas;
             }catch (Exception ex) { 
+                _logService.Error(ex, "Falha ao gerar relatório de pratos mais vendidos: " + ex.Message);
                 throw new Exception(ex.Message); 
             }
         }
@@ -118,6 +124,7 @@ namespace APIGastroLink.DAO {
                 }
                 return resumoFat;
             }catch (Exception ex) {
+                _logService.Error(ex, "Falha ao gerar resumo de faturamento: " + ex.Message);
                 throw new Exception(ex.Message);
             }
         }

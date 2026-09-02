@@ -1,14 +1,17 @@
 ﻿using APIGastroLink.DAO.Interfaces;
 using APIGastroLink.Models;
+using APIGastroLink.Services.Interfaces;
 using Microsoft.Data.SqlClient;
 using System.Data;
 
 namespace APIGastroLink.DAO {
     public class DAOHistoricoDisponibilidade : IDAOHistoricoDisponibilidade {
         private readonly IDAODatabase _database;
+        private readonly ILogService _logService;
 
-        public DAOHistoricoDisponibilidade(IDAODatabase database) {
+        public DAOHistoricoDisponibilidade(IDAODatabase database, ILogService logService) {
             _database = database;
+            _logService = logService;
         }
 
         public void Insert(HistoricoDisponibilidade historicoDisponibilidade) {
@@ -52,6 +55,7 @@ namespace APIGastroLink.DAO {
                     }
                 }
             } catch (Exception ex) {
+                _logService.Error(ex, "Erro ao selecionar histórico de disponibilidade: " + ex.Message);
                 throw new Exception("Erro ao selecionar histórico de disponibilidade.", ex);
             }
 

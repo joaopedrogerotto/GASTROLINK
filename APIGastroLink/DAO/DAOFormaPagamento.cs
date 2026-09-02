@@ -1,14 +1,17 @@
 ﻿using APIGastroLink.DAO.Interfaces;
 using APIGastroLink.Models;
+using APIGastroLink.Services.Interfaces;
 using Microsoft.Data.SqlClient;
 using System.Data;
 
 namespace APIGastroLink.DAO {
     public class DAOFormaPagamento : IDAOFormaPagamento {
         private readonly IDAODatabase _database;
+        private readonly ILogService _logService;
 
-        public DAOFormaPagamento(IDAODatabase database) {
+        public DAOFormaPagamento(IDAODatabase database, ILogService logService) {
             _database = database;
+            _logService = logService;
         }
 
         public async Task<List<FormaPagamento>> SelectAll() {
@@ -30,6 +33,7 @@ namespace APIGastroLink.DAO {
                 }
                 return listaFormaPag;
             }catch (Exception ex) {
+                _logService.Error(ex, "Erro ao selecionar formas de pagamento: " + ex.Message);
                 throw new Exception(ex.Message);
             }
         }

@@ -1,14 +1,17 @@
 ﻿using APIGastroLink.DAO.Interfaces;
 using APIGastroLink.Models;
+using APIGastroLink.Services.Interfaces;
 using Microsoft.Data.SqlClient;
 using System.Data;
 
 namespace APIGastroLink.DAO {
     public class DAOLogin : IDAOLogin {
         private readonly IDAODatabase _database;
+        private readonly ILogService _logService;
 
-        public DAOLogin(IDAODatabase database) {
+        public DAOLogin(IDAODatabase database, ILogService logService) {
             _database = database;
+            _logService = logService;
         }
 
         public Usuario Autenticar(Login Login) {
@@ -37,7 +40,7 @@ namespace APIGastroLink.DAO {
                     }
                 }
             } catch (Exception ex) {
-                Console.WriteLine(ex.ToString());
+                _logService.Error(ex,$"Erro ao autenticar usuário: {ex.Message}");
             }
             return Usuario;
         }

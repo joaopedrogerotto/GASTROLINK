@@ -1,14 +1,17 @@
 ﻿using APIGastroLink.DAO.Interfaces;
 using APIGastroLink.Models;
+using APIGastroLink.Services.Interfaces;
 using Microsoft.Data.SqlClient;
 using System.Data;
 
 namespace APIGastroLink.DAO {
     public class DAOUsuario : IDAOUsuario {
         private readonly IDAODatabase _database;
+        private readonly ILogService _logService;
 
-        public DAOUsuario(IDAODatabase database) {
+        public DAOUsuario(IDAODatabase database, ILogService logService) {
             _database = database;
+            _logService = logService;
         }
 
         public void UpdateStatus(Usuario Usuario) {
@@ -22,6 +25,7 @@ namespace APIGastroLink.DAO {
                     }
                 }
             } catch (Exception sqlEx) {
+                _logService.Error(sqlEx, "Erro ao atualizar status do usuário: " + sqlEx.Message);
                 throw new Exception(sqlEx.Message);
             }
         }
@@ -39,6 +43,7 @@ namespace APIGastroLink.DAO {
                     }
                 }
             } catch (Exception sqlEx) {
+                _logService.Error(sqlEx, "Erro ao inserir usuário: " + sqlEx.Message);
                 throw new Exception(sqlEx.Message);
             }
         }
@@ -68,6 +73,7 @@ namespace APIGastroLink.DAO {
                     }
                 }
             } catch (Exception sqlEx) {
+                _logService.Error(sqlEx, "Erro ao selecionar todos os usuários: " + sqlEx.Message);
                 throw new Exception(sqlEx.Message);
             }
         }
@@ -97,6 +103,7 @@ namespace APIGastroLink.DAO {
                     }
                 }
             } catch (Exception sqlEx) {
+                _logService.Error(sqlEx, "Erro ao selecionar usuário por ID: " + sqlEx.Message);
                 throw new Exception(sqlEx.Message);
             }
         }
@@ -114,6 +121,7 @@ namespace APIGastroLink.DAO {
                     }
                 }
             } catch (Exception sqlEx) {
+                _logService.Error(sqlEx, "Erro ao atualizar usuário: " + sqlEx.Message);
                 throw new Exception(sqlEx.Message);
             }
         }

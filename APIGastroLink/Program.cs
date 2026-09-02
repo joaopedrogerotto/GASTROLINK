@@ -5,19 +5,33 @@ using APIGastroLink.Facade.Interface;
 using APIGastroLink.Factory;
 using APIGastroLink.Factory.Interfaces;
 using APIGastroLink.Hubs;
+using APIGastroLink.Middleware;
 using APIGastroLink.Services;
 using APIGastroLink.Services.Interfaces;
 using APIGastroLink.Settings;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.IdentityModel.Tokens;
+using Serilog;
 using StackExchange.Redis;
 using System.Text;
+
+Log.Logger = new LoggerConfiguration()
+    .MinimumLevel.Information()
+    .WriteTo.Console()
+    .WriteTo.File(
+        "Logs/log-.txt",
+        rollingInterval: RollingInterval.Day,
+        retainedFileCountLimit: 50
+    )
+    .CreateLogger();
 
 var builder = WebApplication.CreateBuilder(args);
 
 var jwtSettings = builder.Configuration.GetSection("Jwt");
 var key = Encoding.UTF8.GetBytes(jwtSettings["Key"]!);
+
+builder.Host.UseSerilog();
 
 // Add services to the container.
 builder.Services.AddDistributedMemoryCache();
@@ -62,6 +76,7 @@ builder.Services.AddScoped<TokenJwtService>();
 builder.Services.AddScoped<IImagemService, ImagemService>();
 builder.Services.AddScoped<IPedidoService, PedidoService>();
 builder.Services.AddScoped<IPedidoNotificacaoService, PedidoNotificacaoService>();
+builder.Services.AddScoped<ILogService, LogService>();
 
 builder.Services.AddScoped<IAuditoriaFactory, AuditoriaFactory>();
 builder.Services.AddScoped<IUsuarioFactory, UsuarioFactory>();
@@ -142,6 +157,8 @@ var app = builder.Build();
 if (app.Environment.IsDevelopment()) {
     app.MapOpenApi();
 }
+
+app.UseMiddleware<ExceptionMiddleware>();
 
 app.UseHttpsRedirection();
 

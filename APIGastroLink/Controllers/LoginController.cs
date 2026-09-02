@@ -47,7 +47,7 @@ namespace APIGastroLink.Controllers {
             };
             
 
-            await _facadeAuditoria.RegistrarAuditoria(AcaoAuditoriaEnum.Login,"Login efetuado",User);
+            await _facadeAuditoria.RegistrarAuditoria(AcaoAuditoriaEnum.Login,$"Login efetuado com login {usuario.Login}");
 
             return Ok(usuarioToken);
         }
