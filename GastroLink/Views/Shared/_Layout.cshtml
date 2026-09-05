@@ -12,6 +12,8 @@
     <title>@ViewData["Title"] - GastroLink</title>
     <script type="importmap"></script>
     <script src="https://cdn.jsdelivr.net/npm/@@microsoft/signalr/dist/browser/signalr.min.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Fraunces:wght@600;700&family=Courier+Prime&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/GastroLink.styles.css" asp-append-version="true" />
@@ -29,195 +31,146 @@
 </head>
 
 <body>
-    <header>
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
-            <div class="container-fluid">
-                <a class="navbar-brand" asp-area="" asp-action="TodasMesas" asp-controller="Mesa">GastroLink</a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
-                        aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
-                    <ul class="navbar-nav flex-grow-1">
-                        @{
-                            if (tipo == "ADMINISTRADOR" || tipo == "GERENTE") {
-                                <li class="nav-item dropdown">
+    <div class="app-shell">
 
-                                    <a class="nav-link dropdown-toggle" href="#" id="mesasDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                        Mesas
-                                    </a>
+        <aside class="sidebar" id="sidebar">
+            <div class="sidebar-header">
+                <span class="sidebar-logo">GastroLink</span>
+            </div>
 
-
-                                    <ul class="dropdown-menu" aria-labelledby="mesasDropdown">
-                                        <li>
-                                            <a class="dropdown-item" asp-action="Cadastrar" asp-controller="Mesa">Cadastro</a>
-                                        </li>
-                                        <li>
-                                            <a class="dropdown-item" asp-action="TodasMesas" asp-controller="Mesa">Todas</a>
-                                        </li>
-                                        <li>
-                                            <a class="dropdown-item" asp-action="Mapeamento" asp-controller="Mesa">Mapear</a>
-                                        </li>
-                                    </ul>
-
-                                    
-                                </li>
-
-
-                                <li class="nav-item dropdown">
-                                    <a class="nav-link dropdown-toggle" href="#" id="mesasDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                        Caixa
-                                    </a>
-
-
-                                    <ul class="dropdown-menu" aria-labelledby="mesasDropdown">
-                                        <li>
-                                            <a class="dropdown-item" asp-action="TodosPedidos" asp-controller="Caixa">Pedidos</a>
-                                        </li>
-                                    </ul>
-                                </li>
-                            }
-
-                            if (tipo == "ADMINISTRADOR") {
-                                <li class="nav-item dropdown">
-                                    <a class="nav-link dropdown-toggle" href="#" id="mesasDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                        Usuario
-                                    </a>
-
-
-                                    <ul class="dropdown-menu" aria-labelledby="mesasDropdown">
-                                        <li>
-                                            <a class="dropdown-item" asp-action="CadastroUsuario" asp-controller="Usuario">Cadastro</a>
-                                        </li>
-                                        <li>
-                                            <a class="dropdown-item" asp-action="TodosUsuarios" asp-controller="Usuario">Todos</a>
-                                        </li>
-                                    </ul>
-                                </li>
-                            }
-
-                            if (tipo == "ADMINISTRADOR" || tipo == "GERENTE") {
-                                <li class="nav-item dropdown">
-                                    <a class="nav-link dropdown-toggle" href="#" id="mesasDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                        Pratos
-                                    </a>
-
-                                        
-                                    <ul class="dropdown-menu" aria-labelledby="mesasDropdown">
-                                        <li class="dropdown-submenu">
-                                            <a class="dropdown-item dropdown-toggle" href="#">
-                                                Categoria
-                                            </a>
-                                            <ul class="dropdown-menu">
-                                                <li>
-                                                    <a class="dropdown-item" asp-action="Cadastrar" asp-controller="CategoriaPrato">Cadastrar</a>
-                                                </li>
-
-                                                <li>
-                                                    <a class="dropdown-item" asp-action="TodasCategorias" asp-controller="CategoriaPrato">Todas</a>
-                                                </li>
-                                            </ul>
-                                        </li>
-                                        <li class="dropdown-submenu">
-                                            <a class="dropdown-item dropdown-toggle" href="#">
-                                                Prato
-                                            </a>
-                                            <ul class="dropdown-menu">
-                                                <li>
-                                                    <a class="dropdown-item" asp-action="Cadastrar" asp-controller="Prato">Cadastrar</a>
-                                                </li>
-
-                                                <li>
-                                                    <a class="dropdown-item" asp-action="TodosPratos" asp-controller="Prato">Todos Pratos</a>
-                                                </li>
-                                            </ul>
-                                        </li>
-                                    </ul>
-                                </li>
-                            }
-
-                            @if (tipo == "GARÇOM" || tipo == "ADMINISTRADOR" || tipo == "GERENTE" || tipo == "COZINHA") {
-                                    <li class="nav-item dropdown">
-                                        <a class="nav-link dropdown-toggle" href="#" id="mesasDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                            Pedidos
-                                        </a>
-                                        <ul class="dropdown-menu" aria-labelledby="mesasDropdown">
-                                            @if (tipo == "GARÇOM" || tipo == "ADMINISTRADOR" || tipo == "GERENTE") {
-                                                <li class="dropdown-submenu">
-                                                    <a class="dropdown-item dropdown-toggle" href="#">
-                                                        Garcom
-                                                    </a>
-                                                    <ul class="dropdown-menu">
-                                                        <li>
-                                                            <a class="dropdown-item" asp-action="PedidosProntos" asp-controller="Garcom">Pedidos Prontos</a>
-                                                        </li>
-                                                        <li>
-                                                            <a class="dropdown-item" asp-action="TodasMesas" asp-controller="Mesa">Mesas</a>
-                                                        </li>
-                                                    </ul>
-                                                </li>
-                                            }
-
-                                            @if (tipo == "COZINHA" || tipo == "ADMINISTRADOR" || tipo == "GERENTE") {
-                                                <li class="dropdown-submenu">
-                                                    <a class="dropdown-item dropdown-toggle" href="#">
-                                                        Cozinha
-                                                    </a>
-                                                    <ul class="dropdown-menu">
-                                                        <li>
-                                                            <a class="dropdown-item" asp-action="TodosPedidos" asp-controller="Cozinha">Pedidos</a>
-                                                        </li>
-                                                    </ul>
-                                                </li>
-                                            }
-                                        </ul>
-                                    </li>
-                                }
-
-                            if (tipo == "ADMINISTRADOR") {
-                                <a class="nav-link" id="mesasDropdown" role="button" asp-action="Index" asp-controller="Dashboard">Dashboard</a>
-                            }
-
-                            if (tipo == "ADMINISTRADOR" || tipo == "GERENTE" || tipo == "CHATBOT") {
-                                <a class="nav-link" id="mesasDropdown" role="button" asp-action="Chatbot" asp-controller="Chatbot">Chatbot</a>
-                            }
-                        }
-                    </ul>
-
-                    <ul class="navbar-nav">
-                        <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle" href="#" id="usuarioDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                <i class="bi bi-person-circle"></i> @Context.Session.GetString("NomeUsuario")
-                            </a>
-                            <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="usuarioDropdown">
-                                <li>
-                                    <a class="dropdown-item text-danger" asp-action="Logout" asp-controller="Login">
-                                        <i class="bi bi-box-arrow-right"></i> Sair
-                                    </a>
-                                </li>
+            <nav class="sidebar-nav">
+                <ul>
+                    @if (tipo == "ADMINISTRADOR" || tipo == "GERENTE") {
+                        <li class="nav-group">
+                            <button type="button" class="nav-group-toggle">
+                                <i class="bi bi-grid-3x3-gap"></i> Mesas
+                            </button>
+                            <ul class="nav-submenu">
+                                <li><a asp-action="Cadastrar" asp-controller="Mesa">Cadastro</a></li>
+                                <li><a asp-action="TodasMesas" asp-controller="Mesa">Todas</a></li>
+                                <li><a asp-action="Mapeamento" asp-controller="Mesa">Mapear</a></li>
                             </ul>
+                        </li>
+
+                        <li class="nav-group">
+                            <button type="button" class="nav-group-toggle">
+                                <i class="bi bi-cash-coin"></i> Caixa
+                            </button>
+                            <ul class="nav-submenu">
+                                <li><a asp-action="TodosPedidos" asp-controller="Caixa">Pedidos</a></li>
+                            </ul>
+                        </li>
+                    }
+
+                    @if (tipo == "ADMINISTRADOR") {
+                        <li class="nav-group">
+                            <button type="button" class="nav-group-toggle">
+                                <i class="bi bi-people"></i> Usuário
+                            </button>
+                            <ul class="nav-submenu">
+                                <li><a asp-action="CadastroUsuario" asp-controller="Usuario">Cadastro</a></li>
+                                <li><a asp-action="TodosUsuarios" asp-controller="Usuario">Todos</a></li>
+                            </ul>
+                        </li>
+                    }
+
+                    @if (tipo == "ADMINISTRADOR" || tipo == "GERENTE") {
+                        <li class="nav-group">
+                            <button type="button" class="nav-group-toggle">
+                                <i class="bi bi-egg-fried"></i> Pratos
+                            </button>
+                            <ul class="nav-submenu">
+                                <li class="nav-subheading">Categoria</li>
+                                <li><a asp-action="Cadastrar" asp-controller="CategoriaPrato">Cadastrar</a></li>
+                                <li><a asp-action="TodasCategorias" asp-controller="CategoriaPrato">Todas</a></li>
+
+                                <li class="nav-subheading">Prato</li>
+                                <li><a asp-action="Cadastrar" asp-controller="Prato">Cadastrar</a></li>
+                                <li><a asp-action="TodosPratos" asp-controller="Prato">Todos Pratos</a></li>
+                            </ul>
+                        </li>
+                    }
+
+                    @if (tipo == "GARÇOM" || tipo == "ADMINISTRADOR" || tipo == "GERENTE" || tipo == "COZINHA") {
+                        <li class="nav-group">
+                            <button type="button" class="nav-group-toggle">
+                                <i class="bi bi-receipt"></i> Pedidos
+                            </button>
+                            <ul class="nav-submenu">
+                                @if (tipo == "GARÇOM" || tipo == "ADMINISTRADOR" || tipo == "GERENTE") {
+                                    <li class="nav-subheading">Garçom</li>
+                                    <li><a asp-action="PedidosProntos" asp-controller="Garcom">Pedidos Prontos</a></li>
+                                    <li><a asp-action="TodasMesas" asp-controller="Mesa">Mesas</a></li>
+                                }
+                                @if (tipo == "COZINHA" || tipo == "ADMINISTRADOR" || tipo == "GERENTE") {
+                                    <li class="nav-subheading">Cozinha</li>
+                                    <li><a asp-action="TodosPedidos" asp-controller="Cozinha">Pedidos</a></li>
+                                }
+                            </ul>
+                        </li>
+                    }
+
+                    @if (tipo == "ADMINISTRADOR") {
+                        <li class="nav-single">
+                            <a asp-action="Index" asp-controller="Dashboard">
+                                <i class="bi bi-bar-chart"></i> Dashboard
+                            </a>
+                        </li>
+                    }
+
+                    @if (tipo == "ADMINISTRADOR" || tipo == "GERENTE" || tipo == "CHATBOT") {
+                        <li class="nav-single">
+                            <a asp-action="Chatbot" asp-controller="Chatbot">
+                                <i class="bi bi-chat-dots"></i> Chatbot
+                            </a>
+                        </li>
+                    }
+                </ul>
+            </nav>
+        </aside>
+
+        <div class="sidebar-backdrop" id="sidebarBackdrop"></div>
+
+        <div class="main-area">
+            <header class="topbar">
+                <button type="button" class="hamburger" id="sidebarToggle" aria-label="Abrir menu" aria-expanded="false" aria-controls="sidebar">
+                    <span></span><span></span><span></span>
+                </button>
+
+                <a class="topbar-brand" asp-area="" asp-action="TodasMesas" asp-controller="Mesa">GastroLink</a>
+
+                <div class="topbar-spacer"></div>
+
+                <div class="dropdown user-menu">
+                    <a class="user-menu-toggle dropdown-toggle" href="#" id="usuarioDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        <i class="bi bi-person-circle"></i> @Context.Session.GetString("NomeUsuario")
+                    </a>
+                    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="usuarioDropdown">
+                        <li>
+                            <a class="dropdown-item text-danger" asp-action="Logout" asp-controller="Login">
+                                <i class="bi bi-box-arrow-right"></i> Sair
+                            </a>
                         </li>
                     </ul>
                 </div>
-            </div>
-        </nav>
-    </header>
-    <div class="container">
-        <main role="main" class="pb-3">
-            @RenderBody()
-        </main>
-    </div>
+            </header>
 
-    <footer class="border-top footer text-muted">
-        <div class="container">
-            &copy; @DateTime.Now.Year - GastroLink
+            <div class="container-conteudo">
+                <main role="main" class="pb-3">
+                    @RenderBody()
+                </main>
+            </div>
+
+            <footer class="app-footer">
+                &copy; @DateTime.Now.Year - GastroLink
+            </footer>
         </div>
-    </footer>
+    </div>
 
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
-
+    <script src="~/js/sidebar.js" asp-append-version="true"></script>
     @await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>

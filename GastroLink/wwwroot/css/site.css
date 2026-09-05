@@ -29,3 +29,11 @@ body {
 .form-floating > .form-control-plaintext:focus::placeholder, .form-floating > .form-control:focus::placeholder {
   text-align: start;
 }
+
+body {
+    min-height: 100vh;
+    margin: 0;
+    background-color: #F7F1E4;
+    color: #2B211B;
+    font-family: 'Courier Prime', ui-monospace, monospace;
+}
