@@ -5,31 +5,33 @@
     Layout = "_LayoutLogin";
 }
 
-<div class="container vh-100 d-flex justify-content-center align-items-center">
-    <div class="card shadow p-4" style="width: 350px;">
-        <h3 class="text-center mb-4">Login</h3>
+<link rel="stylesheet" href="~/css/login.css" />
+
+<div class="container-login">
+    <div class="card-login">
+        <div class="container-logo">
+            <img src="~/imagens/LOGO GASTROLINK.png" alt="Logo" id="logo">
+            <span class="ticket-tag">ACESSO DA EQUIPE</span>
+        </div>
         <form asp-action="Autenticar" asp-controller="Login" method="post">
             <div class="mb-3">
-                <label for="loginInput" class="form-label">Login</label>
-                <input type="text" class="form-control" id="loginInput" asp-for="@Model.LoginStr" placeholder="Digite seu login" required>
+                <label for="loginInput" class="label-login">login</label>
+                <input type="text" class="input-login" id="loginInput" asp-for="@Model.LoginStr" placeholder="seu.usuario" required>
             </div>
             <div class="mb-3">
-                <label for="senhaInput" class="form-label">Senha</label>
-                <input type="password" class="form-control" id="senhaInput" asp-for="@Model.Senha" placeholder="Digite sua senha" required>
+                <label for="senhaInput" class="label-login">senha</label>
+                <input type="password" class="input-login" id="senhaInput" asp-for="@Model.Senha" placeholder="••••••••" required>
             </div>
             @{
                 if (TempData["FalhaLogin"] != null) {
-                    <p class="text-danger text-center mt-3">
+                    <p class="text-center mt-3" style="font-family:'Courier Prime',monospace; font-size:13px; color:#B84A24;">
                         @TempData["FalhaLogin"]
                     </p>
-
                 }
             }
             <div class="d-grid">
-                <button type="submit" class="btn btn-primary">Entrar</button>
+                <button type="submit" class="btn btn-login">entrar</button>
             </div>
         </form>
-
-        
     </div>
 </div>

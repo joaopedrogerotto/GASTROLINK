@@ -1,0 +1,120 @@
+﻿@import url('https://fonts.googleapis.com/css2?family=Fraunces:wght@600;700&family=Courier+Prime&display=swap');
+
+body {
+    min-height: 100vh;
+    margin: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #241B15;
+    background-image:
+        repeating-linear-gradient(0deg, rgba(255,255,255,0.02) 0px, rgba(255,255,255,0.02) 1px, transparent 1px, transparent 3px),
+        radial-gradient(circle at 20% 20%, rgba(255,255,255,0.03), transparent 40%);
+}
+
+.container-login {
+    display: flex;
+    width: 100%;
+    min-height: 100vh;
+    justify-content: center;
+    align-items: center;
+}
+
+.card-login {
+    position: relative;
+    width: 350px;
+    padding: 32px 30px 26px;
+    background: #FBF3E3;
+    border: 1px solid #E3D2AE;
+    border-radius: 2px;
+    box-shadow: 0 12px 0 -6px #1a130d, 0 14px 24px rgba(0,0,0,0.4);
+}
+
+.card-login::before {
+    content: "";
+    position: absolute;
+    top: -8px;
+    left: 12px;
+    right: 12px;
+    height: 8px;
+    background-image: radial-gradient(circle, #241B15 3px, transparent 3.5px);
+    background-size: 16px 16px;
+    background-position: center;
+    background-repeat: repeat-x;
+}
+
+.container-logo {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 22px;
+    padding-bottom: 18px;
+    border-bottom: 1px dashed #C9A97E;
+}
+
+#logo {
+    width: 150px;
+    max-width: 100%;
+}
+
+.ticket-tag {
+    margin-top: 8px;
+    font-family: 'Courier Prime', ui-monospace, monospace;
+    font-size: 11px;
+    letter-spacing: 0.04em;
+    color: #8A6D46;
+}
+
+.label-login {
+    display: block;
+    font-family: 'Courier Prime', ui-monospace, monospace;
+    font-size: 12px;
+    color: #6B4226;
+    margin-bottom: 6px;
+}
+
+.input-login {
+    width: 100%;
+    padding: 10px 12px;
+    background: #FFFDF8;
+    border: 1px solid #D8C6A0;
+    border-radius: 4px;
+    color: #2B211B;
+    font-family: 'Courier Prime', ui-monospace, monospace;
+    outline: none;
+    transition: 0.15s;
+    box-sizing: border-box;
+}
+
+.input-login:focus {
+    border-color: #B84A24;
+    box-shadow: 0 0 0 3px rgba(184, 74, 36, 0.15);
+}
+
+.input-login::placeholder {
+    color: #A38F6D;
+}
+
+.btn-login {
+    width: 100%;
+    padding: 12px;
+    margin-top: 6px;
+    background: #B84A24;
+    border: none;
+    border-radius: 4px;
+    color: #FFF8EC;
+    font-family: 'Fraunces', serif;
+    font-size: 15px;
+    font-weight: 700;
+    letter-spacing: 0.01em;
+    transition: 0.15s;
+    cursor: pointer;
+}
+
+.btn-login:hover {
+    background: #9E3E1D;
+}
+
+.btn-login:active {
+    transform: translateY(1px);
+}
