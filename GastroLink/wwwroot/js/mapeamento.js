@@ -44,6 +44,7 @@ function salvarPosicao(mesa) {
     const x = parseInt(mesa.style.left);
     const y = parseInt(mesa.style.top);
 }
+document.getElementById("btnSalvarLayout")?.addEventListener("click", salvarLayout);
 function salvarLayout() {
     const mesas = [];
     document.querySelectorAll(".mesa").forEach(mesa => {

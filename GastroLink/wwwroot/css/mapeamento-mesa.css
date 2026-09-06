@@ -2,49 +2,60 @@
     position: relative;
     width: 100%;
     height: 500px;
-    border: 1px solid #ccc;
-    background: #f8f9fa;
+    border: 1px solid #C9A97E;
+    border-radius: 2px;
+    background-color: #F7F1E4;
+    background-image: linear-gradient(rgba(201, 169, 126, 0.25) 1px, transparent 1px), linear-gradient(90deg, rgba(201, 169, 126, 0.25) 1px, transparent 1px);
+    background-size: 40px 40px;
 }
 
 .mesa {
     position: absolute;
     width: 80px;
     height: 80px;
-    background: green;
-    color: white;
     display: flex;
+    background-color: #8A7A68;
     justify-content: center;
     align-items: center;
-    border-radius: 10px;
+    color: #FBF3E3;
+    font-family: 'Courier Prime', ui-monospace, monospace;
+    font-size: 13px;
+    border-radius: 4px;
     cursor: grab;
-    border: 2px solid rgba(0, 0, 0, 0.4);
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.25);
+    border: 2px solid rgba(43, 33, 27, 0.35);
+    box-shadow: 0 3px 0 rgba(43, 33, 27, 0.35);
     transition: transform 0.1s ease, box-shadow 0.1s ease;
 }
 
 .mesa-livre {
-    background-color: #2ecc71;
-    color: #0b3d1f; 
+    background-color: #6E7F4F; 
+    color: #F2F5E9;
 }
 
 .mesa-ocupado {
-    background-color: #e74c3c;
+    background-color: #B84A24; 
 }
 
 .mesa-preparo {
-    background-color: #f1c40f;
-    color: black;
+    background-color: #C99A2E;
+    color: #2B211B;
 }
 
 .mesa-pagamento {
-    background-color: #3498db;
+    background-color: #4A6C6F;
 }
 
 .mesa-default {
-    background-color: #7f8c8d;
+    background-color: #8A7A68; 
 }
 
 .mesa:hover {
-    transform: scale(1.05);
-    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+    transform: translateY(-2px);
+    box-shadow: 0 5px 0 rgba(43, 33, 27, 0.35);
+}
+
+.mesa:active {
+    cursor: grabbing;
+    box-shadow: 0 1px 0 rgba(43, 33, 27, 0.35);
+    transform: translateY(1px);
 }

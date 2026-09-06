@@ -70,6 +70,7 @@ function salvarPosicao(mesa: HTMLElement): void {
     const y: number = parseInt(mesa.style.top);
 }
 
+document.getElementById("btnSalvarLayout")?.addEventListener("click", salvarLayout);
 
 function salvarLayout(): void {
 
