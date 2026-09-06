@@ -1,5 +1,5 @@
 ﻿body {
-    background: #f5f7fb;
+    background-color: #F7F1E4;
 }
 
 .chat-page {
@@ -20,10 +20,10 @@
     display: flex;
     flex-direction: column;
     overflow: hidden;
-    border: none;
-    border-radius: 20px;
-    background: #ffffff;
-    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.08);
+    border: 1px solid #C9A97E;
+    border-radius: 2px;
+    background: #FBF3E3;
+    box-shadow: 0 6px 0 rgba(43, 33, 27, 0.15);
 }
 
 .chat-header {
@@ -31,19 +31,22 @@
     align-items: center;
     gap: 14px;
     padding: 18px 22px;
-    background: #0d6efd;
-    color: white;
+    background: #241B15;
+    color: #FBF3E3;
+    border-bottom: 1px dashed #C9A97E;
 }
 
 .chat-avatar {
-    width: 45px;
-    height: 45px;
-    border-radius: 50%;
+    width: 42px;
+    height: 42px;
+    border-radius: 4px;
     display: flex;
     align-items: center;
     justify-content: center;
-    background: rgba(255, 255, 255, 0.18);
-    font-size: 23px;
+    background: rgba(255, 255, 255, 0.08);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    font-size: 20px;
+    color: #F2B08C;
 }
 
 .chat-header-info {
@@ -52,25 +55,27 @@
 }
 
 .chat-title {
+    font-family: 'Fraunces', serif;
     font-size: 17px;
-    font-weight: 600;
+    font-weight: 700;
     line-height: 1.2;
 }
 
 .chat-subtitle {
     margin-top: 3px;
+    font-family: 'Courier Prime', ui-monospace, monospace;
     font-size: 12px;
-    opacity: 0.85;
+    color: #D8C6A0;
 }
 
 #chat-box {
     flex: 1;
     display: flex;
     flex-direction: column;
-    gap: 12px;
+    gap: 14px;
     overflow-y: auto;
     padding: 24px;
-    background: #f8f9fa;
+    background: #F7F1E4;
 }
 
 #chat-box::-webkit-scrollbar {
@@ -82,33 +87,55 @@
 }
 
 #chat-box::-webkit-scrollbar-thumb {
-    background: #ced4da;
+    background: #C9A97E;
     border-radius: 10px;
 }
 
-
 #chat-box > div {
-    font-size: 14px;
-    line-height: 1.5;
-    animation: messageAppear 0.2s ease-out;
+    font-family: 'Courier Prime', ui-monospace, monospace;
+    font-size: 13.5px;
+    line-height: 1.6;
+    color: #2B211B;
+    animation: messageAppear 0.15s ease-out;
 }
 
 @keyframes messageAppear {
     from {
         opacity: 0;
-        transform: translateY(5px);
+        transform: translateY(4px);
     }
-
     to {
         opacity: 1;
         transform: translateY(0);
     }
 }
 
+.msg-bot {
+    align-self: flex-start;
+    background: #FFFDF8;
+    border: 1px solid #E3D2AE;
+    border-left: 3px solid #C9A97E;
+    border-radius: 2px;
+    padding: 10px 14px;
+    max-width: 80%;
+    white-space: pre-line;
+}
+
+/* mensagem do usuário: acento páprica, alinhada à direita */
+.msg-usuario {
+    align-self: flex-end;
+    background: #B84A24;
+    color: #FBF3E3;
+    border-radius: 2px;
+    padding: 10px 14px;
+    max-width: 80%;
+    white-space: pre-line;
+}
+
 .chat-footer {
-    padding: 15px 18px;
-    border-top: 1px solid #e9ecef;
-    background: white;
+    padding: 16px 18px;
+    border-top: 1px dashed #C9A97E;
+    background: #FBF3E3;
 }
 
 #chat-form {
@@ -118,44 +145,56 @@
 }
 
 #chat-input {
-    height: 46px;
-    border-radius: 24px;
-    padding: 0 18px;
-    border: 1px solid #dee2e6;
-    font-size: 14px;
+    height: 44px;
+    border-radius: 4px;
+    padding: 0 16px;
+    border: 1px solid #D8C6A0;
+    background: #FFFDF8;
+    font-family: 'Courier Prime', ui-monospace, monospace;
+    font-size: 13.5px;
+    color: #2B211B;
     box-shadow: none;
 }
 
 #chat-input:focus {
-    border-color: #86b7fe;
-    box-shadow: 0 0 0 3px rgba(13, 110, 253, 0.08);
+    outline: none;
+    border-color: #B84A24;
+    box-shadow: 0 0 0 3px rgba(184, 74, 36, 0.15);
+}
+
+#chat-input::placeholder {
+    color: #A38F6D;
 }
 
 #chat-input:disabled {
-    background: #f8f9fa;
+    background: #F2EADA;
 }
 
 .send-button {
-    width: 46px;
-    height: 46px;
-    min-width: 46px;
+    width: 44px;
+    height: 44px;
+    min-width: 44px;
     border: none;
-    border-radius: 50%;
-    background: #0d6efd;
-    color: white;
+    border-radius: 4px;
+    background: #B84A24;
+    color: #FBF3E3;
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 18px;
-    transition: 0.2s;
+    font-size: 16px;
+    transition: 0.15s;
+    cursor: pointer;
 }
 
 .send-button:hover:not(:disabled) {
-    background: #0b5ed7;
-    transform: scale(1.05);
+    background: #9E3E1D;
+}
+
+.send-button:active:not(:disabled) {
+    transform: translateY(1px);
 }
 
 .send-button:disabled {
-    opacity: 0.6;
+    opacity: 0.5;
     cursor: not-allowed;
 }

@@ -121,21 +121,14 @@ const form = document.getElementById("chat-form");
 let pratos = [];
 function adicionarMensagem(texto, autor) {
     const msg = document.createElement("div");
-    msg.className =
-        autor === "usuario"
-            ? "align-self-end bg-primary text-white rounded-3 px-3 py-2"
-            : "align-self-start bg-light text-dark rounded-3 px-3 py-2 border";
-    msg.style.maxWidth = "80%";
-    msg.style.whiteSpace = "pre-line"; // <-- adiciona isso
+    msg.className = autor === "usuario" ? "msg-usuario" : "msg-bot";
     msg.textContent = texto;
     chatBox.appendChild(msg);
     chatBox.scrollTop = chatBox.scrollHeight;
 }
 function adicionarCarregando() {
     const loading = document.createElement("div");
-    loading.className =
-        "align-self-start bg-light text-muted fst-italic rounded-3 px-3 py-2 border d-flex align-items-center gap-2";
-    loading.style.maxWidth = "80%";
+    loading.className = "msg-bot msg-carregando";
     loading.innerHTML = `<span class="spinner-border spinner-border-sm"></span> Pensando...`;
     chatBox.appendChild(loading);
     chatBox.scrollTop = chatBox.scrollHeight;
