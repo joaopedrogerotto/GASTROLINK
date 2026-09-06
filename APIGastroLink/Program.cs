@@ -164,11 +164,11 @@ app.UseHttpsRedirection();
 
 app.UseCors("PermitirMVC");
 
+app.UseStaticFiles();
+
 app.UseAuthentication();
 
 app.UseAuthorization();
-
-app.UseStaticFiles();
 
 app.MapControllers();
 
