@@ -6,6 +6,7 @@ document.addEventListener("click", (e) => {
 
     if (alterarStatus) {
         const id = Number(alterarStatus.getAttribute("data-id-prato"));
+        console.log("Clicou em alterar status");
         visualizarPrato(id, alterarStatus as HTMLElement);
         return;
     }
@@ -14,6 +15,7 @@ document.addEventListener("click", (e) => {
 
     if (card) {
         const id = Number(card.getAttribute("data-id"));
+        console.log("Clicou em visualizar prato");
         visualizarPrato(id, card as HTMLElement);
     }
 });

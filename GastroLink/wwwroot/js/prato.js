@@ -2,12 +2,14 @@ document.addEventListener("click", (e) => {
     const alterarStatus = e.target.closest(".alterar-status-prato");
     if (alterarStatus) {
         const id = Number(alterarStatus.getAttribute("data-id-prato"));
+        console.log("Clicou em alterar status");
         visualizarPrato(id, alterarStatus);
         return;
     }
     const card = e.target.closest(".card-prato-link");
     if (card) {
         const id = Number(card.getAttribute("data-id"));
+        console.log("Clicou em visualizar prato");
         visualizarPrato(id, card);
     }
 });
