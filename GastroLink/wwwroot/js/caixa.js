@@ -1,9 +1,10 @@
+import { PedidoHub } from "./Hubs/pedidoHub.js";
 import * as GerarPagamento from "./gerarPagamento.js";
-// const hub = new PedidoHub("pedidoHub");
-// await hub.startConnection();
-// hub.onPedidoAguarndandoPag((pedido: Pedido) => {
-//     adicionarNovoPedidoNaTela(pedido);
-// });
+const hub = new PedidoHub("pedidoHub");
+await hub.startConnection();
+hub.onPedidoAguarndandoPag((pedido) => {
+    adicionarNovoPedidoNaTela(pedido);
+});
 document.addEventListener("click", (e) => {
     const btnPedido = e.target.closest("#detalhesPedido");
     if (!btnPedido) {
@@ -124,8 +125,8 @@ function adicionarNovoPedidoNaTela(pedido) {
                 <h5 class="card-title">Pedido ${pedido.id}</h5>
                 <h6 class="card-subtitle mb-2 text-muted">Mesa ${pedido.mesa.numero}</h6>
                 <p class="card-text">Quantidade de itens: ${pedido.itens.length}</p>
-                <a href="#" class="card-link" id="detalhesPedido" data-id="${pedido.id}">Visualizar</a>
-                <a href="#" class="card-link" id="pagamentoPedido" data-id="${pedido.id}">Pagamento</a>
+                <button type="button" class="btn btn-primary" id="detalhesPedido" data-id="${pedido.id}">Visualizar</button>
+                <button type="button" class="btn btn-success" id="pagamentoPedido" data-id="${pedido.id}">Pagamento</button>
             </div>
         </div>`);
 }

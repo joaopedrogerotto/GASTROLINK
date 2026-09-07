@@ -48,8 +48,7 @@ namespace APIGastroLink.Controllers {
                     await _pedidoNotificacaoService.PedidoPronto(pedido);
                     await _facadeAuditoria.RegistrarAuditoria(AcaoAuditoriaEnum.Criacao, $"Pedido {pedido.Id} pronto para retirada do garçom, para a mesa {pedido.Mesa.Numero} e enviado para a cozinha", User);
                 } else if(StatusPedidoUpdateDTO.IdStatusPedido == 6) {
-                    await _pedidoNotificacaoService.AguardandoPagamento(pedido);
-                    await _facadeAuditoria.RegistrarAuditoria(AcaoAuditoriaEnum.Criacao, $"Pedido {pedido.Id} entregue e agurdando o pagamento, para a mesa {pedido.Mesa.Numero} e enviado para a cozinha", User);
+                    await _facadeAuditoria.RegistrarAuditoria(AcaoAuditoriaEnum.Criacao, $"Pedido {pedido.Id} entregue e agurdando o pagamento, para a mesa {pedido.Mesa.Numero}", User);
                     await _pedidoNotificacaoService.AguardandoPagamento(pedido);
                 }
                 return Ok();
